@@ -45,6 +45,5 @@ function [ out ] = recursive_kron( n, i, ins_mat, prev_mat )
         end
     end
    
-    
 end
 

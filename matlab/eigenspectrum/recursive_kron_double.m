@@ -64,7 +64,6 @@ function [ out ] = recursive_kron_double( n, i1, ins_mat1, i2, ins_mat2, prev_ma
             end
         end
     end
-   
-    
+     
 end
 

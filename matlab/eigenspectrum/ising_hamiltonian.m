@@ -6,6 +6,7 @@ function [ out ] = ising_hamiltonian( h, J )
         error('Require: each dimension of J must equal length(h)');
     end
 
+    % Pauli matrices
     sigmaZ = [[1, 0] ;[ 0,-1]];
     
     % Number of qubits
@@ -20,7 +21,7 @@ function [ out ] = ising_hamiltonian( h, J )
         end
     end
     
-    % Track first set
+    % Boolean flag such that j_term can be initialised
     first_set = 1;
     % Sum up coupling terms
     for i=1:n
