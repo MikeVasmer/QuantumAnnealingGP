@@ -2,7 +2,7 @@ function [ out ] = recursive_kron_double( n, i1, ins_mat1, i2, ins_mat2, prev_ma
 
     % i1 != i2
     if i1 == i2
-        error('Require: i != k');
+        error('Require: index 1 != index 2');
     end
 
     % 2x2 Identity matrix
