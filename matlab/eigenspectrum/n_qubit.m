@@ -27,7 +27,7 @@ function [] = n_qubit( H_p, rel_plot )
     disp('Minimum gap:')
     disp(min(eigenvalues_gs(2,:)))
 
-    if rel_plot == 2
+    if rel_plot == 0 || rel_plot == 2
         figure('Position', [10, 500, 600, 450]);
         plot(s, eigenvalues);
         title('Eigenspectrum')
