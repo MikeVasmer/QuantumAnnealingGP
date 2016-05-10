@@ -13,12 +13,13 @@ function [] = plot_eigenspectrum( eigenvalues, plot_type )
     end 
     
     % Evolution paramter
-    s = [0:1/(length(eigenvalues)-1):1];
+    s = [0:1/(length(eigenvalues(1,:))-1):1];
 
     % Plot figures
     if plot_type == 0 || plot_type == 2
         % Real energy
-        figure('Position', [10, 500, 600, 450]);
+        fig1 = figure(1);
+        fig1.Position = [10, 500, 600, 450];
         plot(s, eigenvalues);
         title('Eigenspectrum')
         xlabel('evolution parameter, s');
@@ -26,7 +27,8 @@ function [] = plot_eigenspectrum( eigenvalues, plot_type )
     end
     if plot_type == 1 || plot_type == 2
         % Energy relative to gound state
-        figure('Position', [650, 500, 600, 450]);
+        fig2 = figure(2);
+        fig2.Position = [650, 500, 600, 450];
         plot(s, eigenvalues_gs);
         title('Eigenspectrum (relative to ground state)')
         xlabel('evolution parameter, s');
