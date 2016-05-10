@@ -8,7 +8,12 @@ Jzzz = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off
 
 % Calculate and plot eigenspectrum between two Hamilontians
+eigenvalues = ...
 eigenspectrum(  transverse_hamiltonian(4),...                   % Starting (transverse) Hamiltonian
                 ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
-                21, ...                                         % Steps
-                2);                                             % Optional: figures to plot
+                21);                                            % Steps
+            
+% Plot eigenspectrum ('2' means both plots)
+plot_eigenspectrum(eigenvalues, 2);
+% Calculate and display minimum gap
+disp(minimum_gap(eigenvalues));

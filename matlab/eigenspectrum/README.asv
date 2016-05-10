@@ -9,8 +9,8 @@ Calculate the eigenspectrum between two Hamilontians
     -   Parameters:
         -   required: start hamiltonian (2^n by 2^n matrix)
         -   required: finish hamiltonian (2^n by 2^n matrix)
-        -   required: number of steps, S (int)
-    -   Return: Eigenvalues at each step (2^n by S)
+        -   required: number of steps (int)
+    -   Return: Eigenvalues 
     -   Example: 'test_eigenspectrum'
 
 ```Matlab
@@ -49,21 +49,18 @@ disp(minimum_gap(eigenvalues));
         -   required: matrix of XX coefficients, Jxx (n by n matrix)
         -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix)
         -   required: matrix of XXX coefficients, Jxx (n by n by n matrix)
-    -   Return: Ising Hamiltonian (2^n by 2^n matrix)
+    -   Return: Ising Hamiltonian
 -   Function: plot_eigenspectrum
     -   Description: Given eigenvalues, plots the eigenspectrum
     -   Parameters:
-        -   required: eigenvalues (2^n by S)
-        -   optional: figures to plot (int: {0,1,2}) 
+        -   required: eigenvalues ()
+        -   optional: figures to plot (int: 0,1,2) 
             - 0: Normal eigenspectrum (default)
             - 1: Eigenspectrum relative to groundstate
             - 2: Both
-    -   Output: Eigenspectrum plot(s)
--   Function: minimum_gap
-    -   Description: Given eigenvalues, returns the minimum energy gap between the ground and first excited states
+-   Funciton: minimum_gap
+    -   Description:
     -   Parameters:
-        -   required: eigenvalues (2^n by S)
-    -   Return: Minimum energy gap between ground and first excited states (double)
 -   Function: recursive_kron
     -   Description: Returns Kronecker tensor product of a single qubit matrix on a specified qubit with the identity matrix on all other qubits
     -   Parameters:
