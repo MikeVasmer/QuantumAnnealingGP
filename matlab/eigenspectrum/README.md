@@ -11,7 +11,9 @@ Calculate the eigenspectrum between two Hamilontians
         -   required: finish hamiltonian (2^n by 2^n matrix)
         -   required: number of steps, S (int)
     -   Return: Eigenvalues at each step (2^n by S)
-    -   Example: 'test_eigenspectrum'
+    -   Examples:
+        -   'test_eigenspectrum' (see below)
+        -   'test_eigenspectrum_rand'
 
 ```Matlab
 % Example Ising coef for n=4 qubits

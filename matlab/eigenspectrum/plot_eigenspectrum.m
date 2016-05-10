@@ -8,7 +8,7 @@ function [] = plot_eigenspectrum( eigenvalues, plot_type )
 
     % Make copy and calculate energies relative to ground state
     eigenvalues_gs = eigenvalues;
-    for i = 1:length(eigenvalues)
+    for i = 1:length(eigenvalues(1,:))
         eigenvalues_gs(:,i) = eigenvalues_gs(:,i) - min(eigenvalues_gs(:,i));
     end 
     
