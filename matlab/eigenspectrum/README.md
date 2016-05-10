@@ -17,16 +17,20 @@ Calculate the eigenspectrum between two Hamilontians
     -   Example: 'test_eigenspectrum'
 
 ```Matlab
+% Example Ising coef for n=4 qubits
 % Array of h coef for local fields
-h=[1,0.5,0.8,1];
-% Matrix of J coef for couplings
-J=[[0,1,0,0];[1,0,0,0];[1,1,0,0];[1,0,1,0]];
+h = [1,0.5,0.8,1];
+% Matrix of J coef for Z-Z, X-X, Z-Z-Z and X-X-X couplings
+Jzz  = [[0,1,0,0];[1,0,0,0];[1,1,0,0];[1,0,1,0]];
+Jxx  = 0; % Couplings turned off
+Jzzz = 0; % Couplings turned off
+Jxxx = 0; % Couplings turned off
 
 % Calculate and plot eigenspectrum between two Hamilontians
-eigenspectrum(  transverse_hamiltonian(4),...   % Starting Hamiltonian
-                ising_hamiltonian(h, J), ...    % Finishing Hamiltonian
-                21, ...                         % Steps
-                2);                             % Optional: plot both figures
+eigenspectrum(  transverse_hamiltonian(4),...                   % Starting (transverse) Hamiltonian
+                ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
+                21, ...                                         % Steps
+                2);                                             % Optional: figures to plot
 ```
 
 -   Function: transverse_hamiltonian
@@ -34,10 +38,13 @@ eigenspectrum(  transverse_hamiltonian(4),...   % Starting Hamiltonian
     -   Parameters:
         -   required: number of qubits, n (int)
 -   Function: ising_hamiltonian
-    - Description: Given local fields, h and couplings, J returns the Ising Hamiltonian  
+    - Description: Given local fields, h and couplings, Jzz, Jxx, Jzzz, Jxxx returns the Ising Hamiltonian  
     -   Parameters:
         -   required: array of h coefficients, h (n-array)
-        -   required: matrix of J coefficients, J (n by n matrix)
+        -   required: matrix of ZZ coefficients, Jzz (n by n matrix)
+        -   required: matrix of XX coefficients, Jxx (n by n matrix)
+        -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix)
+        -   required: matrix of XXX coefficients, Jxx (n by n by n matrix)
     -   Return: Ising Hamiltonian
 -   Function: recursive_kron
     - Description: Returns Kronecker tensor product of a single qubit matrix on a specified qubit with the identity matrix on all other qubits
