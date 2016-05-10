@@ -4,7 +4,7 @@ Calculate the eigenspectrum between two Hamilontians
 
 ### Functions:
 
--   Function: eigenspectrum
+-   Function: **eigenspectrum**
     - Description: Calculate the eigenvalues throughout the evolution between two Hamiltonians   
     -   Parameters:
         -   required: start hamiltonian (2^n by 2^n matrix)
@@ -12,8 +12,8 @@ Calculate the eigenspectrum between two Hamilontians
         -   required: number of steps, S (int)
     -   Return: Eigenvalues at each step (2^n by S)
     -   Examples:
-        -   'test_eigenspectrum' (see below)
-        -   'test_eigenspectrum_rand'
+        -   '**test_eigenspectrum**' (see below)
+        -   '**test_eigenspectrum_rand**'
 
 ```Matlab
 % Example Ising coef for n=4 qubits
@@ -39,11 +39,11 @@ disp(minimum_gap(eigenvalues));
 
 ![Image of eigenspectrum](eigenspectrum.png)
 
--   Function: transverse_hamiltonian
+-   Function: **transverse_hamiltonian**
     -   Description: Returns an n-qubit transverse field Hamiltonian  
     -   Parameters:
         -   required: number of qubits, n (int)
--   Function: ising_hamiltonian
+-   Function: **ising_hamiltonian**
     -   Description: Given local fields, h and couplings, Jzz, Jxx, Jzzz, Jxxx returns the Ising Hamiltonian  
     -   Parameters:
         -   required: array of h coefficients, h (n-array)
@@ -52,7 +52,7 @@ disp(minimum_gap(eigenvalues));
         -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix)
         -   required: matrix of XXX coefficients, Jxx (n by n by n matrix)
     -   Return: Ising Hamiltonian (2^n by 2^n matrix)
--   Function: plot_eigenspectrum
+-   Function: **plot_eigenspectrum**
     -   Description: Given eigenvalues, plots the eigenspectrum
     -   Parameters:
         -   required: eigenvalues (2^n by S)
@@ -61,13 +61,22 @@ disp(minimum_gap(eigenvalues));
             - 1: Eigenspectrum relative to groundstate
             - 2: Both
     -   Output: Eigenspectrum plot(s)
--   Function: minimum_gap
+-   Function: **minimum_gap**
     -   Description: Given eigenvalues, returns the minimum energy gap between the ground and first excited states
     -   Parameters:
         -   required: eigenvalues (2^n by S)
 	-   optional: Range (from start) to look over (int: [0,1])
     -   Return: Minimum energy gap between ground and first excited states (double)
--   Function: recursive_kron
+-   Function: **random_coef**
+   -   Description: Generates a random array/matrix of values/coefficients
+   -   Parameters:
+      - Required: Dimensions of matrix (array)
+      - Required: Minimum value (int)
+      - Required: Maximum value (int)
+      - Required: Density of (non-zero) values (int: {0,1})
+   -   Returns:
+      - Matrix with random values at a specified density (of non-zero values)
+-   Function: **recursive_kron**
     -   Description: Returns Kronecker tensor product of a single qubit matrix on a specified qubit with the identity matrix on all other qubits
     -   Parameters:
         -   required: total number of qubits, n (int)
@@ -75,7 +84,7 @@ disp(minimum_gap(eigenvalues));
         -   required: single qubit operation (2 by 2 matrix)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operation on a single qubit (2^n by 2^n matrix)
--   Function: recursive_kron_double
+-   Function: **recursive_kron_double**
     -   Description: Returns Kronecker tensor product of two single qubit matrices on two specified qubits with the identity matrix on all other qubits
     -   Parameters:
         -   required: total number of qubits, n (int)
@@ -85,8 +94,8 @@ disp(minimum_gap(eigenvalues));
         -   required: second single qubit operation (2 by 2 matrix)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operations on two single qubits (2^n by 2^n matrix)
--   Function: recursive_kron_triple
-    -    Description: Returns Kronecker tensor product of three single qubit matrices on three specified qubits with the identity matrix on all other qubits
+-   Function: **recursive_kron_triple**
+    -   Description: Returns Kronecker tensor product of three single qubit matrices on three specified qubits with the identity matrix on all other qubits
     -   Parameters:
         -   required: total number of qubits, n (int)
         -   required: index of first qubit to insert matrix, i (int)
@@ -102,14 +111,14 @@ disp(minimum_gap(eigenvalues));
 
 -   Scaling of time required to calculate eigenspectrum for increasing number of qubits using random Ising Hamiltonians
    -   Uses: 
-      -   'exp_timings.m'
-      -   'exp_eigenspectrum.m'
+      -   '**exp_timings.m**'
+      -   '**exp_eigenspectrum.m**'
 
 ![Image of time scaling](time_scaling.png)
 
 -   Histrogram of minimum gaps (in first 90% of anneal) for 1000 random 6-qubit Ising Hamiltonians (only ZZ couplings)
    -   Uses: 
-      -   'exp_minimum_gap'
-      -   'exp_eigenspectrum.m'
+      -   '**exp_minimum_gap**'
+      -   '**exp_eigenspectrum.m**'
 
 ![Image of minimum gaps](minimum_gaps.png)
