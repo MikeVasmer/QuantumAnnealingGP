@@ -1,0 +1,168 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4953,        158]
+NotebookOptionsPosition[      4431,        134]
+NotebookOutlinePosition[      4766,        149]
+CellTagsIndexPosition[      4723,        146]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["3-local Ising Optimisation using Simulated Annealing", "Title",
+ CellChangeTimes->{{3.671883320156126*^9, 3.671883352322755*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Constraints", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"s1", "\[Equal]", "1"}], "||", 
+      RowBox[{"s1", "\[Equal]", 
+       RowBox[{"-", "1"}]}]}], ")"}], "&&", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"s2", "\[Equal]", "1"}], "||", 
+      RowBox[{"s2", "\[Equal]", 
+       RowBox[{"-", "1"}]}]}], ")"}], "&&", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"s3", "\[Equal]", "1"}], "||", 
+      RowBox[{"s3", "\[Equal]", 
+       RowBox[{"-", "1"}]}]}], ")"}], "&&", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"s4", "\[Equal]", "1"}], "||", 
+      RowBox[{"s4", "\[Equal]", 
+       RowBox[{"-", "1"}]}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Hamiltonian", " ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "0.25"}], "s1", " ", "s2", " ", "s3"}], " ", "+", 
+    RowBox[{"0.2", " ", "s1"}], " ", "+", 
+    RowBox[{"0.7", "s2"}], "-", 
+    RowBox[{"0.3", "s3"}], "+", 
+    RowBox[{"0.8", "s4"}], "-", 
+    RowBox[{"s1", " ", "s2", " ", "s4"}], "+", 
+    RowBox[{"s2", " ", "s3", " ", "s4"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.671882469441276*^9, 3.671882508105653*^9}, {
+  3.671882560081777*^9, 3.671882609233247*^9}, {3.671882716633006*^9, 
+  3.6718827743441143`*^9}, {3.6718830560624723`*^9, 3.671883070205017*^9}, {
+  3.671883125731786*^9, 3.671883147997896*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Minimize", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"Hamiltonian", ",", "Constraints"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"s1", ",", "s2", ",", "s3", ",", "s4"}], "}"}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.6718826689868717`*^9, 3.67188270336012*^9}, {
+  3.671882739376601*^9, 3.671882741727841*^9}, {3.6718831665891647`*^9, 
+  3.671883170365301*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"-", "3.25`"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"s1", "\[Rule]", "1.`"}], ",", 
+     RowBox[{"s2", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}], ",", 
+     RowBox[{"s3", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}], ",", 
+     RowBox[{"s4", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.671882678382592*^9, 3.671882704097135*^9}, {
+  3.671882751261492*^9, 3.67188277551766*^9}, {3.671883160934207*^9, 
+  3.671883171308689*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"NMinimize", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"Hamiltonian", ",", "Constraints"}], "}"}], " ", ",", 
+   RowBox[{"{", 
+    RowBox[{"s1", ",", "s2", ",", "s3", ",", "s4"}], "}"}], ",", 
+   RowBox[{"Method", "\[Rule]", " ", "\"\<SimulatedAnnealing\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.671882364936372*^9, 3.671882404506249*^9}, {
+  3.671882454074746*^9, 3.671882464617998*^9}, {3.6718825135216093`*^9, 
+  3.671882545961504*^9}, {3.671882589955127*^9, 3.671882593601088*^9}, {
+  3.671882649024961*^9, 3.67188266024163*^9}, {3.671882745448306*^9, 
+  3.671882748351694*^9}, {3.67188317588577*^9, 3.67188317626899*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"-", "3.25`"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"s1", "\[Rule]", "1.`"}], ",", 
+     RowBox[{"s2", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}], ",", 
+     RowBox[{"s3", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}], ",", 
+     RowBox[{"s4", "\[Rule]", 
+      RowBox[{"-", "1.`"}]}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.6718825158875723`*^9, 3.671882547009861*^9}, {
+  3.671882594206959*^9, 3.671882610405517*^9}, {3.671882656277821*^9, 
+  3.6718826606142607`*^9}, {3.671882752032724*^9, 3.671882776704369*^9}, {
+  3.671883172881279*^9, 3.671883176603848*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1301, 744},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.3 for Linux x86 (64-bit) (October 9, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 135, 1, 93, "Title"],
+Cell[718, 25, 1391, 38, 55, "Input"],
+Cell[CellGroupData[{
+Cell[2134, 67, 395, 10, 32, "Input"],
+Cell[2532, 79, 534, 15, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3103, 99, 663, 13, 32, "Input"],
+Cell[3769, 114, 634, 16, 32, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
