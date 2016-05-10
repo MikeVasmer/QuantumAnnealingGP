@@ -1,3 +1,4 @@
+% Experiment: Time scaling for increasing number of qubits
 
 repeats = 1;
 max_qubits = 12;
@@ -5,7 +6,7 @@ times = zeros(1,max_qubits);
 for i = 1:max_qubits
     tic;
     for j = 1:repeats
-       exp_eigenspectrum(i) 
+       exp_eigenspectrum(i);
     end
     times(i) = toc/repeats;
 end

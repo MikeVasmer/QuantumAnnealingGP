@@ -1,4 +1,10 @@
-function [] = exp_eigenspectrum(n_qubits)
+function [out] = exp_eigenspectrum(n_qubits, min_gap_range)
+
+% If min_gap_range not set, default to full range
+switch nargin
+case 1
+    min_gap_range = 1;
+end
 
 % Example random Ising coef for n=4 qubits
 % Array of h coef for local fields
@@ -24,5 +30,6 @@ eigenspectrum(  transverse_hamiltonian(n_qubits),...            % Starting (tran
 % plot_eigenspectrum(eigenvalues, 2);
 % Calculate and display minimum gap
 % disp(minimum_gap(eigenvalues));
+out = minimum_gap(eigenvalues, min_gap_range);
 
 end

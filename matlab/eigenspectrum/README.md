@@ -65,6 +65,7 @@ disp(minimum_gap(eigenvalues));
     -   Description: Given eigenvalues, returns the minimum energy gap between the ground and first excited states
     -   Parameters:
         -   required: eigenvalues (2^n by S)
+	-   optional: Range (from start) to look over (int: [0,1])
     -   Return: Minimum energy gap between ground and first excited states (double)
 -   Function: recursive_kron
     -   Description: Returns Kronecker tensor product of a single qubit matrix on a specified qubit with the identity matrix on all other qubits
@@ -99,7 +100,16 @@ disp(minimum_gap(eigenvalues));
 
 ### Experiments
 
--   Scaling of time for increasing number of qubits
-   -   Random Ising Hamiltonian
+-   Scaling of time required to calculate eigenspectrum for increasing number of qubits using random Ising Hamiltonians
+   -   Uses: 
+      -   'exp_timings.m'
+      -   'exp_eigenspectrum.m'
 
 ![Image of time scaling](time_scaling.png)
+
+-   Histrogram of minimum gaps (in first 90% of anneal) for 1000 random 6-qubit Ising Hamiltonians (only ZZ couplings)
+   -   Uses: 
+      -   'exp_minimum_gap'
+      -   'exp_eigenspectrum.m'
+
+![Image of minimum gaps](minimum_gaps.png)
