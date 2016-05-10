@@ -96,3 +96,10 @@ disp(minimum_gap(eigenvalues));
         -   required: third single qubit operation (2 by 2 matrix)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operations on three single qubits (2^n by 2^n matrix)
+
+### Experiments
+
+-   Scaling of time for increasing number of qubits
+   -   Random Ising Hamiltonian
+
+![Image of time scaling](time_scaling.png)
