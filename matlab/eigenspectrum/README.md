@@ -33,6 +33,8 @@ eigenspectrum(  transverse_hamiltonian(4),...                   % Starting (tran
                 2);                                             % Optional: figures to plot
 ```
 
+![Image of eigenspectrum](eigenspectrum.png)
+
 -   Function: transverse_hamiltonian
     - Description: Returns an n-qubit transverse field Hamiltonian  
     -   Parameters:
