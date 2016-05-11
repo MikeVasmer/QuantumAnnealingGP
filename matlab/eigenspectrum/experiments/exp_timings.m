@@ -6,7 +6,7 @@ addpath('../');
 repeats = 1;
 max_qubits = 12;
 times = zeros(1,max_qubits);
-for i = 1:max_qubits
+for i = 2:max_qubits
     tic;
     for j = 1:repeats
        exp_eigenspectrum(i);

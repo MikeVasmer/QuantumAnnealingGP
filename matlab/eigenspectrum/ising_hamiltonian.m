@@ -11,7 +11,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
     h_term = 0;
     if length(h) > 1
         for i=1:n
-            h_term = h_term + h(i)*recursive_kron( n, i, sigmaZ );
+            h_term = h_term + h(i)*recursive_kron( n, [i], [sigmaZ] );
         end
     end
     
@@ -22,7 +22,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
             for k=1:n
                 % skip if i==k
                 if i ~= k
-                    jzz_term = jzz_term + Jzz(i,k)*recursive_kron_double( n, i, sigmaZ, k, sigmaZ );
+                    jzz_term = jzz_term + Jzz(i,k)*recursive_kron( n, [i,k], [sigmaZ,sigmaZ] );
                 end 
             end
         end
@@ -35,7 +35,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
             for k=1:n
                 % skip if i==k
                 if i ~= k
-                    jxx_term = jxx_term + Jxx(i,k)*recursive_kron_double( n, i, sigmaX, k, sigmaX );
+                    jxx_term = jxx_term + Jxx(i,k)*recursive_kron( n, [i,k], [sigmaX,sigmaX] );
                 end 
             end
         end
@@ -49,7 +49,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
                 for h=1:n
                     % skip if i==k or i==h or k==h
                     if (i ~= k) && (i ~= h) && (k ~= h)
-                        jzzz_term = jzzz_term + Jzzz(i,k,h)*recursive_kron_triple( n, i, sigmaZ, k, sigmaZ, h, sigmaZ );
+                        jzzz_term = jzzz_term + Jzzz(i,k,h)*recursive_kron( n, [i,k,h], [sigmaZ,sigmaZ,sigmaZ] );
                     end
                 end 
             end
@@ -64,7 +64,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
                 for h=1:n
                     % skip if i==k or i==h or k==h
                     if (i ~= k) && (i ~= h) && (k ~= h)
-                        jxxx_term = jxxx_term + Jxxx(i,k,h)*recursive_kron_triple( n, i, sigmaX, k, sigmaX, h, sigmaX );
+                        jxxx_term = jxxx_term + Jxxx(i,k,h)*recursive_kron( n, [i,k,h], [sigmaX,sigmaX,sigmaX] );
                     end
                 end 
             end
