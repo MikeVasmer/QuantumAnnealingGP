@@ -12,8 +12,8 @@ Calculate the eigenspectrum between two Hamilontians
         -   required: number of steps, S (int)
     -   Return: Eigenvalues at each step (2^n by S)
     -   Examples:
-        -   '**examples/example_eigenspectrum**' (see below)
-        -   '**examples/example_eigenspectrum_rand**'
+        -   '**examples/example_eigenspectrum.m**' (see below)
+        -   '**examples/example_eigenspectrum_random.m**'
 
 ```Matlab
 % Example Ising coef for n=4 qubits
@@ -50,11 +50,11 @@ disp(minimum_gap(eigenvalues));
 -   Function: **ising_hamiltonian**
     -   Description: Given local fields, h and couplings, Jzz, Jxx, Jzzz, Jxxx returns the Ising Hamiltonian  
     -   Parameters:
-        -   required: array of h coefficients, h (n-array)
-        -   required: matrix of ZZ coefficients, Jzz (n by n matrix)
-        -   required: matrix of XX coefficients, Jxx (n by n matrix)
-        -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix)
-        -   required: matrix of XXX coefficients, Jxx (n by n by n matrix)
+        -   required: array of h coefficients, h (n-array), (0 to turn off fields)
+        -   required: matrix of ZZ coefficients, Jzz (n by n matrix), (0 to turn off couplings)
+        -   required: matrix of XX coefficients, Jxx (n by n matrix), (0 to turn off couplings)
+        -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix), (0 to turn off couplings) 
+        -   required: matrix of XXX coefficients, Jxx (n by n by n matrix), (0 to turn off couplings)
     -   Return: Ising Hamiltonian (2^n by 2^n matrix)
 -   Function: **plot_eigenspectrum**
     -   Description: Given eigenvalues, plots the eigenspectrum

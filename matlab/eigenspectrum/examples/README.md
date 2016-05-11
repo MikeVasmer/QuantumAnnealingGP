@@ -2,7 +2,7 @@
 
 ### Examples
 
--   **exmaples/example_eigenspectrum.m**
+-   **examples/example_eigenspectrum.m**
 
 ```Matlab
 % Example Ising coef for n=4 qubits
@@ -30,9 +30,9 @@ plot_eigenspectrum(eigenvalues, 2);
 disp(minimum_gap(eigenvalues));
 ```
 
-![Image of eigenspectrum](images/eigenspectrum.png)
+![Image of eigenspectrum](../images/eigenspectrum.png)
 
--   **exmaples/example_eigenspectrum_random.m**
+-   **examples/example_eigenspectrum_random.m**
 
 ```Matlab
 % Example random Ising coef for n=4 qubits
