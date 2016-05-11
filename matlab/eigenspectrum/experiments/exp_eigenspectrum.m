@@ -9,13 +9,13 @@ end
 % Example random Ising coef for n=4 qubits
 % Array of h coef for local fields
 %n_qubits = 4;
-conn_density = 0.5;
+density = 0.5;
 min = 0;
 max = 1;
 % Random h coef
-h = random_coef( [n_qubits], min, max, conn_density );
+h = random_coef( [n_qubits], 1, [min, max], 0, density );
 % Random J coef for Z-Z, X-X, Z-Z-Z and X-X-X couplings
-Jzz  = random_coef( [n_qubits,n_qubits], min, max, conn_density );
+Jzz  = random_coef( [n_qubits, n_qubits], 1, [min, max], 0, density );
 Jxx  = 0; % Couplings turned off
 Jzzz = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off

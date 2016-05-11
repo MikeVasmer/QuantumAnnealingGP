@@ -34,7 +34,7 @@ eigenvalues = ...
 eigenspectrum(  transverse_hamiltonian(4),...                   % Starting (transverse) Hamiltonian
                 ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
                 21);                                            % Steps
-            
+
 % Plot eigenspectrum ('2' means both plots)
 plot_eigenspectrum(eigenvalues, 2);
 % Calculate and display minimum gap
@@ -53,14 +53,14 @@ disp(minimum_gap(eigenvalues));
         -   required: array of h coefficients, h (n-array), (0 to turn off fields)
         -   required: matrix of ZZ coefficients, Jzz (n by n matrix), (0 to turn off couplings)
         -   required: matrix of XX coefficients, Jxx (n by n matrix), (0 to turn off couplings)
-        -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix), (0 to turn off couplings) 
+        -   required: matrix of ZZZ coefficients, Jzzz (n by n by n matrix), (0 to turn off couplings)
         -   required: matrix of XXX coefficients, Jxx (n by n by n matrix), (0 to turn off couplings)
     -   Return: Ising Hamiltonian (2^n by 2^n matrix)
 -   Function: **plot_eigenspectrum**
     -   Description: Given eigenvalues, plots the eigenspectrum
     -   Parameters:
         -   required: eigenvalues (2^n by S)
-        -   optional: figures to plot (int: {0,1,2}) 
+        -   optional: figures to plot (int: {0,1,2})
             - 0: Normal eigenspectrum (default)
             - 1: Eigenspectrum relative to groundstate
             - 2: Both
@@ -75,8 +75,9 @@ disp(minimum_gap(eigenvalues));
    -   Description: Generates a random array/matrix of values/coefficients
    -   Parameters:
       - Required: Dimensions of matrix (array)
-      - Required: Minimum value (int)
-      - Required: Maximum value (int)
+      - Required: Type of values (0: Discrete, 1: Continuous)
+      - Required: Range of values (Array: Discrete:[values], Continuous:[min, max])
+      - Required: Distribution (0: Uniform, 1: Normal/Gaussian)
       - Required: Density of (non-zero) values (int: {0,1})
    -   Returns:
       - Matrix with random values at a specified density (of non-zero values)
@@ -88,4 +89,3 @@ disp(minimum_gap(eigenvalues));
         -   required: Array of single qubit operations (array of 2 by 2 matrices)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operations on two single qubits (2^n by 2^n matrix)
-
