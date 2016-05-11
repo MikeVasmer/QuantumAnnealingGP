@@ -6,7 +6,7 @@ spin_config_1 = spins1;
 spin_config_2 = spins2;
 
 num_flips = 1; % Flips in each MonteCarlo step
-Gamma = 1; % Base transition probability
+Gamma = 0.5; % Base transition probability
 
 for time = 1:timesteps
 

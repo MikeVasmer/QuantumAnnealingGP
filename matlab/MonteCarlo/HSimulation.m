@@ -11,7 +11,7 @@ while sameConfig == 0
     spins1 = generate_spins(n_qubits, disorder);
     spins2 = generate_spins(n_qubits, disorder);
     
-    sameConfig = isequal(spins1, spins2);
+    sameConfig = ~isequal(spins1, spins2);
 
 end
 
