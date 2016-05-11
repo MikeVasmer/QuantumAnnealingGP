@@ -1,0 +1,23 @@
+function [ E ] = evaluate_energy( spins, H )
+%EVALUATE_ENERGY Evaluates energy of a spin configuration for some
+%hamiltonian H
+
+spin_config = spins(:);
+
+state_vectors = cell(size(spin_config));
+% make kronecker product of spin states, (1,0) for up, (0,1) for down
+for i = 1:length(spin_config)
+    
+    if spin_config(i) == 1
+        state_vector = [1;0];
+    else
+        state_vector = [0;1];
+    end
+    
+    state_vectors{}
+end
+
+E = spin_config' * H * spin_config;
+
+end
+
