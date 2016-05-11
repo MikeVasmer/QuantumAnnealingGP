@@ -81,32 +81,11 @@ disp(minimum_gap(eigenvalues));
    -   Returns:
       - Matrix with random values at a specified density (of non-zero values)
 -   Function: **recursive_kron**
-    -   Description: Returns Kronecker tensor product of a single qubit matrix on a specified qubit with the identity matrix on all other qubits
+    -   Description: Returns Kronecker tensor product of N single qubit matrices on N specified qubits with the identity matrix on all other qubits
     -   Parameters:
         -   required: total number of qubits, n (int)
-        -   required: index of qubit to insert matrix, i (int)
-        -   required: single qubit operation (2 by 2 matrix)
-        -   ignore: matrix from previous recursive call (leave empty)
-    -   Return: Hamiltonian with operation on a single qubit (2^n by 2^n matrix)
--   Function: **recursive_kron_double**
-    -   Description: Returns Kronecker tensor product of two single qubit matrices on two specified qubits with the identity matrix on all other qubits
-    -   Parameters:
-        -   required: total number of qubits, n (int)
-        -   required: index of first qubit to insert matrix, i (int)
-        -   required: first single qubit operation (2 by 2 matrix)
-        -   required: index of second qubit to insert matrix, i (int)
-        -   required: second single qubit operation (2 by 2 matrix)
+        -   required: Array of indices to insert matrices, (array)
+        -   required: Array of single qubit operations (array of 2 by 2 matrices)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operations on two single qubits (2^n by 2^n matrix)
--   Function: **recursive_kron_triple**
-    -   Description: Returns Kronecker tensor product of three single qubit matrices on three specified qubits with the identity matrix on all other qubits
-    -   Parameters:
-        -   required: total number of qubits, n (int)
-        -   required: index of first qubit to insert matrix, i (int)
-        -   required: first single qubit operation (2 by 2 matrix)
-        -   required: index of second qubit to insert matrix, i (int)
-        -   required: second single qubit operation (2 by 2 matrix)
-        -   required: index of third qubit to insert matrix, i (int)
-        -   required: third single qubit operation (2 by 2 matrix)
-        -   ignore: matrix from previous recursive call (leave empty)
-    -   Return: Hamiltonian with operations on three single qubits (2^n by 2^n matrix)
+

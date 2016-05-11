@@ -9,9 +9,9 @@ function [ out ] = transverse_hamiltonian( n )
     % Loops over all qubits
     for i=1:n
         if i==1
-            out = recursive_kron( n, i, H_b_single );
+            out = recursive_kron( n, [i], [H_b_single] );
         else
-            out = out + recursive_kron( n, i, H_b_single );
+            out = out + recursive_kron( n, [i], [H_b_single] );
         end
     end
     
