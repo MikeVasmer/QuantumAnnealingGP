@@ -4,25 +4,16 @@ function [ E ] = evaluate_energy( spins, H )
 
 spin_config = spins(:);
 
-% Cell array of state vectors corresponding to spins, (1,0) for up, (0,1) for down
-state_vectors = cell(size(spin_config));
-for i = 1:length(spin_config)
-    
-    if spin_config(i) == 1
-        state_vector = [1;0];
-    else
-        state_vector = [0;1];
-    end
-    
-    state_vectors{i} = state_vector;
-end
+% Transform 1,-1 to 0,1
+spin_config = -spin_config;
+spin_config = spin_config + 1;
+spin_config = spin_config / 2;
 
-% make kronecker product of spin states
-config_vector = 1;
-for i = 1:length(state_vectors)
-    state_vector = state_vectors{i};
-    config_vector = kron(state_vector, config_vector);
-end
+% Quantum state corresponding to classical state is all zeros, with a 1
+% only in place represented by binary number encoded by spin_config above
+state_index = bi2de(spin_config') + 1; % add 1 due to matlab indexing
+config_vector = zeros([2^(length(spin_config)), 1]);
+config_vector(state_index) = 1;
 
 % Calculate energy
 E = config_vector' * H * config_vector;
