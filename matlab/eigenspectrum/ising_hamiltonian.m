@@ -1,28 +1,18 @@
 function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
 
-    % Check that each dimension of all J's equal length(h)
-    jzz_dim  = size(Jzz);
-    jxx_dim  = size(Jxx);
-    jzzz_dim = size(Jzzz);
-    jxxx_dim = size(Jxxx);
-    if  ( length(Jzz)>1  && ( length(h) ~= jzz_dim(1)  || length(h) ~= jzz_dim(2) ) ) || ...
-        ( length(Jxx)>1  && ( length(h) ~= jxx_dim(1)  || length(h) ~= jxx_dim(2) ) ) || ...
-        ( length(Jzzz)>1 && ( length(h) ~= jzzz_dim(1) || length(h) ~= jzzz_dim(2) || length(h) ~= jzzz_dim(3) ) ) || ...
-        ( length(Jxxx)>1 && ( length(h) ~= jxxx_dim(1) || length(h) ~= jxxx_dim(2) || length(h) ~= jzzz_dim(3) ) )
-        error('Require: each dimension of J must equal length(h), unless that J is turned off (=0)');
-    end
-
     % Pauli matrices
     sigmaX = [[0, 1] ;[ 1, 0]];
     sigmaZ = [[1, 0] ;[ 0,-1]];
     
     % Number of qubits
-    n = length(h);
+    n = max([length(h),length(Jzz),length(Jxx),length(Jzzz),length(Jxxx)]);
     
     % Sum up local field terms, h
     h_term = 0;
-    for i=1:n
-        h_term = h_term + h(i)*recursive_kron( n, i, sigmaZ );
+    if length(h) > 1
+        for i=1:n
+            h_term = h_term + h(i)*recursive_kron( n, i, sigmaZ );
+        end
     end
     
     % Sum up Jzz coupling terms
