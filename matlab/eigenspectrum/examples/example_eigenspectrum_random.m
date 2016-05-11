@@ -1,4 +1,8 @@
 % Example random Ising coef for n=4 qubits
+
+% Add main directory to path
+addpath('../');
+
 % Array of h coef for local fields
 n_qubits = 4;
 conn_density = 0.5;

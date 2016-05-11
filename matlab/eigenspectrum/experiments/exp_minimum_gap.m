@@ -1,5 +1,8 @@
 % Experiments: Histogram of minimum gaps for rnadom Ising problems
 
+% Add main directory to path
+addpath('../');
+
 repeats = 1000;
 num_qubits = 6;
 minimum_gaps = zeros(1,repeats);

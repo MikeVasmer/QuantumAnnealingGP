@@ -12,11 +12,15 @@ Calculate the eigenspectrum between two Hamilontians
         -   required: number of steps, S (int)
     -   Return: Eigenvalues at each step (2^n by S)
     -   Examples:
-        -   '**test_eigenspectrum**' (see below)
-        -   '**test_eigenspectrum_rand**'
+        -   '**examples/example_eigenspectrum**' (see below)
+        -   '**examples/example_eigenspectrum_rand**'
 
 ```Matlab
 % Example Ising coef for n=4 qubits
+
+% Add main directory to path
+addpath('../');
+
 % Array of h coef for local fields
 h = [1,0.5,0.8,1];
 % Matrix of J coef for Z-Z, X-X, Z-Z-Z and X-X-X couplings
@@ -37,7 +41,7 @@ plot_eigenspectrum(eigenvalues, 2);
 disp(minimum_gap(eigenvalues));
 ```
 
-![Image of eigenspectrum](eigenspectrum.png)
+![Image of eigenspectrum](images/eigenspectrum.png)
 
 -   Function: **transverse_hamiltonian**
     -   Description: Returns an n-qubit transverse field Hamiltonian  
@@ -106,19 +110,3 @@ disp(minimum_gap(eigenvalues));
         -   required: third single qubit operation (2 by 2 matrix)
         -   ignore: matrix from previous recursive call (leave empty)
     -   Return: Hamiltonian with operations on three single qubits (2^n by 2^n matrix)
-
-### Experiments
-
--   Scaling of time required to calculate eigenspectrum for increasing number of qubits using random Ising Hamiltonians
-   -   Uses: 
-      -   '**exp_timings.m**'
-      -   '**exp_eigenspectrum.m**'
-
-![Image of time scaling](time_scaling.png)
-
--   Histrogram of minimum gaps (in first 90% of anneal) for 1000 random 6-qubit Ising Hamiltonians (only ZZ couplings)
-   -   Uses: 
-      -   '**exp_minimum_gap**'
-      -   '**exp_eigenspectrum.m**'
-
-![Image of minimum gaps](minimum_gaps.png)
