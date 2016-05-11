@@ -19,7 +19,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
     jzz_term = 0;
     if length(Jzz) > 1
         for i=1:n
-            for k=1:n
+            for k=i:n
                 % skip if i==k
                 if i ~= k
                     jzz_term = jzz_term + Jzz(i,k)*recursive_kron( n, [i,k], [sigmaZ,sigmaZ] );
@@ -32,7 +32,7 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
     jxx_term = 0;
     if length(Jxx) > 1
         for i=1:n
-            for k=1:n
+            for k=i:n
                 % skip if i==k
                 if i ~= k
                     jxx_term = jxx_term + Jxx(i,k)*recursive_kron( n, [i,k], [sigmaX,sigmaX] );
@@ -45,8 +45,8 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
     jzzz_term = 0;
     if length(Jzzz) > 1
         for i=1:n
-            for k=1:n
-                for h=1:n
+            for k=i:n
+                for h=k:n
                     % skip if i==k or i==h or k==h
                     if (i ~= k) && (i ~= h) && (k ~= h)
                         jzzz_term = jzzz_term + Jzzz(i,k,h)*recursive_kron( n, [i,k,h], [sigmaZ,sigmaZ,sigmaZ] );
@@ -60,8 +60,8 @@ function [ out ] = ising_hamiltonian( h, Jzz, Jxx, Jzzz, Jxxx )
     jxxx_term = 0;
     if length(Jxxx) > 1
         for i=1:n
-            for k=1:n
-                for h=1:n
+            for k=i:n
+                for h=k:n
                     % skip if i==k or i==h or k==h
                     if (i ~= k) && (i ~= h) && (k ~= h)
                         jxxx_term = jxxx_term + Jxxx(i,k,h)*recursive_kron( n, [i,k,h], [sigmaX,sigmaX,sigmaX] );
