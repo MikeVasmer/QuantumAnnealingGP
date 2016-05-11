@@ -1,5 +1,8 @@
 % Experiment: Time scaling for increasing number of qubits
 
+% Add main directory to path
+addpath('../');
+
 repeats = 1;
 max_qubits = 12;
 times = zeros(1,max_qubits);
