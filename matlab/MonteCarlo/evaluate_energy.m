@@ -8,6 +8,7 @@ spin_config = spins(:);
 spin_config = -spin_config;
 spin_config = spin_config + 1;
 spin_config = spin_config / 2;
+spin_config = flipud(spin_config);
 
 % Quantum state corresponding to classical state is all zeros, with a 1
 % only in place represented by binary number encoded by spin_config above
