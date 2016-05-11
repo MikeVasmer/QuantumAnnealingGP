@@ -1,11 +1,26 @@
-%
-h_l = [0,0,0,0];
-J_l = 1;
-h_a = [0,0,0,0];
-J_a = 1;
+% h's and J's
+% Require that:
+%     |J_N| << J_a
+%     |J_N| < q_0 << J_a 
+%     0 < q_i < J_a
+%     |J_N| < q_0 << J_a
+% H_N = J_N Z_1*Z_2*Z_3*Z_4 
+N = 4;      % Fixed
+
+% Require: |J_N| < q_0 << J_a
+J_N = 1;    % Free
+q_0 = 5;    % Free
+J_a = 100;  % Free
+
+h_a = zeros(1,N);
+for i = 1:N
+    h_a(i) = -J_a*(2*i-N) + q_i(N, i, J_N, q_0);
+end
+J_l =  J_a;
+h_l = -J_a + q_0;
 
 % No fields
-h = [h_l,h_a];
+h = [[h_l,h_l,h_l,h_l],h_a];
 % Fully connected Z-Z couplings
 Jzz  = [[0,J_l,J_l,J_l,J_a,J_a,J_a,J_a];...
         [0,  0,J_l,J_l,J_a,J_a,J_a,J_a];...
@@ -38,7 +53,7 @@ unique(eig(ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx)))'
 
 % 4-qubit interaction Ham
 sigmaZ = [[1, 0] ;[ 0,-1]];
-H_4 = kron(sigmaZ,kron(sigmaZ,kron(sigmaZ,sigmaZ)));
+H_4 = J_N*kron(sigmaZ,kron(sigmaZ,kron(sigmaZ,sigmaZ)));
 
 % Calculate and plot eigenspectrum between two Hamilontians
 eigenvalues = ...
