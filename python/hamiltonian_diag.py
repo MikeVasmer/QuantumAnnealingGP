@@ -1,4 +1,3 @@
-
 import numpy as np
 from matplotlib import pyplot as plt
 from timeit import timeit
@@ -12,26 +11,31 @@ Ham_p_term = sig_z
 Ham_coup_term = np.kron(sig_z,sig_z)
 
 
-# print sig_x
-# print sig_z
-# print Identity
 
 
+# This generates a tensor product of Identities of length n
 def gen_id_kron(n):
     Id = 1
     for i in range(n):
         Id = np.kron(Id,Identity)
     return Id
 
-# print "Gen_id_kron here"
-# print gen_id_kron(1)
-# print np.kron(sig_x,1)
 
+
+# This generates a tensor product of identites and selected operator at locations specified by vals
+def gen_term(vals, oper):
+    term = 1
+    for x in vals:
+        if x == 0:
+            term = np.kron(term,Identity)
+        elif x != 0:
+            term = np.kron(x*term, oper)
+    return term
+
+# This generates a simple transverse hamiltonian - no couplings, transverse field at each qubit
 def gen_trans_Ham(n):
     terms = []
     for i in range(n):
-        # print 'rep number is %s', i
-        # print gen_id_kron(n-i-1)
         term = np.kron(np.kron(gen_id_kron(i),Ham_i_term),gen_id_kron(n-i-1))
         terms.append(term)
     #     print term
@@ -41,34 +45,26 @@ def gen_trans_Ham(n):
         H = H+x
     return H
 
+# This generates an Ising Hamiltonian - currently only does sigma_zs, but with arbitrary number of couplings, easy adaption to sig_xs (possibly hard to do xz terms)
 def gen_class_Ham(h, J, n):
     if len(h) != n:
         print "wrong length hs"
     terms = []
     for i in range(n):
-        # print 'rep number is %s', i
-        # print gen_id_kron(n-i-1)
-        term = h[i]*np.kron(np.kron(gen_id_kron(i),Ham_p_term),gen_id_kron(n-i-1))
-    for i in range(len(J)):
-        term =  J[i]*np.kron(np.kron(gen_id_kron(i),Ham_coup_term),gen_id_kron(n-i-2))
-        terms.append(term)
-    #     print term
-    # print terms
+        term_h = h[i]*np.kron(np.kron(gen_id_kron(i),Ham_p_term),gen_id_kron(n-i-1))
+        terms.append(term_h)
+    for x in J:
+        term_J = gen_term(x, sig_z)
+        terms.append(term_J)
+    print terms
     H = 0
     for x in terms:
         H = H+x
     return H
 
-# h = [0,0,0,0,0,0,0,0,0,0]
-# J = [1,1,1,1,1,1,1,1,1]
 
-# ham_p = gen_class_Ham(h, J, 7)
-# ham_i = gen_trans_Ham(7)
-# print ham_i
-# print ham_p
-# print np.linalg.eigvals(ham_i)
-# print np.linalg.eigvals(ham_p)
 
+# Calculates Hamiltonian at each step of an evolution and returns eigenvalues
 def eigen_evo(H_i, H_p, s):
     eigs = []
     print H_i, H_p
@@ -79,39 +75,8 @@ def eigen_evo(H_i, H_p, s):
         eigs.append(sorted(eigens))
     return eigs
 
-# eigen_vals = eigen_evo(ham_i, ham_p, 1000)
 
-# fig = plt.figure()
-# ax1 = fig.add_subplot(111)
-# z = np.linspace(0,1,1001)
-
-# print eigen_vals[1][1]
-# print len(eigen_vals[1])
-# x = []
-# shaped_eigen_vals = []
-
-# for i in range(2**len(h)):
-#     lop = []
-#     for j in range(len(eigen_vals)):
-#         lop.append(eigen_vals[j][i])
-#     print lop
-#     shaped_eigen_vals.append(lop)
-
-# for i in range(101):
-#     b = []
-#     for j in range(2**len(h)):
-#         b.append(z[i])
-#     x.append(b)
-    
-# # for i in range(len(x)):
-# #     for j in range(2**len(h)):
-# #         ax1.plot(z[i],eigen_vals[i][j],)
-
-# for i in range(2**len(h)-1):
-#     ax1.plot(z,shaped_eigen_vals[i])
-
-# plt.show()
-
+# Generates a graph of an evolution from transverse to designated Ising Ham, could do with adapting to save graphs etc.
 def gen_eigen_spectrum(h, J, steps):
     n = len(h)
     ham_p = gen_class_Ham(h, J, n)
@@ -133,18 +98,5 @@ def gen_eigen_spectrum(h, J, steps):
 
 # h = np.ones(5)
 h = [1,0.5,0.8,1]
-J = [1,1,1] 
-# J = np.ones(4)
+J = np.array([[1,1,1,0],[1,0,1,0],[1,0,0,1],[0,1,1,1],[0,1,0,1],[0,0,1,1]])
 gen_eigen_spectrum(h, J, 1000)
-
-# times = []
-
-# for i in range(4):
-#     h = np.ones(i+2)
-#     J = np.ones(i+1)
-#     print h
-#     print J
-#     time = timeit(gen_eigen_spectrum(h, J, 100))
-
-
-# print times
