@@ -91,12 +91,17 @@ def gen_eigen_spectrum(h, J, steps):
     z = np.linspace(0,1,steps+1)
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
+    gaps = []
+    for x in eigen_vals:
+        gaps.append(x[1]-x[0])
+    min_gap = min(gaps)
     for i in range(2**len(h)-1):
         ax1.plot(z,shaped_eigen_vals[i])
     plt.show()
+    return min_gap
 
 
 # h = np.ones(5)
-h = [1,0.5,0.8,1]
-J = np.array([[1,1,1,0],[1,0,1,0],[1,0,0,1],[0,1,1,1],[0,1,0,1],[0,0,1,1]])
+h = [1,-1,1,-1,1,1]
+J = np.array([[1,1,1,0,0,0],[0,1,1,0,0,0],[0,0,1,1,0,0],[0,0,0,1,1,0],[0,0,0,0,-1,1]])
 gen_eigen_spectrum(h, J, 1000)
