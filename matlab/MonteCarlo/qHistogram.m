@@ -1,7 +1,7 @@
 addpath(genpath('../../'))
 clearvars
 
-num_runs = 1000;
+num_runs = 100;
 qs = zeros([num_runs, 1]);
 n_qubits = 5;
 conn_density = 0.5;
@@ -12,14 +12,14 @@ disorder = round(n_qubits / 2);
 beta = 0.1;
 
 
-H = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
+[H, Hparams] = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
 
 % Sanity check
-%H = ising_hamiltonian([-500,-500,-500,-500,-500], 0, 0, 0, 0);
+%[H, h, Jzz, Jxx, Jzzz, Jxxx] = ising_hamiltonian([-500,-500,-500,-500,-500], 0, 0, 0, 0);
 
 tic
 for run = 1:num_runs
-    q = HSimulation(H, n_qubits, disorder, beta, timesteps );
+    q = HSimulation(H, Hparams, n_qubits, disorder, beta, timesteps, 'Metropolis');
     qs(run) = q;
     if toc > 1
        disp(strcat(num2str(run),':', num2str(num_runs)))

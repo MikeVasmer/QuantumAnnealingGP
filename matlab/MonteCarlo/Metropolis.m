@@ -13,8 +13,8 @@ for time = 1:timesteps
     newspin1 = flip_spin(spin_config_1, num_flips);
     newspin2 = flip_spin(spin_config_2, num_flips);
     
-    p_1 = transition_probability(spin_config_1, newspin1, H, beta, Gamma);
-    p_2 = transition_probability(spin_config_2, newspin2, H, beta, Gamma);
+    p_1 = transition_probability(spin_config_1, newspin1, H, beta, Gamma, 'Metropolis');
+    p_2 = transition_probability(spin_config_2, newspin2, H, beta, Gamma, 'Metropolis');
     
     x_1 = rand;
     x_2 = rand;
