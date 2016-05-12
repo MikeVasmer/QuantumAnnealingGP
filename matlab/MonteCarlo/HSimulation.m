@@ -1,4 +1,4 @@
-function [ q ] = HSimulation( H, n_qubits, disorder, T, timesteps )
+function [ q ] = HSimulation( H, n_qubits, disorder, beta, timesteps )
 %RANDOMHSIMULATION Finds the q value between 2 parallel runs of the
 %simulation of a given
 %Hamiltonian
@@ -15,7 +15,7 @@ while sameConfig == 0
 
 end
 
-q = Metropolis(spins1, spins2, H, T, timesteps);
+q = Metropolis(spins1, spins2, H, beta, timesteps);
 
 end
 
