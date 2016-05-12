@@ -30,7 +30,13 @@ end
 
 q = order_parameter(spin_config_1, spin_config_2);
 
-solution = {q, spin_config_1};
+if evaluate_energy(spin_config_1, H) < evaluate_energy(spin_config_2, H)
+    optimal = spin_config_1;
+else
+    optimal = spin_config_2;
+end
+
+solution = {q, optimal};
 
 end
 

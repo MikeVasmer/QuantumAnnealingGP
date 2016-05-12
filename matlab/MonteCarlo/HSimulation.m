@@ -19,8 +19,7 @@ switch Monty
     case 'Metropolis'
         solution = Metropolis(spins1, spins2, H, Hparams, beta, timesteps);
     case 'HeatBath'
-        %[h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
-        %[q, solution] = HeatBath(spins1, spins2, H, h, Jzzz, beta, timesteps);
+        solution = HeatBath(spins1, spins2, H, Hparams, beta, timesteps);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 end

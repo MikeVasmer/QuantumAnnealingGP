@@ -10,13 +10,22 @@ switch Monty
         if deltaH <= 0
             p = Gamma;
         else
-            p = Gamma * exp(-deltaH/beta);
+            p = Gamma * exp(-deltaH * beta);
         end
         
     case 'HeatBath'
         
-%         spins = oldspin;
-%         [h, Jzzz
+        spin_index = oldspin;
+        spins = newspin;
+        spinval = spins(spin_index);
+        
+        local_field = calculate_local_field(spin_index, spins, Hparams);
+        
+        if sign(local_field) == spinval
+            p = Gamma * exp( -2 * spinval * local_field * beta );
+        else
+            p = Gamma;
+        end
         
         
     otherwise

@@ -8,6 +8,8 @@ function [ H, Hparams ] = generate_random_3local_hamiltonian( n_qubits, conn_den
 h = random_coef([n_qubits], 1, h_range, 0, conn_density);
 
 Jzzz  = random_coef( [n_qubits,n_qubits,n_qubits],  1, J_range, 0, conn_density );
+Jzzz = symmetrize_3local_couplings(Jzzz);
+
 Jxx  = 0; % Couplings turned off
 Jzz = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off
