@@ -1,4 +1,4 @@
-function [ q ] = HSimulation( H, Hparams, n_qubits, disorder, beta, timesteps, Monty )
+function [ solution ] = HSimulation( H, Hparams, n_qubits, disorder, beta, timesteps, Monty )
 %RANDOMHSIMULATION Finds the q value between 2 parallel runs of the
 %simulation of a given
 %Hamiltonian
@@ -17,10 +17,10 @@ end
 
 switch Monty
     case 'Metropolis'
-        q = Metropolis(spins1, spins2, H, beta, timesteps);
+        solution = Metropolis(spins1, spins2, H, Hparams, beta, timesteps);
     case 'HeatBath'
-        [{h}, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
-        q = HeatBath(spins1, spins2, H, h, Jzzz, beta, timesteps);
+        %[h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
+        %[q, solution] = HeatBath(spins1, spins2, H, h, Jzzz, beta, timesteps);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 end

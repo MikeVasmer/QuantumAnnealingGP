@@ -15,8 +15,8 @@ switch Monty
         
     case 'HeatBath'
         
-        spins = oldspin;
-        [h, Jzzz]
+%         spins = oldspin;
+%         [h, Jzzz
         
         
     otherwise

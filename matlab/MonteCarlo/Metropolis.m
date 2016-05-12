@@ -1,4 +1,4 @@
-function [ q ] = Metropolis( spins1, spins2, H, beta, timesteps )
+function [ solution ] = Metropolis( spins1, spins2, H, Hparams, beta, timesteps )
 %METROPOLIS Does Metropolis algorithm for two spin configurations in
 %parallel and returns their overlap q
 
@@ -13,8 +13,8 @@ for time = 1:timesteps
     newspin1 = flip_spin(spin_config_1, num_flips);
     newspin2 = flip_spin(spin_config_2, num_flips);
     
-    p_1 = transition_probability(spin_config_1, newspin1, H, beta, Gamma, 'Metropolis');
-    p_2 = transition_probability(spin_config_2, newspin2, H, beta, Gamma, 'Metropolis');
+    p_1 = transition_probability(spin_config_1, newspin1, H, Hparams, beta, Gamma, 'Metropolis');
+    p_2 = transition_probability(spin_config_2, newspin2, H, Hparams, beta, Gamma, 'Metropolis');
     
     x_1 = rand;
     x_2 = rand;
@@ -29,6 +29,8 @@ for time = 1:timesteps
 end
 
 q = order_parameter(spin_config_1, spin_config_2);
+
+solution = {q, spin_config_1};
 
 end
 

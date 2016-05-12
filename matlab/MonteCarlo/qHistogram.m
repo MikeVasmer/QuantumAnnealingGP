@@ -19,7 +19,8 @@ beta = 0.1;
 
 tic
 for run = 1:num_runs
-    q = HSimulation(H, Hparams, n_qubits, disorder, beta, timesteps, 'Metropolis');
+    solution = HSimulation(H, Hparams, n_qubits, disorder, beta, timesteps, 'Metropolis');
+    q = solution{1};
     qs(run) = q;
     if toc > 1
        disp(strcat(num2str(run),':', num2str(num_runs)))
