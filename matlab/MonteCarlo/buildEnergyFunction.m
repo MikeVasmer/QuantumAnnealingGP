@@ -68,7 +68,7 @@ function energyFunction = buildEnergyFunction( h, Jzz, Jzzz)
     hamString = strcat(localFields,strcat(couplingsZZ,couplingsZZZ)); 
     hamString = hamString{1};
     hamString = hamString(1:end-1);
-    disp(hamString);
+    %disp(hamString);
     function energy = metaFunction(spinConfig)
         energy = eval(hamString);
     end

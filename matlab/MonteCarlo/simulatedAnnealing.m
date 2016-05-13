@@ -8,7 +8,7 @@ energies = zeros(1,iterations);
 configs = cell(1,iterations);
 
 %Compute the energy function
-energyFunction = buildEnergyFunction(hamiltonianParams{1},hamiltonianParams{2},hamiltonianParams{4});
+%energyFunction = buildEnergyFunction(hamiltonianParams{1},hamiltonianParams{2},hamiltonianParams{4});
 
 %Run the algorithm for a user-specified number of iterations
 while iterations > 0;
@@ -18,7 +18,7 @@ while iterations > 0;
     if ~fast
         energy = evaluate_energy(spinConfig, hamiltonian);
     else
-        energy = energyFunction(spinConfig);
+        energy = Conf_energy(spinConfig, hamiltonianParams);
     end
     %Perform metropolis steps whilst lowering the temperature linearly
     while temp > 0
@@ -26,7 +26,7 @@ while iterations > 0;
        if ~fast
            newEnergy = evaluate_energy(newSpinConfig, hamiltonian);
        else
-           newEnergy = energyFunction(newSpinConfig);
+           newEnergy = Conf_energy(newSpinConfig,hamiltonianParams);
        end
        beta = (kB*temp);
        deltaH = newEnergy - energy;
