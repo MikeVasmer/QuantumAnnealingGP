@@ -10,15 +10,20 @@ function [ out ] = Ham_d1(Multi_spins, HParams, P, T, G)
     
     % Need to calculate energy contribution for intra-slice coupling :(
     for i = 1:P
-        Slice_en = Conf_energy(Multi_spins(i,:), HParams, P*T)
+        Slice_en = Conf_energy(Multi_spins(i,:), HParams)
         if i ~= P
+            disp('slice number')
+            disp(i)
             for j = 1:n
                 spin_term = Multi_spins(i,j)*Multi_spins(i+1,j)
                 Slice_en = Slice_en + (J_orth)*Multi_spins(i,j)*Multi_spins(i+1,j)
             end
         else
-            spin_term = Multi_spins(i,j)*Multi_spins(1,j)
-            Slice_en = Slice_en + (J_orth)*Multi_spins(i,j)*Multi_spins(1,j)
+            disp('Final Slice')
+            for j = 1:n
+                spin_term = Multi_spins(i,j)*Multi_spins(1,j)
+                Slice_en = Slice_en + (J_orth)*Multi_spins(i,j)*Multi_spins(1,j)
+            end
         end
         Int_sli_tot = Int_sli_tot + Slice_en    
     end
