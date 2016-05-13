@@ -1,25 +1,41 @@
-function[ solution ] = simulatedAnnealing(hamiltonian, hamiltonianParams, initialTemp, tempStep, iterations)
+function[ solution ] = simulatedAnnealing(hamiltonian, hamiltonianParams, initialTemp,...
+    tempStep, iterations, fast, nSpins)
 %SIMULATED ANNEALING Runs the Simulated Annealing Algorithm on a
 %Hamiltonian
 
-%Compute number of spins and initialise the energy and configuration arrays
-n = size(hamiltonian,1);
-nSpins = log2(n);
+%Initialise the energy and configuration arrays
 energies = zeros(1,iterations);
 configs = cell(1,iterations);
+
+%Compute the energy function
+energyFunction = buildEnergyFunction(hamiltonianParams{1},hamiltonianParams{2},hamiltonianParams{4});
 
 %Run the algorithm for a user-specified number of iterations
 while iterations > 0;
     spinConfig = generate_spins(nSpins,1);
     temp = initialTemp;
     kB = 1.38064852e-23;
-    energy = evaluate_energy(spinConfig, hamiltonian);
+    if ~fast
+        energy = evaluate_energy(spinConfig, hamiltonian);
+    else
+        energy = energyFunction(spinConfig);
+    end
     %Perform metropolis steps whilst lowering the temperature linearly
     while temp > 0
        newSpinConfig = flip_spin(spinConfig,1); 
-       newEnergy = evaluate_energy(newSpinConfig, hamiltonian);
+       if ~fast
+           newEnergy = evaluate_energy(newSpinConfig, hamiltonian);
+       else
+           newEnergy = energyFunction(newSpinConfig);
+       end
        beta = (kB*temp);
-       prob = transition_probability( spinConfig, newSpinConfig, hamiltonian, hamiltonianParams, beta, 1, 'Metropolis');
+       deltaH = newEnergy - energy;
+       if deltaH <= 0
+           prob = 1;
+       else
+           prob = 1 * exp(-deltaH * beta);
+       end
+       
        if prob >= rand(1)
            spinConfig = newSpinConfig;
            energy = newEnergy;
@@ -30,8 +46,8 @@ while iterations > 0;
     %disp(energies)
     configs{iterations} = spinConfig;
     %disp(configs)
-    disp(energy)
-    disp(iterations)
+    %disp(energy)
+    %disp(iterations)
     iterations = iterations - 1;
 end
 
