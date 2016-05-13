@@ -1,4 +1,4 @@
-function [ out ] = Conf_energy(spin_conf, HParams, PT)
+function [ out ] = Conf_energy(spin_conf, HParams)
     
     % Number of spins/config
     n = length(spin_conf);
