@@ -1,11 +1,11 @@
 %Parameters
 conn_density = 1;
-n_qubits = 50;
+n_qubits = 20;
 h_range = [-1,1];
 J_range = [-1,1];
 initialTemp = 1e25;
 tempStep = 1e22;
-iterations = 5;
+iterations = 1;
 
 %Generate couplings 
 h = random_coef([n_qubits], 1, h_range, 0, conn_density);
@@ -17,6 +17,7 @@ Jzz = []; % Couplings turned off
 Jxxx = []; % Couplings turned off
 
 %randHam = ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx);
+%randHam = [];
 Hparams = {h, Jzz, Jxx, Jzzz, Jxxx};
 
 fast = true;
@@ -24,4 +25,4 @@ simulatedAnnealing(randHam, Hparams, initialTemp,...
     tempStep, iterations, fast, n_qubits)
 %fast = false;
 %simulatedAnnealing(randHam, Hparams, initialTemp,...
-%    tempStep, iterations, fast)
+%    tempStep, iterations, fast, n_qubits)
