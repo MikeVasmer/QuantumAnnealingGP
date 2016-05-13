@@ -1,0 +1,27 @@
+function [ out ] = Ham_d1(Multi_spins, HParams, P, T, G)
+    
+    n = length(Multi_spins(1,:))
+    
+    % This term dictates the coupling energy between slices
+    J_orth = -(P*T/2)*log(tanh(G/(P*T)))
+    
+    
+    Int_sli_tot = 0
+    
+    % Need to calculate energy contribution for intra-slice coupling :(
+    for i = 1:P
+        Slice_en = Conf_energy(Multi_spins(i,:), HParams, P*T)
+        if i ~= P
+            for j = 1:n
+                spin_term = Multi_spins(i,j)*Multi_spins(i+1,j)
+                Slice_en = Slice_en + (J_orth)*Multi_spins(i,j)*Multi_spins(i+1,j)
+            end
+        else
+            spin_term = Multi_spins(i,j)*Multi_spins(1,j)
+            Slice_en = Slice_en + (J_orth)*Multi_spins(i,j)*Multi_spins(1,j)
+        end
+        Int_sli_tot = Int_sli_tot + Slice_en    
+    end
+    
+    out = Int_sli_tot
+    
