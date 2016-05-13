@@ -1,5 +1,5 @@
-spin = generate_spins(6, 6)
-h = random_coef([6], 1, [0.5,0.5], 0, 1)
+spin = generate_spins(20, 20)
+h = random_coef([20], 1, [0,0], 0, 1)
 % spin_2 = transpose(generate_spins(10, 9))
 
 length(h)
@@ -11,7 +11,7 @@ length(h)
 % spin_confs = repmat(spin, 3, 1)
 
 % x = spin_confs(1)
-Jzz = random_coef( [6,6],  1, [1,1], 0, 1)
+Jzz = random_coef( [20,20],  1, [1,1], 0, 1)
 Jxx = 0
 Jzzz = 0
 Jxxx = 0
@@ -40,5 +40,5 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx}
 % length(h)
 
 
-piqmc(spin, HParams, 200, 10, 10, 20, 1)
+piqmc(spin, HParams, 20, 10, 10, 20, 1)
 

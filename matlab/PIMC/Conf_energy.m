@@ -5,10 +5,10 @@ function [ out ] = Conf_energy(spin_conf, HParams)
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
     h_tot = 0;
-    Jzz_tot = 0
-    Jxx_tot = 0
-    Jzzz_tot = 0
-    Jxxx_tot = 0
+    Jzz_tot = 0;
+    Jxx_tot = 0;
+    Jzzz_tot = 0;
+    Jxxx_tot = 0;
     
 %     % Find h energy terms
 %     for i = 1:length(h)
@@ -30,23 +30,23 @@ function [ out ] = Conf_energy(spin_conf, HParams)
 %     end
     
     % Find Jzzz en terms
-    for i = 1:n
-        if length(h) > 1        
-            h_tot = h_tot + h(i)*spin_conf(i)
+    for i = 1:n;
+        if length(h) > 1;
+            h_tot = h_tot + h(i)*spin_conf(i);
         end
-        for j = i+1:n
-            if length(Jzz) > 1
-                Jzz_tot = Jzz_tot + Jzz(i,j)*spin_conf(i)*spin_conf(j)
+        for j = i+1:n;
+            if length(Jzz) > 1;
+                Jzz_tot = Jzz_tot + Jzz(i,j)*spin_conf(i)*spin_conf(j);
             end           
-            if length(Jxx) > 1
-                Jxx_tot = Jxx_tot + Jxx(i,j)*spin_conf(i)*spin_conf(j)
+            if length(Jxx) > 1;
+                Jxx_tot = Jxx_tot + Jxx(i,j)*spin_conf(i)*spin_conf(j);
             end
-            for k = j+1:n
-                if length(Jzzz) > 1
-                    Jzzz_tot = Jzzz_tot + Jzzz(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k)
+            for k = j+1:n;
+                if length(Jzzz) > 1;
+                    Jzzz_tot = Jzzz_tot + Jzzz(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
                 end
-                if length(Jxxx) > 1
-                    Jxxx_tot = Jxxx_tot + Jxxx(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k)
+                if length(Jxxx) > 1;
+                    Jxxx_tot = Jxxx_tot + Jxxx(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
                 end
             end
         end
@@ -55,7 +55,7 @@ function [ out ] = Conf_energy(spin_conf, HParams)
     
  
     
-    out = h_tot + Jzz_tot + Jxx_tot + Jzzz_tot + Jxxx_tot
+    out = h_tot + Jzz_tot + Jxx_tot + Jzzz_tot + Jxxx_tot;
         
         
         
