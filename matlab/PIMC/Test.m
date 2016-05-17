@@ -1,5 +1,5 @@
-spin = generate_spins(20, 20)
-h = random_coef([20], 1, [0,0], 0, 1)
+spin = generate_spins(10, 10)
+h = random_coef([10], 1, [0,0], 0, 1)
 % spin_2 = transpose(generate_spins(10, 9))
 
 length(h)
@@ -11,12 +11,15 @@ length(h)
 % spin_confs = repmat(spin, 3, 1)
 
 % x = spin_confs(1)
-Jzz = random_coef( [20,20],  1, [1,1], 0, 1)
-Jxx = 0
-Jzzz = 0
-Jxxx = 0
+% Jzz = random_coef([20,20],  1, [1,1], 0, 0.1)
+Jzz = NN_couplings(10, 1)
+Jxx = []
+Jzzz = []
+Jxxx = []
 
 HParams = {h, Jzz, Jxx, Jzzz, Jxxx}
+
+
 % 
 % Ham = ising_hamiltonian(h, Jzz, 0, 0, 0);
 % 
@@ -40,5 +43,5 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx}
 % length(h)
 
 
-piqmc(spin, HParams, 20, 10, 10, 20, 1)
+piqmc(spin, HParams, 50, 20, 10, 0.01, 1)
 

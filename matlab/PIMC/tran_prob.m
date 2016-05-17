@@ -1,6 +1,6 @@
-function [ probability ] = tran_prob(new_spins, old_spins, HParams, P, T, G)
+function [ probability ] = tran_prob(new_spins, old_spins, energyFunction, P, T, G)
     
-    delta_H = Ham_d1(new_spins, HParams, P, T, G) - Ham_d1(old_spins, HParams, P, T, G);
+    delta_H = Ham_d1(new_spins, energyFunction, P, T, G) - Ham_d1(old_spins, energyFunction, P, T, G);
     
     probability = 0;
     
