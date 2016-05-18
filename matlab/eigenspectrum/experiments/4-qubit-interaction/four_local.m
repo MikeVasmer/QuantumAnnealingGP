@@ -1,9 +1,12 @@
-function [] = four_local()
+function [out] = four_local()
+
+    % Add main directory to path
+    addpath('../../');
 
     % Pauli matrices
     sigmaZ = [[1, 0] ;[ 0,-1]];
     
-    J_N = 0.25;    % Free
+    J_N = 1;    % Free
     
     % 4-local Hamiltian
     H_4 = J_N*kron(sigmaZ,kron(sigmaZ,kron(sigmaZ,sigmaZ)));
@@ -20,8 +23,7 @@ function [] = four_local()
     disp(strcat('Minimum gap (4 qubit system):', num2str(minimum_gap(eigenvalues))))
 
     disp('Eigenvalues of 4 qubit system')
-    unique(eig(H_4))'
-
+    out = eig(H_4);
 
 end
 
