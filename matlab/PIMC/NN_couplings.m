@@ -6,4 +6,4 @@ function [out] = NN_couplings(n, val)
             J_mat(i,i+1) = val;
     end
     
-    out = J_mat;
+    out = J_mat + J_mat';

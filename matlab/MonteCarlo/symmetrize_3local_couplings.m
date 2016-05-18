@@ -6,8 +6,8 @@ sizeJzzz = size(Jzzz);
 Mout = Jzzz;
 
 % Pairwise terms to zero
-for i = 1:sizeJzzz(3)
-    for j = 1:sizeJzzz(3)
+for i = 1:sizeJzzz(1)
+    for j = 1:sizeJzzz(2)
         for k = 1:sizeJzzz(3)
             if i == j || j == k || i == k
                 Mout(i,j,k) = 0;

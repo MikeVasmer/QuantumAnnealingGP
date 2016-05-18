@@ -1,11 +1,11 @@
-function [ p ] = transition_probability( oldspin, newspin, H, Hparams, beta, Gamma, Monty)
+function [ p ] = transition_probability( oldspin, newspin, Hparams, beta, Gamma, Monty)
 %TRANSITION_PROBABILITY Calculates transition probability between two spins
 %for some hamiltonian at a temperature T.
 
 switch Monty
     case 'Metropolis'
 
-        deltaH = evaluate_energy(newspin, H) - evaluate_energy(oldspin, H); 
+        deltaH = Conf_energy(newspin, Hparams) - Conf_energy(oldspin, Hparams); 
 
         if deltaH <= 0
             p = Gamma;
