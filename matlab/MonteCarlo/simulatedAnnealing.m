@@ -1,58 +1,30 @@
-function[ solution ] = simulatedAnnealing(hamiltonian, hamiltonianParams, initialTemp,...
-    tempStep, iterations, fast, nSpins)
+function[ solution ] = simulatedAnnealing(hamParams, spinConfig, initialTemp,...
+    tempStep, stepSize)
 %SIMULATED ANNEALING Runs the Simulated Annealing Algorithm on a
 %Hamiltonian
 
-%Initialise the energy and configuration arrays
-energies = zeros(1,iterations);
-configs = cell(1,iterations);
+temp = initialTemp;
+kB = 1.38064852e-23;
 
-%Compute the energy function
-%energyFunction = buildEnergyFunction(hamiltonianParams{1},hamiltonianParams{2},hamiltonianParams{4});
-
-%Run the algorithm for a user-specified number of iterations
-while iterations > 0;
-    spinConfig = generate_spins(nSpins,1);
-    temp = initialTemp;
-    kB = 1.38064852e-23;
-    if ~fast
-        energy = evaluate_energy(spinConfig, hamiltonian);
-    else
-        energy = Conf_energy(spinConfig, hamiltonianParams);
-    end
-    %Perform metropolis steps whilst lowering the temperature linearly
-    while temp > 0
-       newSpinConfig = flip_spin(spinConfig,1); 
-       if ~fast
-           newEnergy = evaluate_energy(newSpinConfig, hamiltonian);
-       else
-           newEnergy = Conf_energy(newSpinConfig,hamiltonianParams);
-       end
-       beta = (kB*temp);
-       deltaH = newEnergy - energy;
-       if deltaH <= 0
-           prob = 1;
-       else
-           prob = 1 * exp(-deltaH * beta);
-       end
-       
-       if prob >= rand(1)
-           spinConfig = newSpinConfig;
-           energy = newEnergy;
-       end
-       temp = temp - tempStep;
-    end
-    energies(1,iterations) = energy;
-    %disp(energies)
-    configs{iterations} = spinConfig;
-    %disp(configs)
-    %disp(energy)
-    %disp(iterations)
-    iterations = iterations - 1;
+energy = Conf_energy(spinConfig, hamParams);
+%Perform metropolis steps whilst lowering the temperature linearly
+while temp > 0
+   newSpinConfig = flip_spin(spinConfig, stepSize); 
+   newEnergy = Conf_energy(newSpinConfig, hamParams);
+   beta = (kB * temp);
+   deltaH = newEnergy - energy;
+   if deltaH <= 0
+       prob = 1;
+   else
+       prob = 1 * exp(-deltaH * beta);
+   end
+   if prob >= rand(1)
+       spinConfig = newSpinConfig;
+       energy = newEnergy;
+   end
+   temp = temp - tempStep;
 end
 
-%Find the best solution
-[energy, index] = min(energies);
-solution = {energy, configs{index}};
+solution = {energy, spinConfig};
 
 end
