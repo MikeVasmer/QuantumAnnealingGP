@@ -1,7 +1,9 @@
-function [] = four_local( J_N, q_0, J_a, steps )
+function [] = four_local()
 
     % Pauli matrices
     sigmaZ = [[1, 0] ;[ 0,-1]];
+    
+    J_N = 0.25;    % Free
     
     % 4-local Hamiltian
     H_4 = J_N*kron(sigmaZ,kron(sigmaZ,kron(sigmaZ,sigmaZ)));
@@ -10,7 +12,7 @@ function [] = four_local( J_N, q_0, J_a, steps )
     eigenvalues = ...
     eigenspectrum(  transverse_hamiltonian(4),...            % Starting (transverse) Hamiltonian
                     H_4, ...                                 % Finishing (Ising) Hamiltonian
-                    steps);                                  % Steps
+                    51);                                  % Steps
 
     % Plot eigenspectrum ('2' means both plots)
     plot_eigenspectrum(eigenvalues, 2);

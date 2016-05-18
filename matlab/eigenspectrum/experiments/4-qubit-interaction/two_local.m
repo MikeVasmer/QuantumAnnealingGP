@@ -1,4 +1,4 @@
-function [] = two_local( J_N, q_0, J_a, steps )
+function [] = two_local()
 
     % h's and J's
     % Require that:
@@ -9,7 +9,10 @@ function [] = two_local( J_N, q_0, J_a, steps )
     % H_N = J_N Z_1*Z_2*Z_3*Z_4 
     N = 4;      % Fixed
 
-    % Require: |J_N| < q_0 << J_a
+   % Require: |J_N| < q_0 << J_a
+    J_N = 0.25;    % Free
+    q_0 = 0.5;    % Free
+    J_a = 1;  % Free
 
     h_a = zeros(1,N);
     for i = 1:N
@@ -38,15 +41,16 @@ function [] = two_local( J_N, q_0, J_a, steps )
     eigenvalues = ...
     eigenspectrum(  transverse_hamiltonian(8),...                   % Starting (transverse) Hamiltonian
                     ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
-                    steps);                                         % Steps
+                    51);                                            % Steps          
+              
 
     % Plot eigenspectrum ('2' means both plots)
-    plot_eigenspectrum(eigenvalues, 2);
+    %plot_eigenspectrum(eigenvalues, 2);
     % Calculate and display minimum gap
-    disp(strcat('Minimum gap (8 qubit system):', num2str(minimum_gap(eigenvalues))))
+    %disp(strcat('Minimum gap (8 qubit system):', num2str(minimum_gap(eigenvalues))))
 
-    disp('Eigenvalues of 8 qubit system')
-    unique(eig(ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx)))'
+    %disp('Eigenvalues of 8 qubit system')
+    %unique(eig(ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx)))'
 
 end
 
