@@ -24,11 +24,11 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
 %     energyFunction(spin_config(1,:))
     
     
-    for k = 1:monte_steps
-        disp(k)
-        % Reduce the transverse field
-        G = G_start - step_value*(k-1)
-        for i = 1:n;
+    
+        for i = 1:monte_steps;
+            disp(i)
+            % Reduce the transverse field
+            G = G_start - step_value*(i-1)
             % Specify global spin flip indices
             glob_flip_index = randperm(n,step_flips);
             % Perform local flips and evals
@@ -38,7 +38,7 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
                 new_spin_config = spin_config;
                 new_spin_config(j,:) = flip_spin(spin_config(j,:),step_flips);
                 new_total_energy = Ham_d1(new_spin_config, HParams, trotter_slices, Temperature, G);
-                p_t = tran_prob(new_total_energy, total_energy, trotter_slices, Temperature, n, G);
+                p_t = tran_prob(new_total_energy, total_energy, trotter_slices, Temperature);
                 x_1 = rand;
                 if x_1 <= p_t;
                     spin_config = new_spin_config;
@@ -53,19 +53,18 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
                 end
             end
             new_glob_energy = Ham_d1(glob_spin_config, HParams, trotter_slices, Temperature, G);
-            p_t_g = tran_prob(new_glob_energy, total_energy, trotter_slices, Temperature, n, G);
+            p_t_g = tran_prob(new_glob_energy, total_energy, trotter_slices, Temperature);
             x_g = rand;
             if x_g <= p_t_g;
                 spin_config = glob_spin_config;
             end
         end
-    end
 
-    % Get the conf with min energy
-    energies = zeros([trotter_slices,1]);
-    for i = 1:trotter_slices;
-        energies(i) = Conf_energy(spin_config(i,:),HParams);
-    end
+        % Get the conf with min energy
+        energies = zeros([trotter_slices,1]);
+        for i = 1:trotter_slices;
+            energies(i) = Conf_energy(spin_config(i,:),HParams);
+        end
     
     
     [energy, ind] = min(energies)
