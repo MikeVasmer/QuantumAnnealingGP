@@ -47,12 +47,18 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
 % length(h)
 
 
-[conf, energy] = piqmc(spin, HParams, 100, 20, 1, 0.1, 1)
+[conf_1, energy] = piqmc(spin, HParams, 5, 20, 1, 0.1, 1)
 
 disp(energy)
 energy/499
 
-[conf_2, energy_2] = piqmc(conf, HParams, 100, 20, 1,0.1, 1)
+% conf_1 = transpose(conf_1);
+% 
+% [conf_2, energy_2] = piqmc(conf_1, HParams, 5, 20, 1,0.1, 1)
+% 
+% disp(energy_2)
+% energy/499
+% energy_2/499
 
 
 % gs_eng
