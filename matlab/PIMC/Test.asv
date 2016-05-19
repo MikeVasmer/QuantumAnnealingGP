@@ -1,5 +1,6 @@
-spin = generate_spins(20, 20)
-h = random_coef([20], 1, [0,0], 0, 1)
+spin = generate_spins(500, 500)
+h = random_coef([500], 1, [0,0], 0, 1)
+Jzz = NN_couplings(500, 1)
 % spin_2 = transpose(generate_spins(10, 9))
 
 length(h)
@@ -12,7 +13,7 @@ length(h)
 
 % x = spin_confs(1)
 %Jzz = random_coef([10,10],  1, [-1,1], 0, 0.5);
-Jzz = NN_couplings(20, 1)
+
 Jxx = []
 Jzzz = []
 Jxxx = []
@@ -46,7 +47,10 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
 % length(h)
 
 
-[config, eng] = piqmc(spin, HParams, 1000, 10, 5, 0.05, 1)
+[conf, energy] = piqmc(spin, HParams, 100, 20, 1, 0.1, 1)
+
+disp(energy)
+energy/499
 
 % gs_eng
 % 
