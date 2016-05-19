@@ -29,6 +29,13 @@ sweepsMonty_PT = 1;
 Gamma_PT = 1;
 num_flips_PT = 1;
 
+% Path Integral Quantum Monte Carlo
+monte_steps = 100;
+trotter_slices = 20;
+G_start = 1;
+Temperature = 0.1;
+step_flips = 1;
+
 %% SOLVE
 
 switch SolverType
@@ -46,6 +53,8 @@ switch SolverType
     case 'ParallelTempering'
         solution = ParallelTempering(spinConfig, Hparams, betas_PT, totalRuns_PT, ...
                                         backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);
+    case 'PIQMC'
+        solution = piqmc(spinConfig, Hparams, monte_steps, trotter_slices, G_start, Temperature, step_flips);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 
