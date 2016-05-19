@@ -29,14 +29,19 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
         % Reduce the transverse field
         G = G_start - step_value*(k-1)
         for i = 1:n;
-            % Specify global spin flip indices
-            glob_flip_index = randperm(n,step_flips);
+            
             % Perform local flips and evals
             total_energy
             for j = 1:trotter_slices;
                 % Create variables to store new energy and configuration
                 new_spin_config = spin_config;
+                
+                %flip local spin
                 new_spin_config(j,:) = flip_spin(spin_config(j,:),step_flips);
+%                 %flip global spin
+%                 for h = 1:length(glob_flip_index)
+%                     new_spin_config(:,glob_flip_index(h)) = -new_spin_config(:,glob_flip_index(h));
+%                 end
                 new_total_energy = Ham_d1(new_spin_config, HParams, trotter_slices, Temperature, G);
                 p_t = tran_prob(new_total_energy, total_energy, trotter_slices, Temperature, n, G);
                 x_1 = rand;
@@ -45,7 +50,8 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
                     total_energy = new_total_energy;
                 end
             end
-            % Perform global spin flips and evals 
+            glob_flip_index = randperm(n,step_flips);
+            % Perform global spin flips and evals
             glob_spin_config = spin_config;
             for j = 1:trotter_slices;
                 for k = 1:length(glob_flip_index);
