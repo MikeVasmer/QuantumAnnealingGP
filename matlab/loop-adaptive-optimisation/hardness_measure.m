@@ -1,12 +1,15 @@
-function [ out ] = hardness_measure( type, instance )
+function [ out ] = hardness_measure( type, J, gs_energy )
 
     switch type
-        case 0 % Simulated annealing - TTS
+        case 'SA' % Simulated annealing - TTS
             out = rand();
-        case 1 % Path integral Monte Carlo - TTS
+        case 'PIMC' % Path integral Monte Carlo - TTS
             out = rand();
-        case 2 % Q-distribution - Gaussian integral?
+        case 'Q' % Q-distribution - Gaussian integral?
             out = rand();
+        otherwise
+            disp('Invalid hardness type.')
+            out = 0;
     end
 
 end
