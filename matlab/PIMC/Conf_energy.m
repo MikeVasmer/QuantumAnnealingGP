@@ -30,7 +30,7 @@ function [ out ] = Conf_energy(spin_conf, HParams)
 %     end
     
     % Find Jzzz en terms
-    for i = 1:n;
+    parfor i = 1:n;
         if length(h) > 1;
             h_tot = h_tot + h(i)*spin_conf(i);
         end
