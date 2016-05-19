@@ -31,7 +31,7 @@ num_flips_PT = 1;
 
 % Path Integral Quantum Monte Carlo
 monte_steps = 100;
-trotter_slices = 20;
+trotter_slices = 25;
 G_start = 1;
 Temperature = 0.1;
 step_flips = 1;
