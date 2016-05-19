@@ -16,4 +16,14 @@ Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
 
 spinConfig = generate_spins(n_qubits, disorder);
 
-solution = Solver(spinConfig, Hparams, 'ParallelTempering');
+solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
+solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
+solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
+solutionPT = Solver(spinConfig, Hparams, 'ParallelTempering');
+
+disp(solutionMet{1})
+disp(solutionHB{1})
+disp(solutionSA{1})
+disp(solutionPT{1})
+
+
