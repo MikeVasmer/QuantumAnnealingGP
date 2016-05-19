@@ -17,6 +17,7 @@ for step=1:iterations
     newEnergy = Conf_energy(newSpinConfig, hamParams);
     beta = 1/(kB * temp);
     deltaH = newEnergy - energy;
+    %deltaH = energyChange(newSpinConfig);
     if deltaH <= 0
         prob = 1;
     else
