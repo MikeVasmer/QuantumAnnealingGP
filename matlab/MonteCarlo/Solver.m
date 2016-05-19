@@ -15,6 +15,14 @@ beta_HB = 10000;
 timesteps_HB = 1000;
 Gamma_HB = 1;
 
+% ParallelTempering
+betas_PT = [1,10, 1000, 10000, 100000];
+totalRuns_PT = 100;
+backendMonty_PT = 'Metropolis';
+sweepsMonty_PT = 1;
+Gamma_PT = 1;
+num_flips_PT = 1;
+
 %% SOLVE
 
 switch SolverType
@@ -26,6 +34,9 @@ switch SolverType
         solution_config = HeatBath(spinConfig, Hparams, beta_HB, timesteps_HB, Gamma_HB);
         solution_energy = Conf_energy(solution_config, Hparams);
         solution = {solution_energy, solution_config};
+    case 'ParallelTempering'
+        solution = ParallelTempering(spinConfig, Hparams, betas_PT, totalRuns_PT, ...
+                                        backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 
