@@ -1,4 +1,4 @@
-function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, G_start, Temperature, step_flips)
+function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, G_start, Temperature, step_flips)
     
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
@@ -26,7 +26,7 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     
     
     for k = 1:monte_steps
-        disp(k)
+        disp(k);
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
         for i = 1:n;
@@ -87,7 +87,8 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     [energy, ind] = min(energies);
     spin_config;
     energies;
-    conf = spin_config(ind,:);
+    conf = transpose(spin_config(ind,:));
+    solution = {energy, conf};
 end
         
             
