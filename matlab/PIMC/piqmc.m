@@ -84,10 +84,10 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     end
     
     
-    [energy, ind] = min(energies)
-    spin_config
-    energies
-    conf = spin_config(ind,:)
+    [energy, ind] = min(energies);
+    spin_config;
+    energies;
+    conf = spin_config(ind,:);
 end
         
             
