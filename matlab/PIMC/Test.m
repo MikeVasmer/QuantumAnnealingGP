@@ -46,7 +46,7 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
 % length(h)
 
 
-[config, eng] = piqmc(spin, HParams, 20, 10, 1, 0.1, 1)
+[config, eng] = piqmc(spin, HParams, 20, 10, 2, 0.15, 1)
 
 % gs_eng
 % 
