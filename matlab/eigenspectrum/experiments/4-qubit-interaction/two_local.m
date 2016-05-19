@@ -1,4 +1,7 @@
-function [] = two_local( J_N, q_0, J_a, steps )
+function [out] = two_local()
+
+    % Add main directory to path
+    addpath('../../');
 
     % h's and J's
     % Require that:
@@ -9,7 +12,10 @@ function [] = two_local( J_N, q_0, J_a, steps )
     % H_N = J_N Z_1*Z_2*Z_3*Z_4 
     N = 4;      % Fixed
 
-    % Require: |J_N| < q_0 << J_a
+   % Require: |J_N| < q_0 << J_a
+    J_N = 1;    % Free
+    q_0 = 2;    % Free
+    J_a = 4;    % Free
 
     h_a = zeros(1,N);
     for i = 1:N
@@ -38,7 +44,8 @@ function [] = two_local( J_N, q_0, J_a, steps )
     eigenvalues = ...
     eigenspectrum(  transverse_hamiltonian(8),...                   % Starting (transverse) Hamiltonian
                     ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
-                    steps);                                         % Steps
+                    51);                                            % Steps          
+              
 
     % Plot eigenspectrum ('2' means both plots)
     plot_eigenspectrum(eigenvalues, 2);
@@ -46,7 +53,8 @@ function [] = two_local( J_N, q_0, J_a, steps )
     disp(strcat('Minimum gap (8 qubit system):', num2str(minimum_gap(eigenvalues))))
 
     disp('Eigenvalues of 8 qubit system')
-    unique(eig(ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx)))'
+    sub_out = eig(ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx));
+    out = sort(sub_out - min(sub_out) - J_N, 'descend');
 
 end
 
