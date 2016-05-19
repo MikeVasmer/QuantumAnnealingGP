@@ -1,4 +1,4 @@
-function [ out ] = Ham_d1(Multi_spins, energyFunction, P, T, G)
+function [ out ] = Ham_d1(Multi_spins, HParams, P, T, G)
     
     n = length(Multi_spins(1,:));
     
@@ -9,7 +9,7 @@ function [ out ] = Ham_d1(Multi_spins, energyFunction, P, T, G)
     Int_sli_tot = 0;
     % Need to calculate energy contribution for intra-slice coupling :(
     for i = 1:P;
-        Slice_en = Conf_energy(Multi_spins(i,:), energyFunction);
+        Slice_en = Conf_energy(Multi_spins(i,:), HParams);
 %         Slice_en = energyFunction(Multi_spins(i,:));
         if i ~= P;
 %             disp('slice number');
