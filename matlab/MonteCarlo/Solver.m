@@ -16,8 +16,8 @@ timesteps_HB = 1000;
 Gamma_HB = 1;
 
 % ParallelTempering
-betas_PT = [1,10, 1000, 10000, 100000];
-totalRuns_PT = 100;
+betas_PT = choose_betas_PT(1e5, 1e20, 10);
+totalRuns_PT = 1000;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;
 Gamma_PT = 1;
