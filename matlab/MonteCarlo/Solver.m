@@ -21,6 +21,14 @@ spinStepSize = 1;
 iterations = 1000;
 scheduleType = 'exponential';
 
+% ParallelTempering
+betas_PT = [1,10, 1000, 10000, 100000];
+totalRuns_PT = 100;
+backendMonty_PT = 'Metropolis';
+sweepsMonty_PT = 1;
+Gamma_PT = 1;
+num_flips_PT = 1;
+
 %% SOLVE
 
 switch SolverType
@@ -35,6 +43,9 @@ switch SolverType
     case 'SimulatedAnnealing'
         solution = simulatedAnnealing(Hparams, spinConfig, initialTemp,...
             spinStepSize, iterations, scheduleType);
+    case 'ParallelTempering'
+        solution = ParallelTempering(spinConfig, Hparams, betas_PT, totalRuns_PT, ...
+                                        backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 
