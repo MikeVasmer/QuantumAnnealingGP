@@ -15,6 +15,12 @@ beta_HB = 10000;
 timesteps_HB = 1000;
 Gamma_HB = 1;
 
+%Simulated Annealing
+initialTemp = 1e30;
+spinStepSize = 1;
+iterations = 1000;
+scheduleType = 'exponential';
+
 %% SOLVE
 
 switch SolverType
@@ -26,6 +32,9 @@ switch SolverType
         solution_config = HeatBath(spinConfig, Hparams, beta_HB, timesteps_HB, Gamma_HB);
         solution_energy = Conf_energy(solution_config, Hparams);
         solution = {solution_energy, solution_config};
+    case 'SimulatedAnnealing'
+        solution = simulatedAnnealing(Hparams, spinConfig, initialTemp,...
+            spinStepSize, iterations, scheduleType);
     otherwise
         disp('Enter valid Monte Carlo Algorithm')
 

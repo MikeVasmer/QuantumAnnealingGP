@@ -3,7 +3,7 @@ clearvars
 
 num_runs = 100;
 qs = zeros([num_runs, 1]);
-n_qubits = 5;
+n_qubits = 100;
 conn_density = 0.5;
 h_range = [-1, 1];
 J_range = [-1, 1];
@@ -17,4 +17,9 @@ Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
 
 spinConfig = generate_spins(n_qubits, disorder);
 
-solution = Solver(spinConfig, Hparams, 'Metropolis');
+solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
+%solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
+solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
+disp(solutionMet{1})
+%disp(solutionHB{1})
+disp(solutionSA{1})
