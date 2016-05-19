@@ -1,7 +1,7 @@
 function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_slices, J_orth, slice, h, Jzz, Jzzz)
 
     ediff = 0;
-
+    n = length(new_spin_config(1,:));
     
     for spin_index = 1:length(indices_to_flip);
         ediff = ediff+ -2.0*h(indices_to_flip(spin_index))*new_spin_config(slice,indices_to_flip(spin_index));
@@ -34,7 +34,7 @@ function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_sli
         left = trotter_slices - 1;
         right = 1;
     else
-        left == slice - 1;
+        left = slice - 1;
         right = slice +1;
     end
     for spin_index = 1:length(indices_to_flip);

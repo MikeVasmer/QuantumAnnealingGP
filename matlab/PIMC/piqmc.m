@@ -16,8 +16,8 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     n = length(spin_start);
     
     G = G_start;
-    P = trotter_slices
-    T = Temperature
+    P = trotter_slices;
+    T = Temperature;
     step_value = (G_start - (0.00000001))/monte_steps;
     
 %     energyFunction = buildEnergyFunction(h, Jzz, Jzzz)
@@ -28,7 +28,7 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     for k = 1:monte_steps
         disp(k)
         % Reduce the transverse field
-        G = G_start - step_value*(k-1)
+        G = G_start - step_value*(k-1);
         for i = 1:n;
             
             % Perform local flips and evals
@@ -42,40 +42,16 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
                 for flip = 1:length(indices_to_flip);
                     new_spin_config(slice,indices_to_flip(flip)) = -new_spin_config(slice,indices_to_flip(flip));
                 end
-                ediff = 0;
-                for spin_index = 1:length(indices_to_flip);
-                    ediff = ediff+ -2.0*h(indices_to_flip(spin_index))*new_spin_config(slice,indices_to_flip(spin_index));
-                end
-                for spin_index = 1:length(indices_to_flip);
-                    for neib = 1:n;
-                        if neib ~= indices_to_flip(spin_index)
-                            ediff = ediff + -2.0*Jzz(indices_to_flip(spin_index), neib)*new_spin_config(slice,indices_to_flip(spin_index))*new_spin_config(slice,neib);
-                        end
-                    end
-                end
-                if slice == 1;
-                    left = trotter_slices;
-                    right = 2;
-                elseif slice == trotter_slices;
-                    left = trotter_slices - 1;
-                    right = 1;
-                else
-                    left == slice - 1;
-                    right = slice +1;
-                end
-                for spin_index = 1:length(indices_to_flip);
-                    ediff = ediff + -2.0*J_orth*new_spin_config(slice, indices_to_flip(spin_index))*new_spin_config(left, indices_to_flip(spin_index));
-                    ediff = ediff + -2.0*J_orth*new_spin_config(slice, indices_to_flip(spin_index))*new_spin_config(right, indices_to_flip(spin_index));
-                end
-                ediff;
-                
+%               
+%               Calculate Energy Change
+                ediff = energyChange(new_spin_config, indices_to_flip, trotter_slices, J_orth, slice, h, Jzz, Jzzz);
                 p_t = tran_prob(0,0,ediff, trotter_slices, Temperature, n, G);
                 x_1 = rand;
                 if x_1 <= p_t;
                     spin_config = new_spin_config;
 %                     total_energy = Ham_d1(spin_config, HParams, trotter_slices, Temperature, G);
                 end
-                ediff = 0;
+                
 %            
                 
             end
