@@ -5,18 +5,19 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     start_spin_config = repmat(transpose(spin_start), trotter_slices, 1);
     
     % Calculate the initial energy
-    start_eng = Ham_d1(start_spin_config, HParams, trotter_slices, Temperature, G_start);
+    %start_eng = Ham_d1(start_spin_config, HParams, trotter_slices, Temperature, G_start);
     
     % Create updated variables of instantaneous spin config and total
     % energy
     spin_config = start_spin_config;
     
-    total_energy = start_eng;
+    %total_energy = start_eng;
     
     n = length(spin_start);
     
     G = G_start;
-    
+    P = trotter_slices;
+    T = Temperature;
     step_value = (G_start - (0.00000001))/monte_steps;
     
 %     energyFunction = buildEnergyFunction(h, Jzz, Jzzz)
@@ -27,43 +28,47 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     for k = 1:monte_steps
         disp(k)
         % Reduce the transverse field
-        G = G_start - step_value*(k-1)
+        G = G_start - step_value*(k-1);
         for i = 1:n;
             
             % Perform local flips and evals
-            total_energy
-            for j = 1:trotter_slices;
+            %total_energy;
+            J_orth = -(P*T/2)*log(tanh(G/(P*T)));
+            for slice = 1:trotter_slices;
                 % Create variables to store new energy and configuration
                 new_spin_config = spin_config;
-                
+                indices_to_flip = randperm(n, step_flips).';
                 %flip local spin
-                new_spin_config(j,:) = flip_spin(spin_config(j,:),step_flips);
-%                 %flip global spin
-%                 for h = 1:length(glob_flip_index)
-%                     new_spin_config(:,glob_flip_index(h)) = -new_spin_config(:,glob_flip_index(h));
-%                 end
-                new_total_energy = Ham_d1(new_spin_config, HParams, trotter_slices, Temperature, G);
-                p_t = tran_prob(new_total_energy, total_energy, trotter_slices, Temperature, n, G);
+                for flip = 1:length(indices_to_flip);
+                    new_spin_config(slice,indices_to_flip(flip)) = -new_spin_config(slice,indices_to_flip(flip));
+                end
+%               
+%               Calculate Energy Change
+                ediff = energyChange(new_spin_config, indices_to_flip, trotter_slices, J_orth, slice, h, Jzz, Jzzz);
+                p_t = tran_prob(0,0,ediff, trotter_slices, Temperature, n, G);
                 x_1 = rand;
                 if x_1 <= p_t;
                     spin_config = new_spin_config;
-                    total_energy = new_total_energy;
+%                     total_energy = Ham_d1(spin_config, HParams, trotter_slices, Temperature, G);
                 end
+                
+%            
+                
             end
-            glob_flip_index = randperm(n,step_flips);
-            % Perform global spin flips and evals
-            glob_spin_config = spin_config;
-            for j = 1:trotter_slices;
-                for k = 1:length(glob_flip_index);
-                    glob_spin_config(j,glob_flip_index(k)) = -glob_spin_config(j,glob_flip_index(k));
-                end
-            end
-            new_glob_energy = Ham_d1(glob_spin_config, HParams, trotter_slices, Temperature, G);
-            p_t_g = tran_prob(new_glob_energy, total_energy, trotter_slices, Temperature, n, G);
-            x_g = rand;
-            if x_g <= p_t_g;
-                spin_config = glob_spin_config;
-            end
+%             glob_flip_index = randperm(n,step_flips);
+%             % Perform global spin flips and evals
+%             glob_spin_config = spin_config;
+%             for slice = 1:trotter_slices;
+%                 for k = 1:length(glob_flip_index);
+%                     glob_spin_config(slice,glob_flip_index(k)) = -glob_spin_config(slice,glob_flip_index(k));
+%                 end
+%             end
+%             new_glob_energy = Ham_d1(glob_spin_config, HParams, trotter_slices, Temperature, G);
+%             p_t_g = tran_prob(new_glob_energy, total_energy,0, trotter_slices, Temperature, n, G);
+%             x_g = rand;
+%             if x_g <= p_t_g;
+%                 spin_config = glob_spin_config;
+%             end
         end
     end
 
