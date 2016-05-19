@@ -27,6 +27,13 @@ sweepsMonty_PT = 1;
 Gamma_PT = 1;
 num_flips_PT = 1;
 
+% Path Integral Quantum Monte Carlo
+monte_steps = 100;
+trotter_slices = 20;
+G_start = 1;
+Temperature = 0.1;
+step_flips = 1;
+
 qs = zeros([num_runs, 1]);
 
 for run=1:num_runs
@@ -52,7 +59,12 @@ for run=1:num_runs
             spins1 = solution{2};
             solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA,...
                          spinStepSize_SA, iterations_SA, scheduleType_SA);
-            spins2 = solution{2};        
+            spins2 = solution{2};
+        case 'PIQMC'
+            solution = piqmc(spins1, Hparams, monte_steps, trotter_slices, G_start, Temperature, step_flips);
+            spins1 = solution{2};
+            solution = piqmc(spins2, Hparams, monte_steps, trotter_slices, G_start, Temperature, step_flips);
+            spins2 = solution{2};
         otherwise 
             disp('Invalid algorithm name');
     end

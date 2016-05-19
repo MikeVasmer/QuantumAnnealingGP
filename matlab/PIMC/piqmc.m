@@ -1,4 +1,4 @@
-function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, G_start, Temperature, step_flips)
+function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, G_start, Temperature, step_flips)
     
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
@@ -26,7 +26,7 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     
     
     for k = 1:monte_steps
-        disp(k)
+        disp(k);
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
         for i = 1:n;
@@ -52,24 +52,29 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
 %                     total_energy = Ham_d1(spin_config, HParams, trotter_slices, Temperature, G);
                 end
                 
-%            
                 
+%            
+            
             end
-%             glob_flip_index = randperm(n,step_flips);
-%             % Perform global spin flips and evals
-%             glob_spin_config = spin_config;
-%             for slice = 1:trotter_slices;
-%                 for k = 1:length(glob_flip_index);
-%                     glob_spin_config(slice,glob_flip_index(k)) = -glob_spin_config(slice,glob_flip_index(k));
-%                 end
-%             end
+            
+            glob_flip_index = randperm(n,step_flips);
+            % Perform global spin flips and evals
+            glob_spin_config = spin_config;
+            glob_energy_dif = 0;
+            for slice = 1:trotter_slices;
+                for k = 1:length(glob_flip_index);
+                    glob_spin_config(slice,glob_flip_index(k)) = -glob_spin_config(slice,glob_flip_index(k));
+                    glob_energy_dif = glob_energy_dif + energyChange(glob_spin_config, glob_flip_index, trotter_slices, J_orth, slice, h, Jzz, Jzzz);
+                end
+            end
 %             new_glob_energy = Ham_d1(glob_spin_config, HParams, trotter_slices, Temperature, G);
-%             p_t_g = tran_prob(new_glob_energy, total_energy,0, trotter_slices, Temperature, n, G);
-%             x_g = rand;
-%             if x_g <= p_t_g;
-%                 spin_config = glob_spin_config;
-%             end
+            p_t_g = tran_prob(0, 0, glob_energy_dif, trotter_slices, Temperature, n, G);
+            x_g = rand;
+            if x_g <= p_t_g;
+                spin_config = glob_spin_config;
+            end
         end
+%         Ham_d1(spin_config,HParams, P,T,G)
     end
 
     % Get the conf with min energy
@@ -79,10 +84,11 @@ function [ conf, energy ] = piqmc(spin_start, HParams, monte_steps, trotter_slic
     end
     
     
-    [energy, ind] = min(energies)
-    spin_config
-    energies
-    conf = spin_config(ind,:)
+    [energy, ind] = min(energies);
+    spin_config;
+    energies;
+    conf = transpose(spin_config(ind,:));
+    solution = {energy, conf};
 end
         
             

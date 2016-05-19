@@ -3,8 +3,10 @@ function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_sli
     ediff = 0;
     n = length(new_spin_config(1,:));
     
-    for spin_index = 1:length(indices_to_flip);
-        ediff = ediff+ -2.0*h(indices_to_flip(spin_index))*new_spin_config(slice,indices_to_flip(spin_index));
+    if ~isempty(h)        
+        for spin_index = 1:length(indices_to_flip);
+            ediff = ediff+ -2.0*h(indices_to_flip(spin_index))*new_spin_config(slice,indices_to_flip(spin_index));
+        end
     end
 
     if isempty(Jzzz)

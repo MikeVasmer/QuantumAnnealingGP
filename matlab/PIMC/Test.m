@@ -1,5 +1,7 @@
-spin = generate_spins(20, 20)
-h = random_coef([20], 1, [0,0], 0, 1)
+spin = generate_spins(100, 50)
+% h = random_coef([], 1, [0,0], 0, 1)
+h = []
+Jzz = NN_couplings(100, 1)
 % spin_2 = transpose(generate_spins(10, 9))
 
 length(h)
@@ -12,7 +14,7 @@ length(h)
 
 % x = spin_confs(1)
 %Jzz = random_coef([10,10],  1, [-1,1], 0, 0.5);
-Jzz = NN_couplings(20, 1)
+
 Jxx = []
 Jzzz = []
 Jxxx = []
@@ -46,7 +48,25 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
 % length(h)
 
 
-piqmc(spin, HParams, 100, 20, 2, 0.15, 1)
+solution = piqmc(spin, HParams, 10, 20, 1, 0.05, 1);
+
+answer = solution{2}
+% 
+% 
+% 
+% disp(energy)
+% energy/99
+
+% plotQHistogram('PIQMC', HParams, 10, 10, 5)
+
+% conf_1 = transpose(conf_1);
+% 
+% [conf_2, energy_2] = piqmc(conf_1, HParams, 5, 20, 1,0.1, 1)
+% 
+% disp(energy_2)
+% energy/499
+% energy_2/499
+
 
 % gs_eng
 % 
