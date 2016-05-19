@@ -7,6 +7,7 @@ function [ Hparams ] = generate_random_2local_hamiltonian( n_qubits, conn_densit
 h = random_coef([n_qubits], 1, h_range, 0, conn_density);
 
 Jzz  = random_coef( [n_qubits,n_qubits],  1, J_range, 0, conn_density );
+Jzz = symmetrize_2local_couplings(Jzz);
 
 Jxx  = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off
