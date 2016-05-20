@@ -1,4 +1,7 @@
-function [J_global] = global_hamiltonian( solution, loops )
+function [J_global, gs_energy] = planted_hamiltonian( solution, loops )
+
+    % Add PIMC/ to path for Conf_energy function
+    addpath('../PIMC/');
 
     % Number of spins
     num_spins = length(solution);
@@ -9,8 +12,6 @@ function [J_global] = global_hamiltonian( solution, loops )
     J_global = zeros(num_spins, num_spins);
     
     % Calculate global couplings
-    disp('Calculating global Hamiltonian...');
-    tic;
     for i = 1:num_loops
         % Calculate local Hamiltonian couplings
         J_local = local_hamiltonian(solution, loops(i,:));
@@ -23,12 +24,6 @@ function [J_global] = global_hamiltonian( solution, loops )
 %                 J_global(j) = J_local(j);
 %             end
 %         end
-
-        % Progress timer
-        if toc > 1
-            disp(strcat(num2str(i),':',num2str(num_loops)));
-            tic;
-        end
     end
     
     % Normalise final J_global
@@ -39,6 +34,16 @@ function [J_global] = global_hamiltonian( solution, loops )
             J_global(j) = -1;
         end
     end
+    
+    % Calculate groundstate energy
+    spin_config = solution;
+    h = zeros(1, num_spins);
+    Jzz  = J_global;
+    Jxx  = 0;
+    Jzzz = 0;
+    Jxxx = 0;
+    hParams = {h, Jzz, Jxx, Jzzz, Jxxx};
+    gs_energy = Conf_energy( spin_config, hParams );
 
 end
 

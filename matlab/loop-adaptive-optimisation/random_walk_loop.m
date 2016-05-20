@@ -11,9 +11,6 @@ function [ out ] = random_walk_loop( adj )
     % Number of nodes
     num_nodes = length(adj);
     
-    % Count number of failed loops
-    fail_count = 0;
-    
     % Until loop is found
     loop_found = false;
     while(~loop_found)
@@ -37,8 +34,6 @@ function [ out ] = random_walk_loop( adj )
             
             % If no valid adjacent nodes, then abort and start over
             if isempty(adj_nodes)
-                fail_count = fail_count + 1;
-                disp(strcat('Loop failed! Starting over... Count: ', num2str(fail_count)));
                 break; 
             end
             
