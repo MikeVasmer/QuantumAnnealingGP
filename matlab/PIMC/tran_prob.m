@@ -14,5 +14,5 @@ function [ probability ] = tran_prob(new_eng, old_eng, delta_H, P, T, n, G)
     if delta_H <= 0;
         probability = 1;
     else
-        probability = (C^(n*P))*exp(delta_H*beta);
+        probability = (C^(n*P))*exp(-delta_H*beta);
     end
