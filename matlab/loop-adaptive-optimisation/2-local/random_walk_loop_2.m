@@ -1,4 +1,4 @@
-function [ out ] = random_walk_loop( adj )
+function [ out ] = random_walk_loop_2( adj )
     % Given an adjacency matrix - defining the coupled nodes
     % Perform a random walk until on creates a loop
     % Cut the tail and return the loop sequence

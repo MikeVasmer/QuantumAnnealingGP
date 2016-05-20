@@ -1,7 +1,7 @@
-function [J_global, gs_energy] = planted_hamiltonian( solution, loops )
+function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
 
     % Add PIMC/ to path for Conf_energy function
-    addpath('../PIMC/');
+    addpath('../../PIMC/');
 
     % Number of spins
     num_spins = length(solution);
@@ -14,7 +14,7 @@ function [J_global, gs_energy] = planted_hamiltonian( solution, loops )
     % Calculate global couplings
     for i = 1:num_loops
         % Calculate local Hamiltonian couplings
-        J_local = local_hamiltonian(solution, loops(i,:));
+        J_local = local_hamiltonian_2(solution, loops(i,:));
         % Update global, by adding them together
         J_global = J_global + J_local;
         % Update global couplings, overwriting values
