@@ -1,6 +1,6 @@
 clearvars
 
-n_qubits = 5;
+n_qubits = 30;
 conn_density = 0.1;
 h_range = [0, 0];
 J_range = [-1, 1];
@@ -13,13 +13,13 @@ Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_
 spinConfig = generate_spins(n_qubits, disorder);
 
 solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
-%solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
+solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
 solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
 solutionPT = Solver(spinConfig, Hparams, 'ParallelTempering');
 solutionPIQMC = Solver(spinConfig, Hparams, 'PIQMC');
 
 disp(solutionMet{1});
-%disp(solutionHB{1});
+disp(solutionHB{1});
 disp(solutionSA{1});
 disp(solutionPT{1});
 disp(solutionPIQMC{1});
