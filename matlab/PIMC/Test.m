@@ -1,26 +1,26 @@
-spin = generate_spins(100, 50)
-% h = random_coef([], 1, [0,0], 0, 1)
+spin = generate_spins(10, 5)
+% % h = random_coef([], 1, [0,0], 0, 1)
 h = []
-Jzz = NN_couplings(100, 1)
-% spin_2 = transpose(generate_spins(10, 9))
-
-length(h)
-
-% fj = [0,1,2,3,4,5,6]
-
-% [M,A] = min(fj)
-
-% spin_confs = repmat(spin, 3, 1)
-
-% x = spin_confs(1)
-%Jzz = random_coef([10,10],  1, [-1,1], 0, 0.5);
-
+Jzz = NN_couplings(10, 1)
+% % spin_2 = transpose(generate_spins(10, 9))
+% 
+% length(h)
+% 
+% % fj = [0,1,2,3,4,5,6]
+% 
+% % [M,A] = min(fj)
+% 
+% % spin_confs = repmat(spin, 3, 1)
+% 
+% % x = spin_confs(1)
+% %Jzz = random_coef([10,10],  1, [-1,1], 0, 0.5);
+% 
 Jxx = []
 Jzzz = []
 Jxxx = []
 
-HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
-
+%HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
+HParams = generate_random_2local_hamiltonian(10,1,[-1,1],[-1,1]);
 % eigvals = eig(Ham_10);
 % gs_eng = min(eig(Ham_10));
 % eigvals(1:100)
@@ -47,10 +47,14 @@ HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
 % 
 % length(h)
 
+% 
+solution = piqmc(spin, HParams, 100, 20, 1, 0.1, 1)
 
-solution = piqmc(spin, HParams, 10, 20, 1, 0.05, 1);
+solution{1}
+solution{2}
 
-answer = solution{2}
+% 
+%answer = solution{2}
 % 
 % 
 % 

@@ -16,6 +16,3 @@ function [ probability ] = tran_prob(new_eng, old_eng, delta_H, P, T, n, G)
     else
         probability = (C^(n*P))*exp(-delta_H*beta);
     end
-    
-    
-    

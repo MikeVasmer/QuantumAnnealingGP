@@ -86,11 +86,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
     [energy, ind] = min(energies);
     spin_config;
-    energies;
+    energies
     conf = transpose(spin_config(ind,:));
     solution = {energy, conf};
 end
-        
-            
-
-    
