@@ -3,10 +3,15 @@ function [ solution ] = Metropolis( spins, Hparams, beta, timesteps, num_flips, 
 spin_config = spins;
 
 for time = 1:timesteps
+    
+    newspins = spin_config;
+    indices_to_flip = randperm(length(spin_config), num_flips).';
+    for i = 1:length(indices_to_flip)
+        flip_index = indices_to_flip(i);
+        newspins(flip_index) = - spin_config(flip_index);
+    end
 
-    newspins = flip_spin(spin_config, num_flips);
-
-    p = transition_probability(spin_config, newspins, Hparams, beta, Gamma, 'Metropolis');
+    p = transition_probability(indices_to_flip, newspins, Hparams, beta, Gamma, 'Metropolis');
     
     x = rand;
        

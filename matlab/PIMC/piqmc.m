@@ -2,7 +2,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
-    start_spin_config = repmat(transpose(spin_start), trotter_slices, 1);
+    start_spin_config = repmat(spin_start, trotter_slices, 1);
     
     % Calculate the initial energy
     %start_eng = Ham_d1(start_spin_config, HParams, trotter_slices, Temperature, G_start);
@@ -24,17 +24,23 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
 %     
 %     energyFunction(spin_config(1,:))
     
-    
+    tic;
     for k = 1:monte_steps
-        disp(k);
+        %disp(k);
+        %sprintf('k=%d',k)
+        if toc > 1
+           disp(strcat(num2str(k),':', num2str(monte_steps)));
+           tic;
+        end
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
         for i = 1:n;
-            
+            %sprintf('i=%d',i)
             % Perform local flips and evals
             %total_energy;
             J_orth = -(P*T/2)*log(tanh(G/(P*T)));
             for slice = 1:trotter_slices;
+                %sprintf('slice=%d',slice)
                 % Create variables to store new energy and configuration
                 new_spin_config = spin_config;
                 indices_to_flip = randperm(n, step_flips).';
@@ -85,8 +91,8 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
     
     [energy, ind] = min(energies);
-    spin_config;
-    energies
-    conf = transpose(spin_config(ind,:));
+    %spin_config;
+    %energies
+    conf = spin_config(ind,:);
     solution = {energy, conf};
 end

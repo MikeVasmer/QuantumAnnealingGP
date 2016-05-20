@@ -1,4 +1,4 @@
-function [J_local] = local_hamiltonian( solution, loop )
+function [J_local] = local_hamiltonian_2( solution, loop )
 
     % Number of spins
     num_spins = length(solution);

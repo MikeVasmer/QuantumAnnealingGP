@@ -5,7 +5,7 @@ function [ local_field ] = calculate_local_field( spin_index, spins, Hparams )
 %% Currently only 3-local Z fields
 
 [h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
-
+spins = transpose(spins);
 local_field = 0;
 
 if h ~= 0
