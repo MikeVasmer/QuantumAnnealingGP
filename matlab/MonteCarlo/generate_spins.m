@@ -13,6 +13,7 @@ my_ones = ones(disorder, 1);
 my_minus_ones=  - ones(n_qubits - disorder, 1);
 
 spins = [my_ones; my_minus_ones];
+spins = transpose(spins);
 
 % shuffle randomly
 spins = spins(randperm(numel(spins)));

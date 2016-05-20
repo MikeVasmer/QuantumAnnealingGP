@@ -6,7 +6,7 @@ function [ solution ] = Solver( spinConfig, Hparams, SolverType )
 
 % Metropolis
 beta_M = 10000;
-timesteps_M = 1000;
+timesteps_M = 10000;
 num_flips_M = 1;
 Gamma_M = 1;
 
@@ -18,7 +18,7 @@ Gamma_HB = 1;
 %Simulated Annealing
 initialTemp_SA = 1e30;
 spinStepSize_SA = 1;
-iterations_SA = 1000;
+iterations_SA = 10000;
 scheduleType_SA = 'exponential';
 
 % ParallelTempering

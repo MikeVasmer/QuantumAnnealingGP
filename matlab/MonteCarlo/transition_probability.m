@@ -4,9 +4,9 @@ function [ p ] = transition_probability( oldspin, newspin, Hparams, beta, Gamma,
 
 switch Monty
     case 'Metropolis'
-
-        deltaH = Conf_energy(newspin, Hparams) - Conf_energy(oldspin, Hparams); 
-
+        [h, Jzz, ~, Jzzz, ~] = deal(Hparams{:});
+        indeces_to_flip = oldspin;
+        deltaH = energyChange(newspin, indeces_to_flip, 1, 1, 1, h, Jzz, Jzzz);
         if deltaH <= 0
             p = Gamma;
         else

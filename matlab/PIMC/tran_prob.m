@@ -11,7 +11,7 @@ function [ probability ] = tran_prob(new_eng, old_eng, delta_H, P, T, n, G)
     beta = 1/(P*T);
     C = sqrt(0.5*sinh((2*G/(P*T))));
     
-    if -delta_H <= 0;
+    if delta_H <= 0;
         probability = 1;
     else
         probability = (C^(n*P))*exp(-delta_H*beta);
