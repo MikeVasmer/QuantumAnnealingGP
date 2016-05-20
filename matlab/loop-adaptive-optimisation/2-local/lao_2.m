@@ -1,7 +1,7 @@
-function [solution, J_global, gs_energy] = loop_adaptive_optimisation(num_spins, num_loops, num_steps)
+function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps)
 
     % Add eigenspectrum directory for just_couplings() function
-    addpath('../eigenspectrum/')
+    addpath('../../eigenspectrum/')
     
     % ** Algorithm **
     % Generate (random) solution
@@ -34,7 +34,7 @@ function [solution, J_global, gs_energy] = loop_adaptive_optimisation(num_spins,
     tic;
     for i = 1:num_loops
         % Generate random walk loop
-        loop = random_walk_loop( adj );
+        loop = random_walk_loop_2( adj );
         % Pad with zeros
         loop = [loop, zeros(1, (num_spins+1)-length(loop))];
         % Add to loop array
@@ -48,14 +48,14 @@ function [solution, J_global, gs_energy] = loop_adaptive_optimisation(num_spins,
     end
     
     % Calculate planted couplings and energies
-    [J_global, gs_energy] = planted_hamiltonian(solution, loops);
+    [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
     
     % Start Optimisation stage
     % Temperature
     beta = 1.0;
     % Calculate hardness of original Ising problem
     hardness_type = 'PIMC';
-    old_hardness = hardness_measure(hardness_type, J_global, gs_energy);
+    old_hardness = hardness_measure_2(hardness_type, J_global, gs_energy);
     
     % Loop for for each step in num_steps
     disp('Starting optimisation step...');
@@ -64,17 +64,17 @@ function [solution, J_global, gs_energy] = loop_adaptive_optimisation(num_spins,
         % Make copy of loops array
         new_loops = loops;
         % Generate new loop
-        new_loop = random_walk_loop( adj );
+        new_loop = random_walk_loop_2( adj );
         % Pad with zeros
         new_loop = [loop, zeros(1, (num_spins+1)-length(loop))];
         % Replace random loop from new loops array with new loop
         new_loops(randi(num_loops),:) = new_loop;
         
         % Calculate planted couplings and energies
-        [new_J_global, new_gs_energy] = planted_hamiltonian(solution, new_loops);
+        [new_J_global, new_gs_energy] = planted_hamiltonian_2(solution, new_loops);
         
         % Calculate new Ising problem hardness
-        new_hardness = hardness_measure(hardness_type, new_J_global, new_gs_energy);
+        new_hardness = hardness_measure_2(hardness_type, new_J_global, new_gs_energy);
         % If new problem harder, then accept
         if new_hardness > old_hardness
             % Accept

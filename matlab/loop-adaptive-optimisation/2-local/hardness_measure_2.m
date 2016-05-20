@@ -1,4 +1,4 @@
-function [ out ] = hardness_measure( type, J, gs_energy )
+function [ out ] = hardness_measure_2( type, J, gs_energy )
 
     switch type
         case 'SA' % Simulated annealing - TTS

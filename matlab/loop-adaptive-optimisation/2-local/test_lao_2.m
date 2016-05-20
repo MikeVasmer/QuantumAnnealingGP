@@ -1,13 +1,13 @@
-function [gs_energy] = test_lao()
+function [gs_energy] = test_lao_2()
 
     % Add eigenspectrum directory
-    addpath('../eigenspectrum/');
+    addpath('../../eigenspectrum/');
     
     % Generate planted solution
     num_spins = 512;
     num_loops = 500;
     num_steps = 10;
-    [solution, J_global, gs_energy] = loop_adaptive_optimisation(num_spins, num_loops, num_steps);
+    [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps);
     
     % Compare gs energy with exact diag
 %     h = zeros(1, num_spins);
