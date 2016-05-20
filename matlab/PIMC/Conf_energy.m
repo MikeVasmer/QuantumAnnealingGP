@@ -31,22 +31,32 @@ function [ out ] = Conf_energy(spin_conf, HParams)
     
     % Find Jzzz en terms
     for i = 1:n;
-        if length(h) > 1;
-            h_tot = h_tot + h(i)*spin_conf(i);
+        if length(h) > 1 
+            if h(i) ~= 0
+                h_tot = h_tot + h(i)*spin_conf(i);
+            end
         end
         for j = i+1:n;
-            if length(Jzz) > 1;
-                Jzz_tot = Jzz_tot + Jzz(i,j)*spin_conf(i)*spin_conf(j);
+            if length(Jzz) > 1 
+                if Jzz(i,j) ~= 0;
+                    Jzz_tot = Jzz_tot + Jzz(i,j)*spin_conf(i)*spin_conf(j);
+                end
             end           
-            if length(Jxx) > 1;
-                Jxx_tot = Jxx_tot + Jxx(i,j)*spin_conf(i)*spin_conf(j);
+            if length(Jxx) > 1
+                if Jxx(i,j) ~= 0
+                    Jxx_tot = Jxx_tot + Jxx(i,j)*spin_conf(i)*spin_conf(j);
+                end
             end
             for k = j+1:n;
-                if length(Jzzz) > 1;
-                    Jzzz_tot = Jzzz_tot + Jzzz(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
+                if length(Jzzz) > 1
+                    if Jzzz(i,j,k) ~= 0
+                        Jzzz_tot = Jzzz_tot + Jzzz(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
+                    end
                 end
-                if length(Jxxx) > 1;
-                    Jxxx_tot = Jxxx_tot + Jxxx(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
+                if length(Jxxx) > 1 
+                    if Jxxx(i,j,k) ~= 0
+                        Jxxx_tot = Jxxx_tot + Jxxx(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
+                    end
                 end
             end
         end

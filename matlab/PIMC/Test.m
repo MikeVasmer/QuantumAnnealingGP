@@ -1,7 +1,7 @@
-spin = generate_spins(10, 5)
-% % h = random_coef([], 1, [0,0], 0, 1)
-h = []
-Jzz = NN_couplings(10, 1)
+spin = generate_spins(100, 50)
+% h = random_coef([100], 1, [0,0], 0, 1)
+h = 0
+Jzz = NN_couplings(100, 1)
 % % spin_2 = transpose(generate_spins(10, 9))
 % 
 % length(h)
@@ -19,8 +19,8 @@ Jxx = []
 Jzzz = []
 Jxxx = []
 
-%HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
-HParams = generate_random_2local_hamiltonian(10,1,[-1,1],[-1,1]);
+HParams = {h, Jzz, Jxx, Jzzz, Jxxx};
+% HParams = generate_random_2local_hamiltonian(10,1,[-1,1],[-1,1]);
 % eigvals = eig(Ham_10);
 % gs_eng = min(eig(Ham_10));
 % eigvals(1:100)
