@@ -15,9 +15,13 @@ spinConfig = generate_spins(n_qubits, disorder);
 
 gs_energy = -8;
 epsilon = 0.001;
-
+<<<<<<< Updated upstream
 timeOut = 10;
 num_runs = 3;
+=======
+timeOut = 1;
+num_runs = 5;
+>>>>>>> Stashed changes
 
 %solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
