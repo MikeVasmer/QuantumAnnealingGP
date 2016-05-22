@@ -5,6 +5,9 @@ function [ metric ] = Hardness(spinConfig, Hparams, gs_energy, epsilon, mySolver
 %       - epsilon at timeout with flag
 
 
+global timeoutFlag
+timeoutFlag = false;
+
 %% TEST
 
 solved_energy = realmax;
@@ -16,15 +19,33 @@ for run = 1: num_runs
     tic    
     local_time = 0;
     
-    try
-        solution = timeout('Solver', timeOut, spinConfig, Hparams, mySolver);
-        solution_energy = solution{1};
-        local_time = toc;
-    catch
+    % Set up timer and solve
+    timeoutFlag = false;
+    hTimer = timer('TimerFcn', @timeoutEventFunc, 'StartDelay', timeOut);
+    start(hTimer)
+    
+    isExecuted = false;
+    while ~isExecuted && ~timeoutFlag
+        isExecuted = false;
+        try            
+            solution = feval('Solver', spinConfig, Hparams, mySolver);
+            solution_energy = solution{1};
+            local_time = toc;
+            isExecuted = true;
+        catch
+            continue
+        end
+        
+    end
+    
+    stop(hTimer)
+    delete(hTimer)
+    
+    if ~isExecuted
         solution_energy = realmax;
         continue
     end
-
+    
     if solution_energy < solved_energy
         solved_energy = solution_energy;
         time_elapsed = local_time;
@@ -52,13 +73,6 @@ else
     end
     
 end
-
-    
-%  try 
-%      metric = timeout(@test_hardness, (num_runs*timeOut));    
-%  catch
-%      metric = {(solved_energy - gs_energy), ['Timeout in ', num2str(timeOut*num_runs), ' seconds.']} ;
-%  end
 
 end
 

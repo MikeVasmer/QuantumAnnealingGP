@@ -14,10 +14,10 @@ Hparams = {[], NN_couplings(n_qubits, 1), [], [], []};
 spinConfig = generate_spins(n_qubits, disorder);
 
 gs_energy = -8;
-epsilon = 0.001;
+epsilon = 4;
 
-timeOut = 10;
-num_runs = 3;
+timeOut = 1;
+num_runs = 5;
 
 %solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
