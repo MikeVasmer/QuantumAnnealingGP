@@ -5,7 +5,7 @@ function [ solution ] = Solver( spinConfig, Hparams, SolverType )
 %% DEFAULT PARAMETERS
 
 % Metropolis
-beta_M = 10000;
+beta_M = 1e23;
 timesteps_M = 10000;
 num_flips_M = 1;
 Gamma_M = 1;
@@ -22,7 +22,7 @@ iterations_SA = 10000;
 scheduleType_SA = 'exponential';
 
 % ParallelTempering
-betas_PT = choose_betas_PT(1e5, 1e20, 10);
+betas_PT = choose_betas_PT(1, 1e20, 10);
 totalRuns_PT = 1000;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;

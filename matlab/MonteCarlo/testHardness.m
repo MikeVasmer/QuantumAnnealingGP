@@ -15,8 +15,11 @@ spinConfig = generate_spins(n_qubits, disorder);
 
 gs_energy = -8;
 epsilon = 0.001;
+
 timeOut = 10;
 num_runs = 3;
+
+
 
 %solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');

@@ -7,48 +7,58 @@ function [ metric ] = Hardness(spinConfig, Hparams, gs_energy, epsilon, mySolver
 
 %% TEST
 
-    solved_energy = 0;
-    
-    
-    function hardnessmetric = test_hardness
+solved_energy = realmax;
+time_elapsed = 0;
         
-        time_elapsed = 0;
-        
-        % Run n times, recording best solution and time taken
-        for run = 1: num_runs
-            
-            tic    
-            local_time = 0;            
-            solution = Solver(spinConfig, Hparams, mySolver);
-            solution_energy = solution{1};
-            local_time = toc;
-             
-            if solution_energy < solved_energy
-                solved_energy = solution_energy;
-                time_elapsed = local_time;
-            end
-            
-        end       
-        
-        deficit = (solved_energy - gs_energy);
-        
-        if deficit < epsilon
+% Run n times, recording best solution and time taken
+for run = 1: num_runs
 
-            hardnessmetric = {time_elapsed, 'TTS'};
-            
-        else
-            
-            hardnessmetric = {deficit, ['Accuracy acheived in ', num2str(time_elapsed), ' seconds.']};
-            
-        end
-        
+    tic    
+    local_time = 0;
+    
+    try
+        solution = timeout('Solver', timeOut, spinConfig, Hparams, mySolver);
+        solution_energy = solution{1};
+        local_time = toc;
+    catch
+        solution_energy = realmax;
+        continue
+    end
+
+    if solution_energy < solved_energy
+        solved_energy = solution_energy;
+        time_elapsed = local_time;
+    end
+
+end       
+
+% Check if Timeout
+
+if solved_energy == realmax
+    
+    metric = {0, ['Timeout in ', num2str(timeOut), ' seconds.']};
+    
+else    
+    deficit = (solved_energy - gs_energy);
+
+    if deficit < epsilon
+
+        metric = {time_elapsed, 'TTS'};
+
+    else
+
+        metric = {deficit, ['Accuracy achieved in ', num2str(time_elapsed), ' seconds.']};
+
     end
     
- try 
-     metric = timeout(@test_hardness, (num_runs*timeOut));    
- catch
-     metric = {(solved_energy - gs_energy), ['Timeout in ', num2str(timeOut*num_runs), ' seconds.']} ;
- end
+end
+
+    
+%  try 
+%      metric = timeout(@test_hardness, (num_runs*timeOut));    
+%  catch
+%      metric = {(solved_energy - gs_energy), ['Timeout in ', num2str(timeOut*num_runs), ' seconds.']} ;
+%  end
 
 end
 

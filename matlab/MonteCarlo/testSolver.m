@@ -1,12 +1,7 @@
 clearvars
 
-<<<<<<< HEAD
 n_qubits = 30;
-=======
 
-n_qubits = 5;
-
->>>>>>> b79facbeb6999ddafe9bc5264711feace654a4c8
 conn_density = 0.1;
 h_range = [0, 0];
 J_range = [-1, 1];
