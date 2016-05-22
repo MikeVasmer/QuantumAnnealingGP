@@ -1,7 +1,7 @@
 clc
 clearvars
 
-n_qubits = 50;
+n_qubits = 9;
 conn_density = 0.5;
 h_range = [-1, 1];
 J_range = [-1, 1];
@@ -15,7 +15,7 @@ spinConfig = generate_spins(n_qubits, disorder);
 
 gs_energy = -8;
 epsilon = 0.001;
-timeOut = 0.1;
+timeOut = 10;
 num_runs = 3;
 
 %solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
