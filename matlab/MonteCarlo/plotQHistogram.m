@@ -14,10 +14,11 @@ timesteps_HB = 1000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 1e30;
+initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
 iterations_SA = 1000;
-scheduleType_SA = 'exponential';
+scheduleType_SA = 'linear';
+flipsPerTemp_SA = n_qubtis/5;
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1e5, 1e20, 10);
@@ -55,10 +56,10 @@ for run=1:num_runs
             spins2  = solution{2};
         case 'Simulated Annealing'
             solution = simulatedAnnealing(Hparams, spins1, initialTemp_SA,...
-                         spinStepSize_SA, iterations_SA, scheduleType_SA);
+                         spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins1 = solution{2};
             solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA,...
-                         spinStepSize_SA, iterations_SA, scheduleType_SA);
+                         spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins2 = solution{2};
         case 'PIQMC'
             solution = piqmc(spins1, Hparams, monte_steps, trotter_slices, G_start, Temperature, step_flips);

@@ -2,7 +2,7 @@ clearvars
 close all
 
 %Global timesteps
-timeSteps = 2000;
+timeSteps = 20;
 
 %Hamiltonian
 n_qubits = 50;
