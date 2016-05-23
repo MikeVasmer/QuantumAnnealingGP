@@ -18,7 +18,7 @@ Gamma_HB = 1;
 %Simulated Annealing
 initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
-iterations_SA = 1000;
+iterations_SA = 10000;
 scheduleType_SA = 'linear';
 flipsPerTemp_SA = length(spinConfig)/5;
 

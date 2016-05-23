@@ -1,7 +1,8 @@
 
 
-solution = findGroundState('Hparams_test.mat', 'PIQMC', 10, -99, 0.99)
+solution = findGroundState('Hparams_test.mat', 'SimulatedAnnealing', 10, -99, 0.9, 1)
 
 solution{1}
 solution{2}
+solution{3}
 
