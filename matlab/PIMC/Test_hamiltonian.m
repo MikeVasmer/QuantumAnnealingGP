@@ -1,5 +1,5 @@
 
-n_qubits = 14;
+n_qubits = 15;
 conn_density = 0.8;
 h_range = [-1, 1];
 J_range = [-1, 1];

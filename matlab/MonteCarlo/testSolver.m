@@ -19,7 +19,7 @@ spinConfig = generate_spins(n_qubits, disorder);
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
 solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
 %solutionPT = Solver(spinConfig, Hparams, 'ParallelTempering');
-%solutionPIQMC = Solver(spinConfig, Hparams, 'PIQMC');
+solutionPIQMC = Solver(spinConfig, Hparams, 'PIQMC');
 
 %disp('Metropolis soulution is') ;
 %disp(solutionMet{1});
@@ -29,5 +29,5 @@ disp('Simulated Annealing solution is')
 disp(solutionSA{1});
 % disp('Parallel Tempering solution is')
 % disp(solutionPT{1});
-%disp('PIQMC solution is') 
-%disp(solutionPIQMC{1});
+disp('PIQMC solution is') 
+disp(solutionPIQMC{1});
