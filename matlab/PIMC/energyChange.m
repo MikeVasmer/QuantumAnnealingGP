@@ -1,5 +1,14 @@
 function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_slices, J_orth, slice, h, Jzz, Jzzz)
 
+global timeoutFlag
+    if timeoutFlag
+        msgID = 'Timeout';
+        msg = 'Timeout.';
+        baseException = MException(msgID,msg);
+        throw(baseException)
+    end
+
+
     ediff = 0;
     n = length(new_spin_config(1,:));
     

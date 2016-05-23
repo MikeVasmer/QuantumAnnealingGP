@@ -1,10 +1,10 @@
 clearvars
 
 
-n_qubits = 100;
+n_qubits = 30;
 
-conn_density = 0.5;
-h_range = [-1, 1];
+conn_density = 0.1;
+h_range = [0, 0];
 J_range = [-1, 1];
 disorder = round(n_qubits / 2);
 
