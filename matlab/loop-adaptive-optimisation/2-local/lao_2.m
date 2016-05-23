@@ -24,7 +24,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     
     % Define adjacency matrix - allowed couplings
     %    e.g. All-to-all
-    adj = just_couplings( ones(num_spins, num_spins) );
+    adj = ones(num_spins) - eye(num_spins);
     
     % Initialise empty loop array
     loops = zeros(num_loops, num_spins+1);
@@ -54,12 +54,12 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     % Temperature
     beta = 1.0;
     % Calculate hardness of original Ising problem
-    hardness_type = 'PIMC';
+    hardness_type = 'SA';
     old_hardness = hardness_measure_2(hardness_type, J_global, gs_energy);
     
     % Loop for for each step in num_steps
     disp('Starting optimisation step...');
-    tic;
+    start_tic = tic;
     for step = 1:num_steps
         % Make copy of loops array
         new_loops = loops;
@@ -94,9 +94,9 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         end
 
         % Progress timer
-        if toc > 2
+        if toc(start_tic) > 2
             disp(strcat(num2str(step),':',num2str(num_steps)));
-            tic;
+            start_tic = tic;
         end 
     end   
 end

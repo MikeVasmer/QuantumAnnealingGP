@@ -37,11 +37,11 @@ function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
     
     % Calculate groundstate energy
     spin_config = solution;
-    h = zeros(1, num_spins);
+    h = [];
     Jzz  = J_global;
-    Jxx  = 0;
-    Jzzz = 0;
-    Jxxx = 0;
+    Jxx  = [];
+    Jzzz = [];
+    Jxxx = [];
     hParams = {h, Jzz, Jxx, Jzzz, Jxxx};
     gs_energy = Conf_energy( spin_config, hParams );
 
