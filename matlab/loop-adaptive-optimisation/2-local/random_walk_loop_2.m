@@ -2,11 +2,6 @@ function [ out ] = random_walk_loop_2( adj )
     % Given an adjacency matrix - defining the coupled nodes
     % Perform a random walk until on creates a loop
     % Cut the tail and return the loop sequence
-    
-    % Use just top right corner of adjacency matrix - takes too long!
-    %adj = just_couplings(adj);
-    % Add its transpose to allow two way travel
-    adj = adj + adj';
 
     % Number of nodes
     num_nodes = length(adj);
