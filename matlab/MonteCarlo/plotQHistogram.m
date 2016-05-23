@@ -18,7 +18,7 @@ initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
 iterations_SA = 1000;
 scheduleType_SA = 'linear';
-flipsPerTemp_SA = n_qubtis/5;
+flipsPerTemp_SA = n_qubits/5;
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1e5, 1e20, 10);
@@ -36,8 +36,12 @@ Temperature = 0.1;
 step_flips = 1;
 
 qs = zeros([num_runs, 1]);
-
+tic;
 for run=1:num_runs
+    if toc > 1
+        fprintf('%d:%d\n', run, num_runs);
+        tic;
+    end
     spins1 = generate_spins(n_qubits, disorder);
     spins2 = generate_spins(n_qubits, disorder);
     switch algorithm
@@ -78,5 +82,7 @@ end
 figure();
 edges = linspace(-1, 1, 50);
 histogram(qs, edges, 'Normalization', 'probability');
-xlabel('q')
-ylabel('P(q)')
+title(sprintf('P(q) distribution for %d qubits, %d runs, %s',...
+    n_qubits, num_runs, algorithm));
+xlabel('q');
+ylabel('P(q)');

@@ -1,5 +1,11 @@
 function [ out ] = Conf_energy(spin_conf, HParams)
-    
+    global timeoutFlag
+    if timeoutFlag
+        msgID = 'Timeout';
+        msg = 'Timeout.';
+        baseException = MException(msgID,msg);
+        throw(baseException)
+    end
     % Number of spins/config
     n = length(spin_conf);
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
@@ -28,7 +34,7 @@ function [ out ] = Conf_energy(spin_conf, HParams)
 %             
 %         end
 %     end
-    
+
     % Find Jzzz en terms
     for i = 1:n;
         if length(h) > 1 
@@ -57,11 +63,11 @@ function [ out ] = Conf_energy(spin_conf, HParams)
                     if Jxxx(i,j,k) ~= 0
                         Jxxx_tot = Jxxx_tot + Jxxx(i,j,k)*spin_conf(i)*spin_conf(j)*spin_conf(k);
                     end
+                
                 end
             end
         end
     end
-    
     
  
     

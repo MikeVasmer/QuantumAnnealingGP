@@ -31,11 +31,13 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
         if toc > 1
            %disp(strcat(num2str(k),':', num2str(monte_steps)));
            fprintf('%d:%d\n', k, monte_steps);
+%            disp(G);
+%            disp(J_orth);
            tic;
         end
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
-        for i = 1:n;
+        for i = 1:round(n/3);
             %sprintf('i=%d',i)
             % Perform local flips and evals
             %total_energy;
@@ -93,7 +95,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
     [energy, ind] = min(energies);
     %spin_config;
-    %energies
+    energies;
     conf = spin_config(ind,:);
     solution = {energy, conf};
 end
