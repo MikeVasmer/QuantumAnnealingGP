@@ -1,5 +1,11 @@
 function [ out ] = Conf_energy(spin_conf, HParams)
     global timeoutFlag
+    if timeoutFlag
+        msgID = 'Timeout';
+        msg = 'Timeout.';
+        baseException = MException(msgID,msg);
+        throw(baseException)
+    end
     % Number of spins/config
     n = length(spin_conf);
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});

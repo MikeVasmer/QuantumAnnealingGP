@@ -16,10 +16,11 @@ timesteps_HB = 1000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 1e30;
+initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
-iterations_SA = 10000;
-scheduleType_SA = 'exponential';
+iterations_SA = 1000;
+scheduleType_SA = 'linear';
+flipsPerTemp_SA = length(spinConfig)/5;
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1, 1e20, 10);
@@ -49,7 +50,7 @@ switch SolverType
         solution = {solution_energy, solution_config};
     case 'SimulatedAnnealing'
         solution = simulatedAnnealing(Hparams, spinConfig, initialTemp_SA,...
-            spinStepSize_SA, iterations_SA, scheduleType_SA);
+            spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
     case 'ParallelTempering'
         solution = ParallelTempering(spinConfig, Hparams, betas_PT, totalRuns_PT, ...
                                         backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);

@@ -29,7 +29,8 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
         %disp(k);
         %sprintf('k=%d',k)
         if toc > 1
-           disp(strcat(num2str(k),':', num2str(monte_steps)));
+           %disp(strcat(num2str(k),':', num2str(monte_steps)));
+           fprintf('%d:%d\n', k, monte_steps);
 %            disp(G);
 %            disp(J_orth);
            tic;
