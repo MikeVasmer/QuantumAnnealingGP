@@ -1,6 +1,0 @@
-function [ output_args ] = Hardness( Hparams, gs_energy, epsilon, Solver, timeout, num_runs)
-%HARDNESS Calculates hardness me
-
-
-end
-

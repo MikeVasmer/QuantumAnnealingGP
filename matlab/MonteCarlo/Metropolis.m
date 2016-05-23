@@ -3,7 +3,6 @@ function [ solution ] = Metropolis( spins, Hparams, beta, timesteps, num_flips, 
 spin_config = spins;
 
 for time = 1:timesteps
-    
     newspins = spin_config;
     indices_to_flip = randperm(length(spin_config), num_flips).';
     for i = 1:length(indices_to_flip)
@@ -18,7 +17,7 @@ for time = 1:timesteps
     if p > x
         spin_config = newspins;
     end
-    
+
 end
 
 solution = spin_config;

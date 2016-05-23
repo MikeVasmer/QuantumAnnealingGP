@@ -5,7 +5,7 @@ function [ solution ] = Solver( spinConfig, Hparams, SolverType )
 %% DEFAULT PARAMETERS
 
 % Metropolis
-beta_M = 10000;
+beta_M = 1e23;
 timesteps_M = 10000;
 num_flips_M = 1;
 Gamma_M = 1;
@@ -22,7 +22,7 @@ iterations_SA = 10000;
 scheduleType_SA = 'exponential';
 
 % ParallelTempering
-betas_PT = choose_betas_PT(1e5, 1e20, 10);
+betas_PT = choose_betas_PT(1, 1e20, 10);
 totalRuns_PT = 1000;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;
@@ -30,10 +30,10 @@ Gamma_PT = 1;
 num_flips_PT = 1;
 
 % Path Integral Quantum Monte Carlo
-monte_steps = 50;
+monte_steps = 1000;
 trotter_slices = 20;
-G_start = 2;
-Temperature = 0.1;
+G_start = 1.5;
+Temperature = 0.05;
 step_flips = 1;
 
 %% SOLVE
