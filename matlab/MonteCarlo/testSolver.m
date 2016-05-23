@@ -3,6 +3,7 @@ clearvars
 data = importdata('config.txt',',',1);
 data = data.data;
 
+
 n_qubits = data(1);
 conn_density = data(2);
 h_range = [data(3), data(4)];

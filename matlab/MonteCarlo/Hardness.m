@@ -1,4 +1,4 @@
-function [ metric ] = Hardness(spinConfig, Hparams, gs_energy, epsilon, mySolver, timeOut, num_runs)
+function [ metric ] = Hardness(Hparams, gs_energy, epsilon, mySolver, timeOut, num_runs)
 %HARDNESS Calculates hardness metric of some problem H.
 % Metric is either:
 %       - time to epsilon with flag
@@ -8,6 +8,7 @@ function [ metric ] = Hardness(spinConfig, Hparams, gs_energy, epsilon, mySolver
 global timeoutFlag
 timeoutFlag = false;
 
+
 %% TEST
 
 solved_energy = realmax;
@@ -16,8 +17,12 @@ time_elapsed = 0;
 % Run n times, recording best solution and time taken
 for run = 1: num_runs
 
-    tic    
     local_time = 0;
+    
+    % GENERATE RANDOM SPIN CONFIGURATION
+    n_qubits = max([length(Hparams{1}),length(Hparams{2}), ...
+        length(Hparams{3}),length(Hparams{4}),length(Hparams{5})]);
+    spinConfig = generate_spins(n_qubits, round(n_qubits/2));
     
     % Set up timer and solve
     timeoutFlag = false;
@@ -27,10 +32,12 @@ for run = 1: num_runs
     isExecuted = false;
     while ~isExecuted && ~timeoutFlag
         isExecuted = false;
-        try            
+        try  
+            start_time = tic;    
             solution = feval('Solver', spinConfig, Hparams, mySolver);
             solution_energy = solution{1};
-            local_time = toc;
+            local_time = toc(start_time);
+            disp(local_time)
             isExecuted = true;
         catch
             continue
@@ -57,7 +64,7 @@ end
 
 if solved_energy == realmax
     
-    metric = {0, ['Timeout in ', num2str(timeOut), ' seconds.']};
+    metric = {-1, ['Timeout in ', num2str(timeOut), ' seconds.']};
     
 else    
     deficit = (solved_energy - gs_energy);
