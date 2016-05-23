@@ -23,17 +23,17 @@ scheduleType_SA = 'exponential';
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1e5, 1e20, 10);
-totalRuns_PT = 1000;
+totalRuns_PT = 100;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;
 Gamma_PT = 1;
 num_flips_PT = 1;
 
 % Path Integral Quantum Monte Carlo
-monte_steps = 100;
+monte_steps = 1000;
 trotter_slices = 20;
-G_start = 2;
-Temperature = 0.01;
+G_start = 1.5;
+Temperature = 0.05;
 step_flips = 1;
 
 %% SOLVE
