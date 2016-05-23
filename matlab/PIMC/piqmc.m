@@ -34,7 +34,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
         end
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
-        for i = 1:n;
+        for i = 1:round(n/2);
             %sprintf('i=%d',i)
             % Perform local flips and evals
             %total_energy;

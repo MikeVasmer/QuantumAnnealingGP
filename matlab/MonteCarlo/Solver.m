@@ -30,10 +30,10 @@ Gamma_PT = 1;
 num_flips_PT = 1;
 
 % Path Integral Quantum Monte Carlo
-monte_steps = 100;
+monte_steps = 50;
 trotter_slices = 20;
 G_start = 2;
-Temperature = 0.01;
+Temperature = 0.1;
 step_flips = 1;
 
 %% SOLVE
