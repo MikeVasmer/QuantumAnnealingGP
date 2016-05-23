@@ -10,6 +10,7 @@ h_range = [data(3), data(4)];
 J_range = [data(5), data(6)];
 disorder = round(n_qubits / 2);
 
+
 Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
 %Hparams = generate_random_2local_hamiltonian(n_qubits, conn_density, h_range, J_range);
 %Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
