@@ -1,5 +1,5 @@
 function[ solution ] = simulatedAnnealing(hamParams, spinConfig, initialTemp,...
-    spinStepSize, iterations, scheduleType, flipsPerTemp)
+    finalTemp, spinStepSize, iterations, scheduleType, flipsPerTemp)
 %SIMULATED ANNEALING Runs the Simulated Annealing Algorithm given some 
 %Hamiltonian parameters, an initial spin configuration, an initial
 %temperature, a spin step Size (number of spins flipped at once), a number
@@ -8,7 +8,7 @@ function[ solution ] = simulatedAnnealing(hamParams, spinConfig, initialTemp,...
 
 temp = initialTemp;
 kB = 1.38064852e-23;
-tempStep = initialTemp/iterations;
+tempStep = (initialTemp-finalTemp)/iterations;
 [h, Jzz, ~, Jzzz, ~] = deal(hamParams{:});
 
 %Perform metropolis steps whilst lowering the temperature linearly

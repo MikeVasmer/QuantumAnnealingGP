@@ -16,13 +16,14 @@ Gamma_HB = 1;
 %Simulated Annealing
 initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
-iterations_SA = 1000;
+iterations_SA = 10000;
 scheduleType_SA = 'linear';
 flipsPerTemp_SA = n_qubits/5;
+finalTemp_SA = 0;
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1e5, 1e20, 10);
-totalRuns_PT = 1000;
+totalRuns_PT = 10000;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;
 Gamma_PT = 1;
@@ -59,10 +60,10 @@ for run=1:num_runs
                             backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);
             spins2  = solution{2};
         case 'Simulated Annealing'
-            solution = simulatedAnnealing(Hparams, spins1, initialTemp_SA,...
+            solution = simulatedAnnealing(Hparams, spins1, initialTemp_SA, finalTemp_SA,...
                          spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins1 = solution{2};
-            solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA,...
+            solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA, finalTemp_SA,...
                          spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins2 = solution{2};
         case 'PIQMC'
