@@ -1,8 +1,22 @@
 
 
-solution = findGroundState('Hparams_test.mat', 'SimulatedAnnealing', 10, -99, 0.9, 1)
+solutionMET = findGroundState('Hparams_test.mat', 'Metropolis', 10, -22.2547, 0.99, 1);
+solutionSA = findGroundState('Hparams_test.mat', 'SimulatedAnnealing', 10, -22.2547, 0.99, 0);
+solutionPI = findGroundState('Hparams_test.mat', 'PIQMC', 10, -22.2547, 0.99, 0);
 
-solution{1}
-solution{2}
-solution{3}
+
+disp('MET sol is:')
+solutionMET{1}
+solutionMET{2}
+solutionMET{3}
+
+disp('SA sol is:')
+solutionSA{1}
+solutionSA{2}
+solutionSA{3}
+
+disp('PI sol is:')
+solutionPI{1}
+solutionPI{2}
+solutionPI{3}
 
