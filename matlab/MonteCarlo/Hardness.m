@@ -62,7 +62,7 @@ if solved_energy == realmax
 else    
     deficit = (solved_energy - gs_energy);
 
-    if deficit < epsilon
+    if deficit <= epsilon
 
         metric = {time_elapsed, 'TTS'};
 
