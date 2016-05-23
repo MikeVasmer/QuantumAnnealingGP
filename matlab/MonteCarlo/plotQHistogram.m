@@ -14,14 +14,16 @@ timesteps_HB = 1000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 1e30;
+initialTemp_SA = 7e23;
 spinStepSize_SA = 1;
-iterations_SA = 1000;
-scheduleType_SA = 'exponential';
+iterations_SA = 10000;
+scheduleType_SA = 'linear';
+flipsPerTemp_SA = n_qubits/5;
+finalTemp_SA = 0;
 
 % ParallelTempering
 betas_PT = choose_betas_PT(1e5, 1e20, 10);
-totalRuns_PT = 1000;
+totalRuns_PT = 10000;
 backendMonty_PT = 'Metropolis';
 sweepsMonty_PT = 1;
 Gamma_PT = 1;
@@ -35,8 +37,12 @@ Temperature = 0.1;
 step_flips = 1;
 
 qs = zeros([num_runs, 1]);
-
+tic;
 for run=1:num_runs
+    if toc > 1
+        fprintf('%d:%d\n', run, num_runs);
+        tic;
+    end
     spins1 = generate_spins(n_qubits, disorder);
     spins2 = generate_spins(n_qubits, disorder);
     switch algorithm
@@ -54,11 +60,11 @@ for run=1:num_runs
                             backendMonty_PT, sweepsMonty_PT, Gamma_PT, num_flips_PT);
             spins2  = solution{2};
         case 'Simulated Annealing'
-            solution = simulatedAnnealing(Hparams, spins1, initialTemp_SA,...
-                         spinStepSize_SA, iterations_SA, scheduleType_SA);
+            solution = simulatedAnnealing(Hparams, spins1, initialTemp_SA, finalTemp_SA,...
+                         spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins1 = solution{2};
-            solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA,...
-                         spinStepSize_SA, iterations_SA, scheduleType_SA);
+            solution = simulatedAnnealing(Hparams, spins2, initialTemp_SA, finalTemp_SA,...
+                         spinStepSize_SA, iterations_SA, scheduleType_SA, flipsPerTemp_SA);
             spins2 = solution{2};
         case 'PIQMC'
             solution = piqmc(spins1, Hparams, monte_steps, trotter_slices, G_start, Temperature, step_flips);
@@ -77,5 +83,7 @@ end
 figure();
 edges = linspace(-1, 1, 50);
 histogram(qs, edges, 'Normalization', 'probability');
-xlabel('q')
-ylabel('P(q)')
+title(sprintf('P(q) distribution for %d qubits, %d runs, %s',...
+    n_qubits, num_runs, algorithm));
+xlabel('q');
+ylabel('P(q)');

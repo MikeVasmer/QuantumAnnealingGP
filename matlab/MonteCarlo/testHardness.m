@@ -2,7 +2,7 @@ clc
 clearvars
 
 
-n_qubits = 900;
+n_qubits = 9;
 conn_density = 0.5;
 h_range = [-1, 1];
 J_range = [-1, 1];
@@ -11,8 +11,6 @@ beta = 10000;
 
 %Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
 Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
-
-spinConfig = generate_spins(n_qubits, disorder);
 
 gs_energy = -8;
 epsilon =1;
@@ -24,7 +22,7 @@ num_runs = 5;
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
 %solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
 tic
-hardnessSA = Hardness(spinConfig, Hparams, gs_energy, epsilon, 'ParallelTempering', timeOut, num_runs);
+hardnessSA = Hardness(Hparams, gs_energy, epsilon, 'SimulatedAnnealing', timeOut, num_runs);
 %solutionPIQMC = Solver(spinConfig, Hparams, 'PIQMC');
 
 %disp(solutionMet{1});

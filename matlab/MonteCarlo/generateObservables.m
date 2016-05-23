@@ -1,4 +1,4 @@
-function [observables] = generateObservables(spins1, spins2, Hparams, algorithm, timeSteps)
+function [observables] = generateObservables(spins1, spins2, Hparams, algorithm, timeSteps, eqmThreshold)
 
 % Metropolis Params
 beta_M = 10000;
@@ -27,11 +27,13 @@ Temperature = 0.01;
 step_flips = 1;
 
 n_qubits = length(spins1);
-qList = zeros(timeSteps, 1);
-magList = zeros(timeSteps, 1);
+qList = ones(timeSteps, 1);
+magList = ones(timeSteps, 1);
+
+equalCount = 0;
 
 tic;
-for time=1:timeSteps
+for timeStep=1:timeSteps
     
     switch algorithm
         case 'Metropolis'
@@ -58,13 +60,28 @@ for time=1:timeSteps
             disp('Enter valid MC');
     end
             
-    magList(time) = sum(spins1)/n_qubits;
-    qList(time) = dot(spins1, spins2)/n_qubits;
+    magList(timeStep) = sum(spins1)/n_qubits;
+    qList(timeStep) = dot(spins1, spins2)/n_qubits;
+    
+    if timeStep ~= 1
+        if magList(timeStep) == magList(timeStep-1)
+           if qList(timeStep) == qList(timeStep-1) 
+              equalCount = equalCount + 1;
+           end
+        else
+           equalCount = 0; 
+        end
+    end
     
     if toc > 1
-       disp(strcat(num2str(time),':', num2str(timeSteps)));
+       fprintf('%d:%d\n',timeStep,timeSteps);
        tic;
     end
+    
+    if equalCount >= eqmThreshold
+        break;
+    end
+      
 end
 observables = {qList, magList};
 end

@@ -1,0 +1,2 @@
+n_qubits,conn_density,h_min,h_max,j_min,j_max
+50,0.5,-1,1,-1,1
