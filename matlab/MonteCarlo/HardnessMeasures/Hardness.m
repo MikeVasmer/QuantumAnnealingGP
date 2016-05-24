@@ -8,7 +8,7 @@ function [ metric ] = Hardness(Hparams, gs_energy, epsilon, beta, timeOut, num_r
 %% TEST
 
 solved_energy = realmax;
-time_elapsed = 0;
+best_time = realmax;
         
 % Run n times, recording best solution and time taken
 for run = 1: num_runs
@@ -22,8 +22,9 @@ for run = 1: num_runs
     solution_energy = solution{1};
     time_elapsed = solution{3};
     
-    if solution_energy < solved_energy
+    if time_elapsed < best_time && solution_energy <= solved_energy
         solved_energy = solution_energy; 
+        best_time = time_elapsed;
     end
 
 end       
