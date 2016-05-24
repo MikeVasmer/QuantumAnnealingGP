@@ -37,22 +37,54 @@
 % end
 
 
-Jzzz = ones(4, 4, 4);
+Jzzz = -ones(5, 5, 5);
 
-[h, Jzz, pens] = threeToTwo(Jzzz, 4);
+for i = 1:5;
+    for j = 1:5;
+        for k = 1:5;
+            if i == j || i == k || j == k
+                Jzzz(i,j,k) = 0
+            end
+        end
+    end
+end
+
+Jzzz
+
+[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 5);
 
 ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
 
-ham_2 = ising_hamiltonian(h, Jzz, 0, 0, 0);
+ham_2 = ising_hamiltonian(hs, Jzz, 0, 0, 0);
 
 
-h
+hs
 
 Jzz
 
-min(eigs(ham_1))
+min(eig(ham_1))
 
-min(eigs(ham_2))
+min(eig(ham_2))
+
+spinConfig_1 = generate_spins(5, 2);
+
+spinConfig_2 = generate_spins(5+diff, 3);
+
+Hparams_1 = {0,0,0,Jzzz,0};
+
+Hparams_2 = {hs,Jzz,0,0,0};
+
+solution1 = Solver(spinConfig_1, Hparams_1, 'PIQMC')
+
+solution2 = Solver(spinConfig_2, Hparams_2, 'PIQMC')
+
+solution1{1}
+
+solution1{2}
+
+solution2{1}
+
+solution2{2}
 
 
 

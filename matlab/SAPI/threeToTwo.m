@@ -1,4 +1,4 @@
-function [ h_new, Jzz_new, penaltiesUsed ] = threeToTwo( Jzzz, nQubits )
+function [ h_new, Jzz_new, penaltiesUsed, diff ] = threeToTwo( Jzzz, nQubits )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -35,19 +35,20 @@ for i = 1:length(newTerms)
     % Add symmetric terms representing new interaction to Jzz
     Jzz(interaction(1),interaction(2)) = 1*Jzzz(terms{i}(1),terms{i}(2),terms{i}(3));
     Jzz(interaction(2),interaction(1)) = 1*Jzzz(terms{i}(1),terms{i}(2),terms{i}(3));
-    % Find ancilla interaction for penalties
-    index_1 = find(ancillas==interaction(1));
-    index_2 = find(ancillas==interaction(2));
-    % Calculate penalties
-    if ~isempty(index_1)
-        Jzz = Jzz +penaltyTerm(varsRep(2,index_1),varsRep(3,index_1),varsRep(1, index_1), n);
-        penaltiesUsed = penaltiesUsed + 1;
-    end
-    if ~isempty(index_2)
-        Jzz = Jzz +penaltyTerm(varsRep(2,index_2),varsRep(3,index_2),varsRep(1, index_2), n);
-        penaltiesUsed = penaltiesUsed + 1; 
-    end
+    
 end
+
+
+% Find ancilla interaction for penalties
+penterms = zeros(n);
+for ancilla = 1:length(varsRep(1,:))
+    % Calculate penalties
+        penterms = penterms + penaltyTerm(varsRep(2,ancilla),varsRep(3,ancilla),varsRep(1, ancilla), n);
+        penaltiesUsed = penaltiesUsed + 1;
+end
+    
+
+Jzz = Jzz + penterms
 
 h_new = zeros(1,n);
 
@@ -58,6 +59,7 @@ end
 
 h_new;
 Jzz_new = Jzz;
+diff = n - nQubits;
 
 end
 
