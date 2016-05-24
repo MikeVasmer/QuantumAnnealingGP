@@ -2,14 +2,14 @@ clearvars
 close all
 
 
-n_qubits = 25;
+n_qubits = 64;
 
 conn_density = 1;
 h_range = [-1, 1];
 J_range = [-1, 1];
 disorder = round(n_qubits / 2);
 
-num_runs = 150;
+num_runs = 250;
 
 
 Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
