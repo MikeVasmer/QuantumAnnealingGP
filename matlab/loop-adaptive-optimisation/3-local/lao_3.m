@@ -162,23 +162,41 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
         end 
         
         if change_accepted
-            run_info = { ...
+            
+            keys = {...
+                'stepInfo', ...
+                'hardness', ...
+                'LAOparams', ...
+                'ProbSolInfo' ...
+            };
+            
+            values = { ...
                 {step, num_steps}, ...                                                          % Step info
                 {hardness_evolution(end)}, ...                                                  % Hardness of instance
                 {num_spins, num_loops, num_steps, adj, hardness_params, beta_transition}, ...   % LAO parameters
                 {solution, {0,J_global,0,0,0}, gs_energy} ...                                   % Problem/Solution info   
             };
+            
+        run_info = containers.Map(keys, values);
         
-            % TODO: Write info to file...
+        % Filename malarky
+        currentTime = clock;
+        timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
+        fileNameString = ['files', filesep, timeString, '_numqubits_', ...
+            num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
+            num2str(old_hardness{1}), '.mat']; 
+
+        save(fileNameString, 'run_info');
+        
         end
         
         % Reset change_accepted
         change_accepted = false;
     end   
     
-    figure(1);
-    plot(hardness_evolution)
-    xlabel('Steps');
-    ylabel('Hardness');
+%     figure(1);
+%     plot(hardness_evolution)
+%     xlabel('Steps');
+%     ylabel('Hardness');
 end
 
