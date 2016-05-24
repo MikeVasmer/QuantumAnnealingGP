@@ -8,7 +8,7 @@ terms = cell(1, 0);
 for i = 1:nQubits
     for j = i+1:nQubits
         for k = j+1:nQubits
-            if Jzzz(i,j,k) ~= 0
+            if Jzzz(i,j,k) ~= 0;
                 terms{end+1} = [i, j, k];
             end
         end
@@ -18,11 +18,11 @@ end
 [newTerms, varsRep] = reduceDegree(terms);
                 
 
-for i = 1 : length(newTerms)
-    fprintf('terms %d:', i);
-    disp(newTerms{i});
-end
-varsRep
+% for i = 1 : length(newTerms)
+%     fprintf('terms %d:', i);
+%     disp(newTerms{i});
+% end
+varsRep;
 
 penaltiesUsed = 0;
 
@@ -48,7 +48,7 @@ for ancilla = 1:length(varsRep(1,:))
 end
     
 
-Jzz = Jzz + penterms
+Jzz = Jzz + penterms;
 
 h_new = zeros(1,n);
 

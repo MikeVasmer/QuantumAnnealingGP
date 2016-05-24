@@ -37,34 +37,35 @@
 % end
 
 
-Jzzz = -ones(5, 5, 5);
+Jzzz = -ones(10, 10, 10);
 
-for i = 1:5;
-    for j = 1:5;
-        for k = 1:5;
+for i = 1:10;
+    for j = 1:10;
+        for k = 1:10;
             if i == j || i == k || j == k
-                Jzzz(i,j,k) = 0
+                Jzzz(i,j,k) = 0;
             end
         end
     end
 end
 
-Jzzz
+Jzzz;
 
-[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 5);
+[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 10);
 
-ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
+% ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
+% 
+% ham_2 = ising_hamiltonian(hs, Jzz, 0, 0, 0);
 
-ham_2 = ising_hamiltonian(hs, Jzz, 0, 0, 0);
-
+diff
 
 hs
 
 Jzz
 
-min(eig(ham_1))
-
-min(eig(ham_2))
+% min(eig(ham_1))
+% 
+% min(eig(ham_2))
 
 spinConfig_1 = generate_spins(5, 2);
 
