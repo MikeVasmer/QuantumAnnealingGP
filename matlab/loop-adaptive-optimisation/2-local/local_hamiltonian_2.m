@@ -17,5 +17,10 @@ function [J_local] = local_hamiltonian_2( solution, loop )
         J_local(min(pair), max(pair)) = -solution(pair(1)) * solution(pair(2));
     end
     
+    % Flip one random coupling
+    coupling_indicies = find(J_local);
+    random_coupling = coupling_indicies(randi(length(coupling_indicies)));
+    J_local(random_coupling) = -J_local(random_coupling);
+    
 end
 

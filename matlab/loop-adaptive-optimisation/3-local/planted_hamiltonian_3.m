@@ -46,6 +46,7 @@ function [J_global, gs_energy] = planted_hamiltonian_3( solution, loops )
     Jzzz = J_global;
     Jxxx = 0;
     hParams = {h, Jzz, Jxx, Jzzz, Jxxx};
+    
     gs_energy = Conf_energy( spin_config, hParams );
 
 end
