@@ -13,24 +13,26 @@ beta = 10000;
 Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
 
 gs_energy = -8;
-epsilon =1;
+epsilon = 0;
 
-timeOut = 0.1;
-num_runs = 5;
+timeOut = 2;
+num_runs = 10;
+%beta = 1e23;
 
 %solutionMet = Solver(spinConfig, Hparams, 'Metropolis');
 %solutionHB = Solver(spinConfig, Hparams, 'HeatBath');
 %solutionSA = Solver(spinConfig, Hparams, 'SimulatedAnnealing');
-tic
-hardnessSA = Hardness(Hparams, gs_energy, epsilon, 'SimulatedAnnealing', timeOut, num_runs);
+
+hardnessIM = Hardness(Hparams, gs_energy, epsilon, beta, timeOut, num_runs);
 %solutionPIQMC = Solver(spinConfig, Hparams, 'PIQMC');
 
 %disp(solutionMet{1});
 %disp(solutionHB{1});
 %disp(solutionSA{1});
-disp(hardnessSA{1});
-disp(hardnessSA{2});
+disp(hardnessIM{1});
+disp(hardnessIM{2});
+disp(hardnessIM{3})
 %disp(solutionPIQMC{1});
-toc
+
 
 

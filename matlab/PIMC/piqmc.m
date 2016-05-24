@@ -2,18 +2,20 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
+    n = length(spin_start);
+    
+    % Do a pre-anneal to a sensible temperature
+    
+   % SA_sol = simulatedAnnealing(HParams, spin_start, 7e23, trotter_slices*Temperature, 1, 1000, 'linear', n/5);
+    
+   % spin_start = SA_sol{2};
+    
     start_spin_config = repmat(spin_start, trotter_slices, 1);
     
-    % Calculate the initial energy
-    %start_eng = Ham_d1(start_spin_config, HParams, trotter_slices, Temperature, G_start);
     
-    % Create updated variables of instantaneous spin config and total
-    % energy
+    
+    % Create updated variables of instantaneous spin configy
     spin_config = start_spin_config;
-    
-    %total_energy = start_eng;
-    
-    n = length(spin_start);
     
     G = G_start;
     P = trotter_slices;
@@ -37,7 +39,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
         end
         % Reduce the transverse field
         G = G_start - step_value*(k-1);
-        for i = 1:round(n/3);
+        for i = 1:round(n/5);
             %sprintf('i=%d',i)
             % Perform local flips and evals
             %total_energy;

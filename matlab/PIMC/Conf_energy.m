@@ -1,7 +1,7 @@
 function [ out ] = Conf_energy(spin_conf, HParams)
     global timeoutFlag
     if timeoutFlag
-        msgID = 'Timeout';
+        msgID = 'TIMEOUT:Timeout';
         msg = 'Timeout.';
         baseException = MException(msgID,msg);
         throw(baseException)
