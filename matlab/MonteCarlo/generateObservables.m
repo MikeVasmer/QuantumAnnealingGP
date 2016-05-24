@@ -31,6 +31,7 @@ qList = ones(timeSteps, 1);
 magList = ones(timeSteps, 1);
 
 equalCount = 0;
+breakTimeStep = timeSteps;
 
 tic;
 for timeStep=1:timeSteps
@@ -64,10 +65,8 @@ for timeStep=1:timeSteps
     qList(timeStep) = dot(spins1, spins2)/n_qubits;
     
     if timeStep ~= 1
-        if magList(timeStep) == magList(timeStep-1)
-           if qList(timeStep) == qList(timeStep-1) 
-              equalCount = equalCount + 1;
-           end
+        if magList(timeStep) == magList(timeStep-1) && qList(timeStep) == qList(timeStep-1) 
+            equalCount = equalCount + 1;
         else
            equalCount = 0; 
         end
@@ -79,9 +78,12 @@ for timeStep=1:timeSteps
     end
     
     if equalCount >= eqmThreshold
+        breakTimeStep = timeStep;
         break;
     end
       
 end
-observables = {qList, magList};
+qList = qList(1:breakTimeStep);
+magList = magList(1:breakTimeStep);
+observables = {qList, magList, breakTimeStep};
 end
