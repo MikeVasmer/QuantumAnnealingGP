@@ -1,8 +1,10 @@
-function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition)
+function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition)
 
+    % Add path for symmetrize_3local_couplings function
+    addpath('../../MonteCarlo/')
     % Add path for Hardness function
     addpath('../../MonteCarlo/HardnessMeasures')
-    
+
     % ** Algorithm **
     % Generate (random) solution
     % Place M random loops on graph, each respecting the planted solution
@@ -23,18 +25,16 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     solution = (round(rand(1,num_spins))*2)-1;
     
     % Initialise empty loop array
-    loops = zeros(num_loops, num_spins+1);
+    loops = cell(1,num_loops);
     
     % Fill loop array with M loops
     disp('Generating initial loops...');
     loop_timer = tic;
     for i = 1:num_loops
         % Generate random walk loop
-        loop = random_walk_loop_2( adj );
-        % Pad with zeros
-        loop = [loop, zeros(1, (num_spins+1)-length(loop))];
+        loop = random_walk_loop_3( adj );
         % Add to loop array
-        loops(i,:) = loop; 
+        loops{i} = loop; 
         
         % Progress timer
         if toc(loop_timer) > 1
@@ -44,9 +44,11 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     end
     
     % Calculate planted couplings and energies
-    [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
+    disp('Calculating planted Hamiltonian...');
+    [J_global, gs_energy] = planted_hamiltonian_3(solution, loops);
     
     % Start Optimisation stage
+    disp('Starting optimisation step...');
     % Calculate hardness of original Ising problem
     %   Hardness function parameters
     epsilon  = hardness_params{1};
@@ -54,7 +56,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     timeOut  = hardness_params{3};
     num_runs = hardness_params{4};
     %   Set up H params
-    hParams = {0, J_global, 0, 0, 0};
+    hParams = {0, 0, 0, J_global, 0};
     %   Calculate hardness
     old_hardness = Hardness(hParams, gs_energy, epsilon, beta_h, timeOut, num_runs);
     
@@ -62,7 +64,6 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     hardness_evolution = [old_hardness{1}];
     
     % Loop for for each step in num_steps
-    disp('Starting optimisation step...');
     optimisation_timer = tic;
     progess_step = 0;
     change_accepted = false;
@@ -73,18 +74,16 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         num_replace = randi(3);
         for i = 1:num_replace
             % Generate new loop
-            new_loop = random_walk_loop_2( adj );
-            % Pad with zeros
-            new_loop = [loop, zeros(1, (num_spins+1)-length(loop))];
+            new_loop = random_walk_loop_3( adj );
             % Replace random loop from new loops array with new loop
-            new_loops(randi(num_loops),:) = new_loop;
+            new_loops{randi(num_loops)} = new_loop;
         end
-        
+
         % Calculate planted couplings and energies
-        [new_J_global, new_gs_energy] = planted_hamiltonian_2(solution, new_loops);
+        [new_J_global, new_gs_energy] = planted_hamiltonian_3(solution, new_loops);
         
         % Calculate new Ising problem hardness
-        new_hParams = {0, new_J_global, 0, 0, 0};
+        new_hParams = {0, 0, 0, new_J_global, 0};
         new_hardness = Hardness(new_hParams, new_gs_energy, epsilon, beta_h, timeOut, num_runs);
         
         % Decision tree
@@ -119,7 +118,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
                 end
             end
         end
-           
+         
         % If new problem harder, then accept
         if definitely_accept_change
             gs_energy = new_gs_energy;
