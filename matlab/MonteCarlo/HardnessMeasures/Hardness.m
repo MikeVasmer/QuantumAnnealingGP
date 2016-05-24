@@ -9,6 +9,7 @@ function [ metric ] = Hardness(Hparams, gs_energy, epsilon, beta, timeOut, num_r
 
 solved_energy = realmax;
 best_time = realmax;
+best_config = [];
         
 % Run n times, recording best solution and time taken
 for run = 1: num_runs
@@ -25,6 +26,7 @@ for run = 1: num_runs
     if time_elapsed < best_time && solution_energy <= solved_energy
         solved_energy = solution_energy; 
         best_time = time_elapsed;
+        best_config = solution{2};
     end
 
 end       

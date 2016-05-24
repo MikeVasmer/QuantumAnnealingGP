@@ -4,7 +4,7 @@ function [kurt] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorde
 
 % Metropolis
 beta_M = 10000;
-timesteps_M = 1000;
+timesteps_M = 3000;
 num_flips_M = 1;
 Gamma_M = 1;
 

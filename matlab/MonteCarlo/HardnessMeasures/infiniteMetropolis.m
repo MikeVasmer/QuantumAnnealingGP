@@ -10,7 +10,7 @@ Gamma = 1;
 [h, Jzz, ~, Jzzz, ~] = deal(Hparams{:});
 
 spin_config = spins;
-solution_energy = Conf_energy(spins, Hparams);
+solution_energy = realmax;
 
 time_elapsed = 0;
 timed_out = 'TTS';
@@ -43,7 +43,7 @@ while true
     end
     try
         if p > x
-            solution_energy = solution_energy + energyChange(newspins, indices_to_flip, 1, 1, 1, h, Jzz, Jzzz);
+            solution_energy = Conf_energy(newspins, Hparams);
             deficit = solution_energy - known_gs;
             spin_config = newspins;
             
@@ -70,6 +70,7 @@ delete(hTimer)
 
 solution = {solution_energy, spin_config, time_elapsed, timed_out};
 
+clear global timeoutFlag
 
 end
 

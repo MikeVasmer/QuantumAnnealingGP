@@ -2,19 +2,19 @@ clearvars
 close all
 
 %Global timesteps
-timeSteps = 8000;
+timeSteps = 15000;
 %Eqm Threshold
 eqmThreshold = 1500;
 
 %Hamiltonian
-n_qubits = 256;
+n_qubits = 512;
 conn_density = 0.75;
 h_range = [-1, 1];
 J_range = [-1, 1];
 disorder = round(n_qubits / 2);
 
-%Hparams = generate_random_2local_hamiltonian(n_qubits, conn_density, h_range, J_range);
-Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
+Hparams = generate_random_2local_hamiltonian(n_qubits, conn_density, h_range, J_range);
+%Hparams = generate_random_3local_hamiltonian(n_qubits, conn_density, h_range, J_range);
 %Hparams = {0, NN_couplings(n_qubits, 1), 0, 0, 0};
 
 %Spins
