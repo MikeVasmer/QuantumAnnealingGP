@@ -13,5 +13,7 @@ end
 
 adj = symmetrize_3local_couplings(adj);
 
-random_walk_loop_3(adj)
+loop_seq = random_walk_loop_3(adj);
+
+loop_seq
 
