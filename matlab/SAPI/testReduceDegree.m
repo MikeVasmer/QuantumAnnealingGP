@@ -37,37 +37,39 @@
 % end
 
 
-Jzzz = -ones(10, 10, 10);
-
-for i = 1:10;
-    for j = 1:10;
-        for k = 1:10;
-            if i == j || i == k || j == k
-                Jzzz(i,j,k) = 0;
-            end
-        end
-    end
-end
-
-Jzzz;
-
-[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 10);
-
-% ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
+% Jzzz = -ones(10, 10, 10);
 % 
-% ham_2 = ising_hamiltonian(hs, Jzz, 0, 0, 0);
+% for i = 1:10;
+%     for j = 1:10;
+%         for k = 1:10;
+%             if i == j || i == k || j == k
+%                 Jzzz(i,j,k) = 0;
+%             end
+%         end
+%     end
+% end
+
+
+Hparams = generate_random_3local_hamiltonian(5, 0.5, [0,0], [1,1]);
+[h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
+
+[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 5);
+
+ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
+% 
+ham_2 = ising_hamiltonian(hs, Jzz, 0, 0, 0);
 
 diff
 
-hs
+hs;
 
-Jzz
+Jzz;
 
-% min(eig(ham_1))
+min(eig(ham_1))
 % 
-% min(eig(ham_2))
+min(eig(ham_2))
 
-spinConfig_1 = generate_spins(5, 2);
+spinConfig_1 = generate_spins(5, 4);
 
 spinConfig_2 = generate_spins(5+diff, 3);
 
@@ -75,17 +77,21 @@ Hparams_1 = {0,0,0,Jzzz,0};
 
 Hparams_2 = {hs,Jzz,0,0,0};
 
-solution1 = Solver(spinConfig_1, Hparams_1, 'PIQMC')
+solution1 = Solver(spinConfig_1, Hparams_1, 'SimulatedAnnealing')
 
-solution2 = Solver(spinConfig_2, Hparams_2, 'PIQMC')
+solution2 = Solver(spinConfig_2, Hparams_2, 'SimulatedAnnealing')
+
+min(eig(ham_1))
+% 
+min(eig(ham_2))+3*diff
 
 solution1{1}
 
-solution1{2}
+solution1{2};
 
-solution2{1}
+solution2{1}+diff*3
 
-solution2{2}
+solution2{2};
 
 
 
