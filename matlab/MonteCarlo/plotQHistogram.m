@@ -1,10 +1,10 @@
-function plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder)
+function [kurt] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder)
 
 %% DEFAULT PARAMETERS
 
 % Metropolis
 beta_M = 10000;
-timesteps_M = 1000;
+timesteps_M = 10000;
 num_flips_M = 1;
 Gamma_M = 1;
 
@@ -82,8 +82,11 @@ end
 %disp(qs);
 figure();
 edges = linspace(-1, 1, 50);
-histogram(qs, edges, 'Normalization', 'probability');
-title(sprintf('P(q) distribution for %d qubits, %d runs, %s',...
-    n_qubits, num_runs, algorithm));
+histo = histogram(qs, edges, 'Normalization', 'probability');
+kurt = kurtosis(histo.Values);
+title(sprintf('P(q) dist, %d qubits, %d runs, %s, kurtosis=%.2f',...
+    n_qubits, num_runs, algorithm, kurt));
 xlabel('q');
 ylabel('P(q)');
+
+end
