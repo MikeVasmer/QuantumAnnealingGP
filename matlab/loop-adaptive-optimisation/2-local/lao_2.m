@@ -1,7 +1,7 @@
 function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps)
 
-    % Add eigenspectrum directory for just_couplings() function
-    addpath('../../eigenspectrum/')
+    % Add path for Hardness function
+    addpath('../../MonteCarlo/HardnessMeasures')
     
     % ** Algorithm **
     % Generate (random) solution
@@ -51,11 +51,16 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
     
     % Start Optimisation stage
-    % Temperature
-    beta = 1.0;
     % Calculate hardness of original Ising problem
-    hardness_type = 'SA';
-    old_hardness = hardness_measure_2(hardness_type, J_global, gs_energy);
+    %   Hardness function parameters
+    epsilon  = 5;
+    beta_h   = 10^4;
+    timeOut  = 1;
+    num_runs = 10;
+    %   Set up H params
+    hParams = {0, J_global, 0, 0, 0};
+    %   Calculate hardness
+    old_hardness = Hardness(hParams, gs_energy, epsilon, beta_h, timeOut, num_runs);
     
     % Loop for for each step in num_steps
     disp('Starting optimisation step...');
@@ -74,17 +79,52 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         [new_J_global, new_gs_energy] = planted_hamiltonian_2(solution, new_loops);
         
         % Calculate new Ising problem hardness
-        new_hardness = hardness_measure_2(hardness_type, new_J_global, new_gs_energy);
+        new_hParams = {0, new_J_global, 0, 0, 0};
+        new_hardness = Hardness(new_hParams, new_gs_energy, epsilon, beta_h, timeOut, num_runs);
+        
+        % Decision tree
+        %   If TTS, then time decides
+        %   If TIMEOUT, then energy deficit decides
+        %   TIMEOUT trumps TTS
+        if strcmp( old_hardness{3}, 'TTS' )
+            if strcmp( new_hardness{3}, 'TTS' )
+                new_TTS = new_hardness{1};
+                old_TTS = old_hardness{1};
+                if new_TTS > old_TTS
+                    accept_change = true;
+                else
+                    accept_change = false;
+                    delta_hardness = (old_TTS - new_TTS)/new_TTS;
+                end
+            elseif strcmp( new_hardness{3}, 'TIMEOUT' )
+                accept_change = true;
+            end
+        elseif strcmp( old_hardness{3}, 'TIMEOUT' )
+            if strcmp( new_hardness{3}, 'TTS' )
+                accept_change = false;
+                delta_hardness = realmax; % block change
+            elseif strcmp( new_hardness{3}, 'TIMEOUT' )
+                new_deficit = new_hardness{2};
+                old_deficit = old_hardness{2};
+                if new_deficit > old_deficit
+                    accept_change = true;
+                else
+                    accept_change = false;
+                    delta_hardness = (old_deficit - new_deficit)/new_deficit;
+                end
+            end
+        end
+           
         % If new problem harder, then accept
-        if new_hardness > old_hardness
-            % Accept
+        % Temperature for state swap
+        beta_opt = 10;
+        if accept_change
             gs_energy = new_gs_energy;
             J_global = new_J_global;
             loops = new_loops;
             old_hardness = new_hardness;
         else % Else accept with Boltzmann dist
-            deltaHardness = old_hardness - new_hardness;
-            if rand() < exp(-beta*abs(deltaHardness))
+            if rand() > exp(-beta_opt*abs(delta_hardness))
                 % Accept
                 gs_energy = new_gs_energy;
                 J_global = new_J_global;

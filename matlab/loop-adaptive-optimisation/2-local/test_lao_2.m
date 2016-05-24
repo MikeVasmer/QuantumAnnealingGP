@@ -1,13 +1,15 @@
-function [gs_energy] = test_lao_2()
+function [] = test_lao_2()
 
     % Add eigenspectrum directory
     addpath('../../eigenspectrum/');
     
     % Generate planted solution
-    num_spins = 512;
-    num_loops = 500;
+    num_spins = 10;
+    num_loops = 10;
     num_steps = 10;
     [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps);
+    
+    disp(sprintf( strcat( 'Groundstate energy: \t', num2str(gs_energy) )))
     
     % Compare gs energy with exact diag
 %     h = zeros(1, num_spins);
