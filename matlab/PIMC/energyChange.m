@@ -2,7 +2,7 @@ function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_sli
 
 global timeoutFlag
     if timeoutFlag
-        msgID = 'Timeout';
+        msgID = 'TIMEOUT:Timeout';
         msg = 'Timeout.';
         baseException = MException(msgID,msg);
         throw(baseException)

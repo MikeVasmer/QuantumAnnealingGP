@@ -1,8 +1,10 @@
-function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps)
+function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps)
 
+    % Add path for symmetrize_3local_couplings function
+    addpath('../../MonteCarlo/')
     % Add path for Hardness function
     addpath('../../MonteCarlo/HardnessMeasures')
-    
+
     % ** Algorithm **
     % Generate (random) solution
     % Place M random loops on graph, each respecting the planted solution
@@ -24,31 +26,37 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     
     % Define adjacency matrix - allowed couplings
     %    e.g. All-to-all
-    adj = ones(num_spins) - eye(num_spins);
+    adj = zeros(num_spins,num_spins,num_spins);
+    for i = 1:num_spins
+        for j = i+1:num_spins
+            for k = j+1:num_spins
+                adj(i,j,k) = 1;
+            end
+        end
+    end
+    adj = symmetrize_3local_couplings(adj);
     
     % Initialise empty loop array
-    loops = zeros(num_loops, num_spins+1);
+    loops = cell(1,num_loops);
     
     % Fill loop array with M loops
     disp('Generating initial loops...');
-    tic;
+    init_loops_timer = tic;
     for i = 1:num_loops
         % Generate random walk loop
-        loop = random_walk_loop_2( adj );
-        % Pad with zeros
-        loop = [loop, zeros(1, (num_spins+1)-length(loop))];
+        loop = random_walk_loop_3( adj );
         % Add to loop array
-        loops(i,:) = loop; 
+        loops{i} = loop; 
         
         % Progress timer
-        if toc > 1
+        if toc(init_loops_timer) > 1
             disp(strcat(num2str(i),':',num2str(num_loops)));
-            tic;
+            init_loops_timer = tic;
         end
     end
     
     % Calculate planted couplings and energies
-    [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
+    [J_global, gs_energy] = planted_hamiltonian_3(solution, loops);
     
     % Start Optimisation stage
     % Calculate hardness of original Ising problem
@@ -58,28 +66,26 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     timeOut  = 1;
     num_runs = 10;
     %   Set up H params
-    hParams = {0, J_global, 0, 0, 0};
+    hParams = {0, 0, 0, J_global, 0};
     %   Calculate hardness
     old_hardness = Hardness(hParams, gs_energy, epsilon, beta_h, timeOut, num_runs);
     
     % Loop for for each step in num_steps
     disp('Starting optimisation step...');
-    start_tic = tic;
+    optimisation_timer = tic;
     for step = 1:num_steps
         % Make copy of loops array
         new_loops = loops;
         % Generate new loop
-        new_loop = random_walk_loop_2( adj );
-        % Pad with zeros
-        new_loop = [loop, zeros(1, (num_spins+1)-length(loop))];
+        new_loop = random_walk_loop_3( adj );
         % Replace random loop from new loops array with new loop
-        new_loops(randi(num_loops),:) = new_loop;
+        new_loops{randi(num_loops)} = new_loop;
         
         % Calculate planted couplings and energies
-        [new_J_global, new_gs_energy] = planted_hamiltonian_2(solution, new_loops);
+        [new_J_global, new_gs_energy] = planted_hamiltonian_3(solution, new_loops);
         
         % Calculate new Ising problem hardness
-        new_hParams = {0, new_J_global, 0, 0, 0};
+        new_hParams = {0, 0, 0, new_J_global, 0};
         new_hardness = Hardness(new_hParams, new_gs_energy, epsilon, beta_h, timeOut, num_runs);
         
         % Decision tree
@@ -114,7 +120,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
                 end
             end
         end
-           
+         
         % If new problem harder, then accept
         % Temperature for state swap
         beta_opt = 10;
@@ -134,9 +140,9 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         end
 
         % Progress timer
-        if toc(start_tic) > 2
+        if toc(optimisation_timer) > 2
             disp(strcat(num2str(step),':',num2str(num_steps)));
-            start_tic = tic;
+            optimisation_timer = tic;
         end 
     end   
 end
