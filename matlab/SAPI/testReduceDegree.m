@@ -37,23 +37,27 @@
 % end
 
 
-% Jzzz = -ones(10, 10, 10);
-% 
-% for i = 1:10;
-%     for j = 1:10;
-%         for k = 1:10;
-%             if i == j || i == k || j == k
-%                 Jzzz(i,j,k) = 0;
-%             end
-%         end
-%     end
-% end
+Jzzz = -ones(6, 6, 6);
+
+for i = 1:6;
+    for j = 1:6;
+        for k = 1:6;
+            p = rand;
+            if p < 0.5;
+                Jzzz(i,j,k) = Jzzz(i,j,k)*-1;
+            end
+            if i == j || i == k || j == k
+                Jzzz(i,j,k) = 0;
+            end
+        end
+    end
+end
 
 
-Hparams = generate_random_3local_hamiltonian(5, 0.5, [0,0], [1,1]);
-[h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
+% Hparams = generate_random_3local_hamiltonian(5, 0.5, [0,0], [1,1]);
+% [h, Jzz, Jxx, Jzzz, Jxxx] = deal(Hparams{:});
 
-[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 5);
+[hs, Jzz, pens, diff] = threeToTwo(Jzzz, 6);
 
 ham_1 = ising_hamiltonian(0, 0, 0, Jzzz, 0);
 % 
@@ -69,9 +73,9 @@ min(eig(ham_1))
 % 
 min(eig(ham_2))
 
-spinConfig_1 = generate_spins(5, 4);
+spinConfig_1 = generate_spins(6, 3);
 
-spinConfig_2 = generate_spins(5+diff, 3);
+spinConfig_2 = generate_spins(6+diff, 3);
 
 Hparams_1 = {0,0,0,Jzzz,0};
 
@@ -81,13 +85,19 @@ solution1 = Solver(spinConfig_1, Hparams_1, 'SimulatedAnnealing')
 
 solution2 = Solver(spinConfig_2, Hparams_2, 'SimulatedAnnealing')
 
+
+disp('Exact diag result')
 min(eig(ham_1))
 % 
 min(eig(ham_2))+3*diff
 
+disp('Native three local')
+
 solution1{1}
 
 solution1{2};
+
+disp('Two local conversion')
 
 solution2{1}+diff*3
 

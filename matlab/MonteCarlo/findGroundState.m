@@ -10,7 +10,26 @@ function [ output ] = findGroundState( paramsFile, solverType, repNumber, ground
 %   case that they are not equal) set equal to 1 for seeding, 0 for random
 %   confs each time.
 
-    load(paramsFile)
+    Ham_1 = load(paramsFile);
+    Ham_1 = Ham_1.run_info;
+    Ham_1_info = Ham_1('ProbSolInfo');
+    groundStateEn = Ham_1_info(3);
+    groundStateEn = groundStateEn{1}
+    Ham_1_mat = Ham_1_info(2);
+    Hparams = Ham_1_mat{1};
+    Spin_config = Ham_1_info(1);
+    Spin_config = Spin_config{1};
+    
+    dims = size(Hparams{2});
+    
+    if length(dims(1)) > 2
+        Hparams = fliplr(Hparams)
+    end
+    
+        
+    
+    
+    n_qubits = length(Spin_config);
     
     disorder = round(n_qubits/2);
     
@@ -102,14 +121,15 @@ function [ output ] = findGroundState( paramsFile, solverType, repNumber, ground
             disp('Enter valid Monte Carlo Algorithm')
     end
     
-    
+    repCountO = repCount;
     
     time = toc(tStart);
     if repCount == 0
-        disp('Ground State Not Found')
+        disp('Ground State Not Found');
+        repCountO = repNumber;
     end
     
-    output = {repCount, time, solution{1}, solution{2}}; 
+    output = {repCountO, time, solution{1}, solution{2}}; 
     
     
     
