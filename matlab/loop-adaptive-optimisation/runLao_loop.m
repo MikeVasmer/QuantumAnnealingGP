@@ -34,7 +34,7 @@ for i = 1:length(num_spins)
         values = {...
             locality, ...     % locality
             num_spins(i), ...    % Number of spins in problem
-            num_loops, ...     % Number of loops on graph
+            num_loops(i), ...     % Number of loops on graph
             num_steps, ...    % Number of times a loop is replaced and optimisation step is executed
             epsilon, ...      % Distance from groundstate that is acceptable as solved
             beta_h, ...    % Metropolis temperature 
