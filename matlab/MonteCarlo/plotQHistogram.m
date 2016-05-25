@@ -1,10 +1,10 @@
-function [kurt] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder)
+function [kurt] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder, show, monty_timeSteps)
 
 %% DEFAULT PARAMETERS
 
 % Metropolis
 beta_M = 10000;
-timesteps_M = 3000;
+timesteps_M = monty_timeSteps;
 num_flips_M = 1;
 Gamma_M = 1;
 
@@ -81,12 +81,14 @@ end
 
 %disp(qs);
 figure();
-edges = linspace(-1, 1, 50);
+edges = linspace(-1, 1, 25);
 histo = histogram(qs, edges, 'Normalization', 'probability');
-kurt = kurtosis(histo.Values);
+kurt = kurtosis(histo.Values, 1);
 title(sprintf('P(q) dist, %d qubits, %d runs, %s, kurtosis=%.2f',...
     n_qubits, num_runs, algorithm, kurt));
 xlabel('q');
 ylabel('P(q)');
-
+if ~show
+    close all 
+end   
 end
