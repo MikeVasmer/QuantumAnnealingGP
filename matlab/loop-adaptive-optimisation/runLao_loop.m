@@ -15,7 +15,7 @@ num_runs = 5;
 beta_transition = 100;
 
 % Loop for each element in num_spins
-for i = 1:5
+for i = 1:length(num_spins)
     % Loop such that we run each num_spins 10 times
     for j = 1:10
 
