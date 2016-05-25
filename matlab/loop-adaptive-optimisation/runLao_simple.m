@@ -4,14 +4,14 @@ addpath(genpath('../../'))
 locality = 2;
 % LAO parameters
 num_spins = 20;
-num_loops = 20;
-num_steps = 200;
+num_loops = 2*num_spins;
+num_steps = 100;
 % Hardness parameters
-epsilon = 10;
+epsilon = round(2*sqrt(num_spins));
 beta_h = 10^4;
-timeOut = 30;
+timeOut = 300;
 num_runs = 5;
-% Transition temperature
+% Transition temperature for optimisation stage
 beta_transition = 100;
 
 keys = {...
@@ -38,5 +38,8 @@ values = {...
     beta_transition, ... % Transition temperature
 };
 
+% Contain variables into a Map structure
 paramsMap = containers.Map(keys, values);
+
+% Run LAO algorithm
 lao(paramsMap);

@@ -1,5 +1,5 @@
 function [] = lao(paramsMap)
-
+    % Clear previous timeoutFlag
     clear global timeoutFlag
 
     % Locality
@@ -36,7 +36,7 @@ function [] = lao(paramsMap)
             disp('Can only handle 2-local and 3-local LAO algorithms!')
     end
 
+    % Display ground state energy
     disp(sprintf( strcat( 'Groundstate energy: \t', num2str(gs_energy) )))
 
 end
-
