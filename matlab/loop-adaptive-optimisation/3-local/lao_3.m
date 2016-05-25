@@ -70,8 +70,8 @@ function [solution, J_global, gs_energy]s = lao_3(num_spins, num_loops, num_step
     for step = 1:num_steps
         % Make copy of loops array
         new_loops = loops;
-        % Number of loops to replace
-        num_replace = randi(3);
+        % Number of loops to replace - normal distribution
+        num_replace = ceil(abs(randn()));
         for i = 1:num_replace
             % Generate new loop
             new_loop = random_walk_loop_3( adj );
@@ -140,10 +140,17 @@ function [solution, J_global, gs_energy]s = lao_3(num_spins, num_loops, num_step
         end
 
         % Progress timer
-        if toc(optimisation_timer) > 3 || step == num_steps
+        update_time = 3;
+        if toc(optimisation_timer) > update_time || step == num_steps
+            if exist('delta_steps')
+                delta_steps = [delta_steps, step-progess_step];
+            else
+                delta_steps = [step-progess_step];
+            end
+            
             disp(sprintf( strcat( ...
             'Optimisation step: \t\t', num2str(step), '\t of \t', num2str(num_steps), ...
-            '\t\t Delta: \t', num2str(step-progess_step) ...
+            '\t\t Delta: \t', num2str(delta_steps(end)) ...
             )));
         
             disp(sprintf( strcat( ...
@@ -153,6 +160,18 @@ function [solution, J_global, gs_energy]s = lao_3(num_spins, num_loops, num_step
             
             disp(sprintf( strcat( ...
             'Accepted updates: \t\t', num2str(length(hardness_evolution)) ...
+            )));
+        
+            time_remaining = update_time*((num_steps-step)/mean(delta_steps));
+            time_hour = floor(time_remaining/3600);
+            time_min  = floor((time_remaining-(time_hour*60))/60);
+            time_sec  = round(mod(time_remaining,60));
+        
+            disp(sprintf( strcat( ...
+            'Estimated time remaining: \t', ...
+                num2str(time_hour), 'h \t', ...
+                num2str(time_min), 'm \t', ...
+                num2str(time_sec), 's \t' ...
             )));
         
             disp('-------------------------------------------------');
@@ -176,7 +195,7 @@ function [solution, J_global, gs_energy]s = lao_3(num_spins, num_loops, num_step
                 {old_hardness}, ... 
                 {new_hardness}, ... % Hardness of instance
                 {num_spins, num_loops, num_steps, adj, hardness_params, beta_transition}, ...   % LAO parameters
-                {solution, {0,J_global,0,0,0}, gs_energy} ...                                   % Problem/Solution info   
+                {solution, {0,0,0,J_global,0}, gs_energy} ...                                   % Problem/Solution info   
             };
             
         run_info = containers.Map(keys, values);
