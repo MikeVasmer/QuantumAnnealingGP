@@ -5,8 +5,8 @@ function [ solution ] = Solver( spinConfig, Hparams, SolverType )
 %% DEFAULT PARAMETERS
 
 % Metropolis
-beta_M = 1e23;
-timesteps_M = 10000;
+beta_M = 100000;
+timesteps_M = 100;
 num_flips_M = 1;
 Gamma_M = 1;
 
@@ -16,10 +16,10 @@ timesteps_HB = 1000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 7e23;
+initialTemp_SA = 7e20;
 spinStepSize_SA = 1;
 iterations_SA = 5000;
-scheduleType_SA = 'linear';
+scheduleType_SA = 'exponential';
 flipsPerTemp_SA = length(spinConfig)/5;
 finalTemp_SA = 0;
 
@@ -35,7 +35,7 @@ num_flips_PT = 1;
 monte_steps = 1000;
 trotter_slices = 20;
 G_start = 1.5;
-Temperature = 0.05;
+Temperature = 0.001;
 step_flips = 1;
 
 %% SOLVE
