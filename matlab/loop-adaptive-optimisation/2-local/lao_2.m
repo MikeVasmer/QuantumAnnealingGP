@@ -44,9 +44,11 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     end
     
     % Calculate planted couplings and energies
+    disp('Calculating planted Hamiltonian...');
     [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
     
     % Start Optimisation stage
+    disp('Starting optimisation step...');
     % Calculate hardness of original Ising problem
     %   Hardness function parameters
     epsilon  = hardness_params{1};
@@ -62,7 +64,6 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     hardness_evolution = [old_hardness{1}];
     
     % Loop for for each step in num_steps
-    disp('Starting optimisation step...');
     optimisation_timer = tic;
     progess_step = 0;
     change_accepted = false;
@@ -197,9 +198,9 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         change_accepted = false;
     end   
     
-%     figure(1);
-%     plot(hardness_evolution)
-%     xlabel('Steps');
-%     ylabel('Hardness');
+    figure(1);
+    plot(hardness_evolution)
+    xlabel('Steps');
+    ylabel('Hardness');
 end
 
