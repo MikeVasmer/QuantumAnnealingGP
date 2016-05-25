@@ -7,7 +7,7 @@ timeSteps = 15000;
 eqmThreshold = 1500;
 
 %Hamiltonian
-n_qubits = 512;
+n_qubits = 10;
 conn_density = 0.75;
 h_range = [-1, 1];
 J_range = [-1, 1];
