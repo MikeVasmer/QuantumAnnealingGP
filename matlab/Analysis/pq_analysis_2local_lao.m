@@ -17,10 +17,10 @@ end
 hardness_List = zeros(num_files, 1);
 hParams_List = cell(1, num_files);
 step_List = zeros(num_files, 1);
-total_LAO_steps = data{1}('stepInfo');
-total_LAO_steps = total_LAO_steps{2};
-n_qubits_temp = data{1}('ProbSolInfo');
-n_qubits = length(n_qubits{1});
+LAOparams = data{1}('LAOparams');
+n_qubits = LAOparams{1};
+total_LAO_iterations = LAOparams{3};
+LAO_loops = LAOparams{2};
 
 for i=1:num_files
    temp_hard = data{i}('hardness');
@@ -33,11 +33,18 @@ end
 
 figure();
 plot(step_List, hardness_List);
-title(sprintf('Hardness for %d qubits',...
-       n_qubits, num_runs, algorithm, kurt));
-xlabel('q');
-ylabel('P(q)');
+title(sprintf('Hardness for %d qubits, %d loops, %d iteraions',...
+    n_qubits, LAO_loops, total_LAO_iterations));
+xlabel('Iteration');
+ylabel('Time2Target');
 figure();
-scatter(step_List, hardness_List);
+s = scatter(step_List, hardness_List);
+title(sprintf('Hardness for %d qubits, %d loops, %d iteraions',...
+    n_qubits, LAO_loops, total_LAO_iterations));
+xlabel('Iteration');
+ylabel('Time2Target');
+s.LineWidth = 0.6;
+s.MarkerEdgeColor = 'b';
+s.MarkerFaceColor = [0 0.5 0.5];
 
 
