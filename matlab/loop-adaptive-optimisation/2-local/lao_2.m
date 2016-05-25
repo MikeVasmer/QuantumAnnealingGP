@@ -1,7 +1,7 @@
 function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition)
 
     % Add path for Hardness function
-    addpath('../../MonteCarlo/HardnessMeasures')
+    addpath('../../MonteCarlo/HardnessMeasures') 
     
     % ** Algorithm **
     % Generate (random) solution
@@ -44,9 +44,11 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     end
     
     % Calculate planted couplings and energies
+    disp('Calculating planted Hamiltonian...');
     [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
     
     % Start Optimisation stage
+    disp('Starting optimisation step...');
     % Calculate hardness of original Ising problem
     %   Hardness function parameters
     epsilon  = hardness_params{1};
@@ -62,15 +64,28 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     hardness_evolution = [old_hardness{1}];
     
     % Loop for for each step in num_steps
-    disp('Starting optimisation step...');
     optimisation_timer = tic;
+    % Used to calculate delta_step between progress reports
     progess_step = 0;
+    % Whether a change within a loop was accepted
     change_accepted = false;
-    for step = 1:num_steps
+    % Flag to determine when to loop again
+    continue_looping = true;
+    % Keep track of number of steps since the last update
+    steps_since_update = 0;
+    % Track number of steps excecuted
+    step = 0;
+    % Used in time to termination calculation
+    delta_steps = [];
+    while continue_looping
+        % Increment step count
+        step = step + 1;
+        % Increment steps since last update count
+        steps_since_update = steps_since_update + 1;
         % Make copy of loops array
         new_loops = loops;
-        % Number of loops to replace
-        num_replace = randi(3);
+        % Number of loops to replace - normal distribution
+        num_replace = ceil(abs(randn()));
         for i = 1:num_replace
             % Generate new loop
             new_loop = random_walk_loop_2( adj );
@@ -122,38 +137,77 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
            
         % If new problem harder, then accept
         if definitely_accept_change
-            gs_energy = new_gs_energy;
-            J_global = new_J_global;
-            loops = new_loops;
-            old_hardness = new_hardness;
-            hardness_evolution = [hardness_evolution, old_hardness{1}];
             change_accepted = true;
         else % Else accept with Boltzmann dist
             if rand() < exp(-beta_transition*abs(delta_hardness))
-                % Accept
-                gs_energy = new_gs_energy;
-                J_global = new_J_global;
-                loops = new_loops;
-                old_hardness = new_hardness;
-                hardness_evolution = [hardness_evolution, old_hardness{1}];
                 change_accepted = true;
             end
         end
+        
+        % If change was accepted, then update required variables
+        if change_accepted
+            % Update new groundstate energy
+            gs_energy = new_gs_energy;
+            % Update new couplings, J
+            J_global = new_J_global;
+            % Update new loops
+            loops = new_loops;
+            % Update new hardness
+            old_hardness = new_hardness;
+            % Keep track of hardness after each update
+            hardness_evolution = [hardness_evolution, old_hardness{1}];
+            % Reset steps since last update
+            steps_since_update = 0;
+            % Reset delta_steps, used in time to termination calculation
+            delta_steps = [];
+        end
+        
+        % If the number of steps since the last update is larger than
+        % num_loops, then stop optimisation process
+        if steps_since_update >= num_steps
+            continue_looping = false;
+            disp(sprtinf(strcat( ...
+                'Info: Number of steps since last update has reached \t', ...
+                num2str(steps_since_update), ...
+                '. Therefore optimisation stage was terminated.' ...
+            )));
+        end
 
         % Progress timer
-        if toc(optimisation_timer) > 3 || step == num_steps
-            disp(sprintf( strcat( ...
-            'Optimisation step: \t\t', num2str(step), '\t of \t', num2str(num_steps), ...
-            '\t\t Delta: \t', num2str(step-progess_step) ...
+        update_time = 3;
+        if toc(optimisation_timer) > update_time || step == num_steps || ~continue_looping
+            % Update list of delta steps
+            delta_steps = [delta_steps, step-progess_step];
+
+            disp(sprintf(strcat( ...
+            'Optimisation step: \t\t', num2str(step), '\t\t Delta: \t', num2str(delta_steps(end)) ...
             )));
         
-            disp(sprintf( strcat( ...
+            disp(sprintf(strcat( ...
+            'Steps since update: \t', num2str(steps_since_update), ...
+            '\t of \t', num2str(num_steps), ...
+            '\t before termination.' ...
+            )));
+        
+            disp(sprintf(strcat( ...
             'Current hardness: \t\t', 'TTS (sec): \t', num2str(old_hardness{1}), ...
             '\t Deficit: \t', num2str(old_hardness{2}), '\t Type: \t', num2str(old_hardness{3}) ...
             )));
             
-            disp(sprintf( strcat( ...
-            'Accepted updates: \t\t', num2str(length(hardness_evolution)) ...
+            disp(sprintf(strcat( ...
+            'Accepted updates: \t\t', num2str(length(hardness_evolution)-1) ...
+            )));
+        
+            time_remaining = update_time*((num_steps-steps_since_update)/mean(delta_steps));
+            time_hour = floor(time_remaining/3600);
+            time_min  = floor((time_remaining-(time_hour*3600))/60);
+            time_sec  = round(mod(time_remaining,60));
+        
+            disp(sprintf(strcat( ...
+            'Time to termination: \t', ...
+                num2str(time_hour), 'h \t', ...
+                num2str(time_min), 'm \t', ...
+                num2str(time_sec), 's \t' ...
             )));
         
             disp('-------------------------------------------------');
@@ -162,6 +216,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
             progess_step = step;
         end 
         
+        % If change was accepted, then save to file the new Ising problem
         if change_accepted
             
             keys = {...
@@ -174,32 +229,30 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
             
             values = { ...
                 {step, num_steps}, ...                                                          % Step info
-                {old_hardness}, ... 
-                {new_hardness}, ... % Hardness of instance                                                  % Hardness of instance
+                {old_hardness}, ...                                                             % Hardness of instance
+                {new_hardness}, ...                                                             % Hardness of instance
                 {num_spins, num_loops, num_steps, adj, hardness_params, beta_transition}, ...   % LAO parameters
                 {solution, {0,J_global,0,0,0}, gs_energy} ...                                   % Problem/Solution info   
             };
-            
-        run_info = containers.Map(keys, values);
-        
-        % Filename malarky
-        currentTime = clock;
-        timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
-        fileNameString = ['files', filesep, timeString, '_numqubits_', ...
-            num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
-            num2str(old_hardness{1}), '.mat']; 
 
-        save(fileNameString, 'run_info');
-        
+            run_info = containers.Map(keys, values);
+
+            % Filename malarky
+            currentTime = clock;
+            timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
+            fileNameString = ['files', filesep, timeString, '_numqubits_', ...
+                num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
+                num2str(old_hardness{1}), '.mat']; 
+
+            save(fileNameString, 'run_info');       
         end
         
         % Reset change_accepted
         change_accepted = false;
     end   
     
-%     figure(1);
-%     plot(hardness_evolution)
-%     xlabel('Steps');
-%     ylabel('Hardness');
+    figure(1);
+    plot(hardness_evolution)
+    xlabel('Steps');
+    ylabel('Hardness');
 end
-

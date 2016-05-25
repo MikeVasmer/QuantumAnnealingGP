@@ -1,7 +1,7 @@
 function [observables] = generateObservables(spins1, spins2, Hparams, algorithm, timeSteps, eqmThreshold)
 
 % Metropolis Params
-beta_M = 10000;
+beta_M = 1e20;
 timesteps_M = 1;
 num_flips_M = 1;
 Gamma_M = 1;
