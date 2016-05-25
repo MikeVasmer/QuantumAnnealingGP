@@ -7,10 +7,10 @@ num_spins = 20;
 num_loops = 20;
 num_steps = 200;
 % Hardness parameters
-epsilon = 20;
+epsilon = 10;
 beta_h = 10^4;
 timeOut = 30;
-num_runs = 10;
+num_runs = 5;
 % Transition temperature
 beta_transition = 100;
 
