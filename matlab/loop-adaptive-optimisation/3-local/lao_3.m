@@ -64,7 +64,6 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
     hardness_evolution = [old_hardness{1}];
     
     % Loop for for each step in num_steps
-    optimisation_timer = tic;
     % Used to calculate delta_step between progress reports
     progess_step = 0;
     % Whether a change within a loop was accepted
@@ -73,10 +72,13 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
     continue_looping = true;
     % Keep track of number of steps since the last update
     steps_since_update = 0;
+    % Keep track of time since the last progress report
+    time_since_progress = tic;
     % Track number of steps excecuted
     step = 0;
     % Used in time to termination calculation
     delta_steps = [];
+    time_since_progress_array = [];
     while continue_looping
         % Increment step count
         step = step + 1;
@@ -156,8 +158,9 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
             hardness_evolution = [hardness_evolution, old_hardness{1}];
             % Reset steps since last update
             steps_since_update = 0;
-            % Reset delta_steps, used in time to termination calculation
+            % Reset delta_steps and time_since_progress_array used in time to termination calculation
             delta_steps = [];
+            time_since_progress_array = [];
         end
 
         % If the number of steps since the last update is larger than
@@ -173,9 +176,10 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
         
         % Progress timer
         update_time = 3;
-        if toc(optimisation_timer) > update_time || step == num_steps || ~continue_looping
-            % Update list of delta steps
+        if toc(time_since_progress) > update_time || step == num_steps || ~continue_looping
+            % Update list of delta_steps and time_since_progress_array
             delta_steps = [delta_steps, step-progess_step];
+            time_since_progress_array = [time_since_progress_array, toc(time_since_progress)];
 
             disp(sprintf(strcat( ...
             'Optimisation step: \t\t', num2str(step), '\t\t Delta: \t', num2str(delta_steps(end)) ...
@@ -196,7 +200,7 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
             'Accepted updates: \t\t', num2str(length(hardness_evolution)-1) ...
             )));
         
-            time_remaining = update_time*((num_steps-steps_since_update)/mean(delta_steps));
+            time_remaining = mean(time_since_progress_array)*((num_steps-steps_since_update)/mean(delta_steps));
             time_hour = floor(time_remaining/3600);
             time_min  = floor((time_remaining-(time_hour*3600))/60);
             time_sec  = round(mod(time_remaining,60));
@@ -210,8 +214,11 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
         
             disp('-------------------------------------------------');
         
-            optimisation_timer = tic;
+            % Update step of last progress
             progess_step = step;
+            
+            % Reset time since last progress report
+            time_since_progress = tic;
         end 
         
         % If change was accepted, then save to file the new Ising problem
