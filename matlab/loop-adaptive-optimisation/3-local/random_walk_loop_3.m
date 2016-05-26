@@ -28,7 +28,7 @@ function [ out ] = random_walk_loop_3( adj )
             adj_tris = find(selected_slice);
             % Remove previous tri-coupling from adjacent tri-couplings
             temp_adj_tris = [];
-            for i = 1:length(adj_tris)
+            for i = 1:length(adj_tris(:,1))
                 % Index to co-ord
                 potential_tri = [ current_tri(chosen_dim), floor((adj_tris(i)-1)/num_nodes)+1, mod((adj_tris(i)-1),num_nodes)+1 ];
                 if ~isequal( sort(potential_tri), sort(prev_tri) ) && ~isequal( sort(potential_tri), sort(current_tri) )
@@ -45,7 +45,7 @@ function [ out ] = random_walk_loop_3( adj )
             end
             
             % Pick random adjacent tri
-            next_tri = adj_tris(randi(length(adj_tris)),:);
+            next_tri = adj_tris(randi(length(adj_tris(:,1))),:);
             % Set previous tri
             prev_tri = loop_seq{end};
             % Add to loop sequence
