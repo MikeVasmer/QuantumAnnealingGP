@@ -1,9 +1,9 @@
 addpath(genpath('../../'))   
 
 % Locality
-locality = 2;
+locality = 3;
 % LAO parameters
-num_spins = [20,30,40,50,60];
+num_spins = [20,30,40];
 num_loops = 2*num_spins;
 num_steps = 200;
 % Hardness parameters
