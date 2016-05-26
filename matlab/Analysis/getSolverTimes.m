@@ -1,4 +1,4 @@
-function [ output_args ] = getSolverTimes( solve_reps, total_reps, epsilon )
+function [ output_args ] = getSolverTimes( directoryName, solve_reps, total_reps, epsilon )
 %getSolverTimes: this function loops through all files in the current
 %folder and returns solve-time information for solvers.
 %   Currently only clever enough to work if you are in the directory you
@@ -12,7 +12,7 @@ function [ output_args ] = getSolverTimes( solve_reps, total_reps, epsilon )
     
 
     % Get parent directory
-    directory_name = uigetdir;
+    directory_name = directoryName;
     subfolders = dir(directory_name)
     
     
