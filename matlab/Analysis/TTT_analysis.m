@@ -12,7 +12,7 @@ directory_name = uigetdir;
 subfolders = dir(directory_name);
 %Remove hidden . and .. folders
 subfolders = subfolders(arrayfun(@(x) x.name(1), subfolders) ~= '.');
-%Remove bash file processing script
+%Remove bash file processing script and figures
 for i = length(subfolders):-1:1
     if ~isempty(strfind(subfolders(i).name, 'file_processor'))
         subfolders(i) = [];
