@@ -1,6 +1,6 @@
 function [] = lao(paramsMap)
     % Clear previous timeoutFlag
-    clear global timeoutFlag
+    %clear global timeoutFlag
 
     % Locality
     locality = paramsMap('locality');
