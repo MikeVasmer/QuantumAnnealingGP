@@ -4,7 +4,15 @@ close all
 directory_name = uigetdir;
 mat_files = dir(directory_name);
 %Ignore . and .. directories
-mat_files = mat_files(arrayfun(@(x) x.name(1), mat_files) ~= '.');
+for i = length(mat_files):-1:1
+    if mat_files(i).isdir
+        mat_files(i) = [];
+    elseif ~isempty(strfind(mat_files(i).name, 'solved'))
+        mat_files(i) = [];
+    elseif ~isempty(strfind(mat_files(i).name, 'average'))
+        mat_files(i) = [];
+    end
+end
 num_files = length(mat_files);
 data = cell(1, num_files);
 
@@ -34,22 +42,25 @@ end
 %Calculate P(q) distributions & kurtosis 
 num_runs_Pq = 1000;
 disorder_Pq = round(n_qubits / 2);
-kurtosis_List = zeros(num_files, 1);
+hardness_50_List = ones(num_files, 1).*2;
+hardness_75_List = ones(num_files, 1).*2;
 show_distributions = 1;
 metropolis_timeSteps = 1000;
 
 for i=1:num_files
-    kurtosis_List(i) = plotQHistogram('Metropolis', hParams_List{i},...
+    temp_hardness = plotQHistogram('Metropolis', hParams_List{i},...
         num_runs_Pq, n_qubits, disorder_Pq, show_distributions,...
         metropolis_timeSteps);
+    hardness_75_List(i) = temp_hardness{1};
+    hardness_50_List(i) = temp_hardness{2};
 end
-kurtosis_List = 1./kurtosis_List;
+
 
 %Test equilibration
-timeSteps = 10000;
-eqmThreshold = 2000;
-observables_List = cell(1, num_files);
-disorder_eqm = disorder_Pq;
+% timeSteps = 10000;
+% eqmThreshold = 2000;
+% observables_List = cell(1, num_files);
+% disorder_eqm = disorder_Pq;
 
 % for i=1:num_files
 %     spins1 = generate_spins(n_qubits, disorder_eqm);
@@ -85,14 +96,22 @@ ylabel('Time2Target');
 s1.LineWidth = 0.6;
 s1.MarkerEdgeColor = 'b';
 s1.MarkerFaceColor = 'b';
+
 figure();
-s2 = scatter(step_List, kurtosis_List);
+hold on
+s2 = scatter(step_List, hardness_50_List);
+s2.MarkerEdgeColor = 'g';
+s2.MarkerFaceColor = 'g';
+s3 = scatter(step_List, hardness_75_List);
+s3.MarkerEdgeColor = 'r';
+s3.MarkerFaceColor = 'r';
 title(sprintf('Hardness for %d qubits, %d loops, %d iterations',...
     n_qubits, LAO_loops, total_LAO_iterations));
 xlabel('Iteration');
-ylabel('1/Kurtosis');
-s2.LineWidth = 0.6;
-s2.MarkerEdgeColor = 'r';
-s2.MarkerFaceColor = 'r';
+ylabel('P(q) Hardness');
+legend('Hardness50','Harndess75');
+
+
+
 
 
