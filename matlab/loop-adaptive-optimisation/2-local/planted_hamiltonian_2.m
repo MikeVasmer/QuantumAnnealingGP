@@ -17,13 +17,6 @@ function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
         J_local = local_hamiltonian_2(solution, loops(i,:));
         % Update global, by adding them together
         J_global = J_global + J_local;
-        % Update global couplings, overwriting values
-%         for j = 1:numel(J_global)
-%             % If coupling set in local loop, then overwrite global coupling
-%             if J_local(j) ~= 0
-%                 J_global(j) = J_local(j);
-%             end
-%         end
     end
     
     % Normalise final J_global
@@ -35,6 +28,9 @@ function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
         end
     end
     
+    % Symmetrise J_global
+    J_global = J_global + J_global';
+    
     % Calculate groundstate energy
     spin_config = solution;
     h = 0;
@@ -43,6 +39,7 @@ function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
     Jzzz = 0;
     Jxxx = 0;
     hParams = {h, Jzz, Jxx, Jzzz, Jxxx};
+    
     gs_energy = Conf_energy( spin_config, hParams );
 
 end

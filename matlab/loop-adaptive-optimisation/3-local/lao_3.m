@@ -44,10 +44,7 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
     end
     
     % Calculate planted couplings and energies
-    disp('Calculating planted Hamiltonian...');
     [J_global, gs_energy] = planted_hamiltonian_3(solution, loops);
-    % Symmetrise couplings
-    J_global = symmetrize_3local_couplings(J_global);
     
     % Start Optimisation stage
     disp('Starting optimisation step...');
@@ -98,9 +95,7 @@ function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps
         end
 
         % Calculate planted couplings and energies
-        [new_J_global, new_gs_energy] = planted_hamiltonian_3(solution, new_loops);
-        % Symmetrise couplings
-        new_J_global = symmetrize_3local_couplings(new_J_global);
+        [new_J_global, new_gs_energy] = planted_hamiltonian_3(solution, new_loops);        
         
         % Calculate new Ising problem hardness
         new_hParams = {0, 0, 0, new_J_global, 0};

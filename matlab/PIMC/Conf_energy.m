@@ -1,13 +1,5 @@
 function [ out ] = Conf_energy(spinConfig, HParams)
-    % Timeout functionality
-    global timeoutFlag
-    if timeoutFlag
-        msgID = 'TIMEOUT:Timeout';
-        msg = 'Timeout.';
-        baseException = MException(msgID,msg);
-        throw(baseException)
-    end
-    
+  
     % Unpack parameters
     [h, Jzz, Jxx, Jzzz, Jxxx] = deal(HParams{:});
     
@@ -28,6 +20,10 @@ function [ out ] = Conf_energy(spinConfig, HParams)
     
     % Jzz term
     if length(Jzz) > 1
+        % If not symmetrised, then symmetrise
+        if ~isequal(Jzz, Jzz')
+            Jzz = Jzz + Jzz';
+        end
         % Make 2D matrix out of copies of the 1D spin configuration
         spinConfig_2d = spinConfig'*spinConfig;
         % Intermediate step matrix
@@ -38,6 +34,10 @@ function [ out ] = Conf_energy(spinConfig, HParams)
     
     % Jxx term
     if length(Jxx) > 1
+        % If not symmetrised, then symmetrise
+        if ~isequal(Jxx, Jxx')
+            Jxx = Jxx + Jxx';
+        end
         % Make 2D matrix out of copies of the 1D spin configuration
         spinConfig_2d = spinConfig'*spinConfig;
         % Intermediate step matrix
@@ -48,6 +48,11 @@ function [ out ] = Conf_energy(spinConfig, HParams)
     
     % Jzzz term
     if length(Jzzz) > 1
+        % If not symmetrised, then symmetrise
+        if isequal( Jzzz, permute(Jzzz, [3,2,1]) )
+            Jzzz = symmetrize3local(Jzzz);
+        end
+
         % Spins 1 and 2 array
         spinConfig_1_2_spin = repmat(spinConfig'*spinConfig,1,1,num_spins);
         % Spins 3 array
@@ -61,6 +66,11 @@ function [ out ] = Conf_energy(spinConfig, HParams)
         
     % Jxxx term
     if length(Jxxx) > 1
+        % If not symmetrised, then symmetrise
+        if isequal( Jxxx, permute(Jxxx, [3,2,1]) )
+            Jxxx = symmetrize3local(Jxxx);
+        end
+
         % Spins 1 and 2 array
         spinConfig_1_2_spin = repmat(spinConfig'*spinConfig,1,1,num_spins);
         % Spins 3 array
