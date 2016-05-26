@@ -1,4 +1,4 @@
-function [ output_args ] = getSolverTimes( dirName, solve_reps, total_reps, epsilon )
+function [ output_args ] = getSolverTimes( solve_reps, total_reps, epsilon )
 %getSolverTimes: this function loops through all files in the current
 %folder and returns solve-time information for solvers.
 %   Currently only clever enough to work if you are in the directory you
@@ -82,6 +82,8 @@ function [ output_args ] = getSolverTimes( dirName, solve_reps, total_reps, epsi
         % information about every repeat of the solving attempt
         fileNameString = strcat('solvedSA', file.name);
         save(fileNameString, 'RepsSA', 'TimeSA', 'RepsPIQMC', 'TimePIQMC', 'RepsHB', 'TimeHB');
+        fileNameString_av = strcat('averages', deepestFolder);   
+        save(fileNameString_av, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
     end
     
     % Finally create a file containing average RTS/TTS for each solver and
