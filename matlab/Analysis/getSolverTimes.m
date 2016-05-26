@@ -10,88 +10,138 @@ function [ output_args ] = getSolverTimes( solve_reps, total_reps, epsilon )
 %   epsilon = closeness to ground state required for 'solved'
 
     
-%   list of all .mat files
+
+    % Get parent directory
+    directory_name = uigetdir;
+    subfolders = dir(directory_name)
+    
+    
+    subfolders = subfolders(arrayfun(@(x) x.name(1), subfolders) ~= '.');
+    
+    
+    for i = length(subfolders):-1:1
+        if ~isempty(strfind(subfolders(i).name, 'file_processor'))
+            subfolders(i) = [];
+        elseif ~isempty(strfind(subfolders(i).name, 'fig'))
+            subfolders(i) = [];
+        end
+    end
+    directories = cell(length(subfolders),1);
+    
+    
     files = dir('*.mat')
     
-    currentDirectory = pwd;
     
-    % Gets current folder name
-    [upperPath, deepestFolder, ~] = fileparts(currentDirectory);
     
-    % Gets any 'solved' files - best if these aren't here!
-    solvedFiles = dir('*solved*.mat');
-    
-    % Finds total number of data files (not including solved files)
-    totDataFiles = length(files) - length(solvedFiles);
-    
-    % Initialises arrays to hold average times and reps for each solver.
-    % Vector, each entry corresponding to different file
-    avRepsSA = zeros(totDataFiles, 1);
-    avTimeSA = zeros(totDataFiles, 1);
-    avRepsPIQMC = zeros(totDataFiles, 1);
-    avTimePIQMC = zeros(totDataFiles, 1);
-    avRepsHB = zeros(totDataFiles, 1);
-    avTimeHB = zeros(totDataFiles, 1);
-    
-    count = 0;
-    
-    % Loops through files
-    for file = files'
-        count = count + 1;
-        
-        % Creates arrays to hold information from each repeated solving
-        % attempt, entries = total_reps
-        RepsSA = zeros(total_reps,1);
-        TimeSA = zeros(total_reps,1);
-        RepsPIQMC = zeros(total_reps,1);
-        TimePIQMC = zeros(total_reps,1);
-        RepsHB = zeros(total_reps,1);
-        TimeHB = zeros(total_reps,1);
-        
-        % Does simulated annealing and stores TTS/RTS information
-        for repetition = 1:total_reps
-            solution = findGroundState(file.name, 'SimulatedAnnealing', solve_reps, 0, epsilon, 0);
-            RepsSA(repetition) = solution{1};
-            TimeSA(repetition) = solution{2};
+    for i = length(subfolders):-1:1
+        % Gets current folder name
+        folder_name = strcat(directory_name, strcat('\',subfolders(i).name));
+        directories{i} = folder_name;
+        mat_files = dir(folder_name);
+        %Remove hidden . and .. folders
+        for j = length(mat_files):-1:1
+            if mat_files(j).isdir
+                mat_files(j) = [];
+            elseif ~isempty(strfind(mat_files(j).name, 'solved'))
+                mat_files(j) = [];
+            elseif ~isempty(strfind(mat_files(j).name, 'average'))
+                mat_files(j) = [];
+            elseif ~isempty(strfind(mat_files(j).name, 'file_processor'))
+                mat_files(j) = [];
+            elseif ~isempty(strfind(mat_files(j).name, 'fig'))
+                mat_files(j) = [];
+            end
         end
         
-        % Does PIQMC and stores TTS/RTS information
-        for repetition = 1:total_reps
-            solution = findGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
-            RepsPIQMC(repetition) = solution{1};
-            TimePIQMC(repetition) = solution{2};
+        currentDirectory = pwd;
+        [upperPath, deepestFolder, ~] = fileparts(currentDirectory);
+
+        
+
+        % Finds total number of data files (not including solved files)
+        totDataFiles = length(mat_files);
+
+        % Initialises arrays to hold average times and reps for each solver.
+        % Vector, each entry corresponding to different file
+        avRepsSA = zeros(totDataFiles, 1);
+        avTimeSA = zeros(totDataFiles, 1);
+        avRepsPIQMC = zeros(totDataFiles, 1);
+        avTimePIQMC = zeros(totDataFiles, 1);
+        avRepsHB = zeros(totDataFiles, 1);
+        avTimeHB = zeros(totDataFiles, 1);
+        avRepsPT = zeros(totDataFiles, 1);
+        avTimePT = zeros(totDataFiles, 1);
+
+        count = 0;
+
+        % Loops through files
+        for file = mat_files'
+            count = count + 1;
+
+            % Creates arrays to hold information from each repeated solving
+            % attempt, entries = total_reps
+            RepsSA = zeros(total_reps,1);
+            TimeSA = zeros(total_reps,1);
+            RepsPIQMC = zeros(total_reps,1);
+            TimePIQMC = zeros(total_reps,1);
+            RepsHB = zeros(total_reps,1);
+            TimeHB = zeros(total_reps,1);
+            RepsPT = zeros(total_reps,1);
+            TimePT = zeros(total_reps,1);
+
+            % Does simulated annealing and stores TTS/RTS information
+            for repetition = 1:total_reps
+                solution = findGroundState(file.name, 'SimulatedAnnealing', solve_reps, 0, epsilon, 0);
+                RepsSA(repetition) = solution{1};
+                TimeSA(repetition) = solution{2};
+            end
+
+            % Does PIQMC and stores TTS/RTS information
+            for repetition = 1:total_reps
+                solution = findGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
+                RepsPIQMC(repetition) = solution{1};
+                TimePIQMC(repetition) = solution{2};
+            end
+
+            % Does HeatBath and stores TTS/RTS information
+            for repetition = 1:total_reps
+                solution = findGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
+                RepsHB(repetition) = solution{1};
+                TimeHB(repetition) = solution{2};
+            end
+            
+            for repetition = 1:total_reps
+                solution = findGroundState(file.name, 'ParallelTempering', solve_reps, 0, epsilon, 0);
+                RepsPT(repetition) = solution{1};
+                TimePT(repetition) = solution{2};
+            end
+
+            % Finds average TTS/RTS for each solver and adds to average arrays
+            % above
+            avRepsSA(count) = mean(RepsSA);
+            avTimeSA(count) = mean(TimeSA);
+            avRepsPIQMC(count) = mean(RepsPIQMC);
+            avTimePIQMC(count) = mean(TimePIQMC);
+            avRepsHB(count) = mean(RepsHB);
+            avTimeHB(count) = mean(TimeHB);
+            avRepsPT(count) = mean(RepsPT);
+            avTimePT(count) = mean(TimePT);
+
+            % Creates a solved file corresponding to the data file, contains
+            % information about every repeat of the solving attempt
+            fileNameString = strcat(folder_name,'\','solved', file.name);
+            save(fileNameString, 'RepsSA', 'TimeSA', 'RepsPIQMC', 'TimePIQMC', 'RepsHB', 'TimeHB', 'RepsPT', 'TimePT');
+            fileNameString_av = strcat(folder_name,'\','averages.mat');   
+            save(fileNameString_av, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB', 'avRepsPT', 'avTimePT');
         end
-        
-        % Does HeatBath and stores TTS/RTS information
-        for repetition = 1:total_reps
-            solution = findGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
-            RepsHB(repetition) = solution{1};
-            TimeHB(repetition) = solution{2};
-        end
-        
-        % Finds average TTS/RTS for each solver and adds to average arrays
-        % above
-        avRepsSA(count) = mean(RepsSA);
-        avTimeSA(count) = mean(TimeSA);
-        avRepsPIQMC(count) = mean(RepsPIQMC);
-        avTimePIQMC(count) = mean(TimePIQMC);
-        avRepsHB(count) = mean(RepsHB);
-        avTimeHB(count) = mean(TimeHB);
-        
-        % Creates a solved file corresponding to the data file, contains
-        % information about every repeat of the solving attempt
-        fileNameString = strcat('solvedSA', file.name);
-        save(fileNameString, 'RepsSA', 'TimeSA', 'RepsPIQMC', 'TimePIQMC', 'RepsHB', 'TimeHB');
-        fileNameString_av = strcat('averages', deepestFolder);   
-        save(fileNameString_av, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
+
+        % Finally create a file containing average RTS/TTS for each solver and
+        % data file 
+        fileNameString = strcat(folder_name,'\','averages.mat');
+
+        save(fileNameString, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
     end
-    
-    % Finally create a file containing average RTS/TTS for each solver and
-    % data file 
-    fileNameString = strcat('averages', deepestFolder);
-    
-    save(fileNameString, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
-        
+
     
 
 end

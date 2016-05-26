@@ -1,4 +1,4 @@
-getSolverTimes(100, 5, 0.9)
+getSolverTimes(50, 10, 0.95)
 
 % 
 % figure
