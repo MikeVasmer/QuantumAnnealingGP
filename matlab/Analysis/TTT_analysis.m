@@ -1,3 +1,8 @@
+%Data analysis script which produces figures showing the time2target vs
+%iteration for different Hamiltonians. To use point the script at a folder
+%such as '10Qubits' or '40Qubits' in the
+%'loop-adaptive-optimisation\files\2Local' or
+%'loop-adaptive-optimisation\files\3Local' folders
 close all 
 clearvars
 
@@ -11,13 +16,17 @@ subfolders = subfolders(arrayfun(@(x) x.name(1), subfolders) ~= '.');
 for i = length(subfolders):-1:1
     if ~isempty(strfind(subfolders(i).name, 'file_processor'))
         subfolders(i) = [];
+    elseif ~isempty(strfind(subfolders(i).name, 'fig'))
+        subfolders(i) = [];
     end
 end
 directories = cell(length(subfolders),1);
+
 %Analysis variables for all data
 hardness_List_All = zeros(1000000, 1);
 step_List_All = zeros(1000000, 1);
 k = 1;
+
 for i = length(subfolders):-1:1
     %Build correct subfolder name
     folder_name = strcat(directory_name, strcat('\',subfolders(i).name));
@@ -32,6 +41,8 @@ for i = length(subfolders):-1:1
         elseif ~isempty(strfind(mat_files(j).name, 'average'))
             mat_files(j) = [];
         elseif ~isempty(strfind(mat_files(j).name, 'file_processor'))
+            mat_files(j) = [];
+        elseif ~isempty(strfind(mat_files(j).name, 'fig'))
             mat_files(j) = [];
         end
     end
@@ -53,9 +64,10 @@ for i = length(subfolders):-1:1
     n_qubits = LAOparams{1};
     total_LAO_iterations = LAOparams{3};
     LAO_loops = LAOparams{2};
+    
     %Process each file
-    exception = 0;
     for j=1:num_files
+        %Try/Catch here to account for different structures
        try 
            temp_hard = data{j}('new_hardness');
        catch
@@ -64,9 +76,9 @@ for i = length(subfolders):-1:1
        end
        temp_ham = data{j}('ProbSolInfo');
        temp_step = data{j}('stepInfo');
-       if exception
+       try
            hardness_List(j) = temp_hard{1}; 
-       else
+       catch
            hardness_List(j) = temp_hard{1}{1}; 
        end
        hParams_List{j} = temp_ham{2};
@@ -77,23 +89,31 @@ for i = length(subfolders):-1:1
     end
     
     %Plot hardness figure
-    figure();
+    figure(j);
     s1 = scatter(step_List, hardness_List);
-    title(sprintf('Hardness for %d qubits, %d loops, %d iterations',...
-        n_qubits, LAO_loops, total_LAO_iterations));
+    title(sprintf('Hardness for %d qubits, %d loops', n_qubits, LAO_loops));
     xlabel('Iteration');
     ylabel('Time2Target');
     s1.LineWidth = 0.6;
     s1.MarkerEdgeColor = 'b';
     s1.MarkerFaceColor = 'b';
+    %Save figure
+    savefig(j, strcat(strcat(folder_name,'\'),...
+        sprintf('T2T_Plot_%d_qubits_%d_loops.fig', n_qubits, LAO_loops)));
+    close(j);
 end
 %Plot hardness figure for all data
 hardness_List_All = hardness_List_All(1:k-1);
 step_List_All = step_List_All(1:k-1);
-figure();
+figure(k);
 s2 = scatter(step_List_All, hardness_List_All);
+title(sprintf('Hardness for %d qubits',n_qubits));
 xlabel('Iteration');
 ylabel('Time2Target');
 s2.LineWidth = 0.6;
 s2.MarkerEdgeColor = 'r';
 s2.MarkerFaceColor = 'r';
+%Save figure
+savefig(k, strcat(strcat(directory_name,'\'),...
+        sprintf('T2T_Plot_%d_qubits.fig', n_qubits)));
+close(k);
