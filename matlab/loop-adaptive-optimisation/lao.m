@@ -21,14 +21,16 @@ function [] = lao(paramsMap)
         case 2
             % Define adjacency matrix - allowed couplings
             %    e.g. All-to-all
-            adj = ones(num_spins) - eye(num_spins);
+            % adj = ones(num_spins) - eye(num_spins);
+            adj = NearestNeighbourAdj2D(sqrt(num_spins), sqrt(num_spins));
 
             [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition);
  
         case 3
             % Define adjacency matrix - allowed couplings
             %    e.g. All-to-all
-            adj = all_to_all_3(num_spins);
+            % adj = all_to_all_3(num_spins);
+            adj = nearestNeighbourAdj3local(sqrt(num_spins), sqrt(num_spins));
 
             [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition);
 

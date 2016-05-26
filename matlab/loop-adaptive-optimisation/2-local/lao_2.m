@@ -118,12 +118,12 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
                     delta_hardness = (old_TTS - new_TTS)/old_TTS;
                 end
             elseif strcmp( new_hardness{3}, 'TIMEOUT' )
-                definitely_accept_change = true;
+                definitely_accept_change = false;
+                delta_hardness = realmax; % block change
             end
         elseif strcmp( old_hardness{3}, 'TIMEOUT' )
             if strcmp( new_hardness{3}, 'TTS' )
-                definitely_accept_change = false;
-                delta_hardness = realmax; % block change
+                definitely_accept_change = true;
             elseif strcmp( new_hardness{3}, 'TIMEOUT' )
                 new_deficit = new_hardness{2};
                 old_deficit = old_hardness{2};
