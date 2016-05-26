@@ -82,6 +82,8 @@ function [ output_args ] = getSolverTimes( solve_reps, total_reps, epsilon )
         % information about every repeat of the solving attempt
         fileNameString = strcat('solvedSA', file.name);
         save(fileNameString, 'RepsSA', 'TimeSA', 'RepsPIQMC', 'TimePIQMC', 'RepsHB', 'TimeHB');
+        fileNameString_av = strcat('averages', deepestFolder);   
+        save(fileNameString_av, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
     end
     
     % Finally create a file containing average RTS/TTS for each solver and
