@@ -35,7 +35,7 @@ num_flips_PT = 1;
 monte_steps = 1000;
 trotter_slices = 20;
 G_start = 1.5;
-Temperature = 0.001;
+Temperature = 0.1;
 step_flips = 1;
 
 %% SOLVE
