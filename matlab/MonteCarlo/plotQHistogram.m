@@ -39,7 +39,7 @@ step_flips = 1;
 qs = zeros([num_runs, 1]);
 tic;
 for run=1:num_runs
-    if toc > 1
+    if toc > 5
         fprintf('%d:%d\n', run, num_runs);
         tic;
     end

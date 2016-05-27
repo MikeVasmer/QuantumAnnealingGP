@@ -1,6 +1,6 @@
 %Data analysis script which produces figures showing the time2target vs
 %iteration for different Hamiltonians. To use point the script at a folder
-%such as '10Qubits' or '40Qubits' in the
+%such as '10Qubits' 'NN' in the
 %'loop-adaptive-optimisation\files\2Local' or
 %'loop-adaptive-optimisation\files\3Local' folders
 close all 
@@ -89,7 +89,7 @@ for i = length(subfolders):-1:1
     end
     
     %Plot hardness figure
-    figure(j);
+    figure(i);
     s1 = scatter(step_List, hardness_List);
     title(sprintf('Hardness for %d qubits, %d loops', n_qubits, LAO_loops));
     xlabel('Iteration');
@@ -98,9 +98,9 @@ for i = length(subfolders):-1:1
     s1.MarkerEdgeColor = 'b';
     s1.MarkerFaceColor = 'b';
     %Save figure
-    savefig(j, strcat(strcat(folder_name,'\'),...
+    savefig(i, strcat(strcat(folder_name,'\'),...
         sprintf('T2T_Plot_%d_qubits_%d_loops.fig', n_qubits, LAO_loops)));
-    close(j);
+    close(i);
 end
 %Plot hardness figure for all data
 hardness_List_All = hardness_List_All(1:k-1);

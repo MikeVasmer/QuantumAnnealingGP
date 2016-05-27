@@ -1,9 +1,9 @@
 function [solution, J_global, gs_energy] = lao_3(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition)
 
     % Add path for Hardness function
-    addpath('../../MonteCarlo/HardnessMeasures')
+    addpath('HardnessMeasures')
     % Add path for symmetrize_3local_couplings function
-    addpath('../../MonteCarlo/')
+    addpath('../MonteCarlo/')
 
     % ** Algorithm **
     % Generate (random) solution

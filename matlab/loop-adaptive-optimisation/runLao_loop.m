@@ -1,7 +1,7 @@
 addpath(genpath('../../'))   
 
 % Locality
-locality = 2;
+locality = 3;
 % LAO parameters
 num_spins = [25,36,49,64,81,100];
 num_loops = 2*num_spins;
@@ -9,12 +9,12 @@ num_steps = 150;
 % Hardness parameters
 epsilon = round(2*sqrt(num_spins));
 beta_h = 10^4;
-timeOut = [1,1,1,1,1,1];
+timeOut = [1,2,5,10,20,60];
 num_runs = 5;
 % Transition temperature for optimisation stage
 beta_transition = 100;
 % Number of times to repeat LAO
-num_LAO_loops = 10;
+num_LAO_loops = 5;
 
 % Loop for each element in num_spins
 for i = 1:length(num_spins)
