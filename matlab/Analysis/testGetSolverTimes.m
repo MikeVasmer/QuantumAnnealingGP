@@ -1,4 +1,4 @@
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\10Qubits', 50, 10, 0.95)
+% getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\10Qubits', 50, 10, 0.95)
 
 getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\20Qubits', 50, 10, 0.95)
 

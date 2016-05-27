@@ -90,31 +90,37 @@ function [ output_args ] = getSolverTimes( directoryName, solve_reps, total_reps
             TimePT = zeros(total_reps,1);
 
             % Does simulated annealing and stores TTS/RTS information
-            for repetition = 1:total_reps
-                solution = findGroundState(file.name, 'SimulatedAnnealing', solve_reps, 0, epsilon, 0);
-                RepsSA(repetition) = solution{1};
-                TimeSA(repetition) = solution{2};
+            parfor repetition = 1:total_reps
+                solutionSA = findGroundState(file.name, 'SimulatedAnnealing', solve_reps, 0, epsilon, 0);
+                RepsSA(repetition) = solutionSA{1};
+                TimeSA(repetition) = solutionSA{2};
+                solutionPIQMC = findGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
+                RepsPIQMC(repetition) = solutionPIQMC{1};
+                TimePIQMC(repetition) = solutionPIQMC{2};
+                solutionHB = findGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
+                RepsHB(repetition) = solutionHB{1};
+                TimeHB(repetition) = solutionHB{2};
             end
 
-            % Does PIQMC and stores TTS/RTS information
-            for repetition = 1:total_reps
-                solution = findGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
-                RepsPIQMC(repetition) = solution{1};
-                TimePIQMC(repetition) = solution{2};
-            end
-
-            % Does HeatBath and stores TTS/RTS information
-            for repetition = 1:total_reps
-                solution = findGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
-                RepsHB(repetition) = solution{1};
-                TimeHB(repetition) = solution{2};
-            end
-            
-            for repetition = 1:total_reps
-                solution = findGroundState(file.name, 'ParallelTempering', solve_reps, 0, epsilon, 0);
-                RepsPT(repetition) = solution{1};
-                TimePT(repetition) = solution{2};
-            end
+%             % Does PIQMC and stores TTS/RTS information
+%             parfor repetition = 1:total_reps
+%                 solution = findGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
+%                 RepsPIQMC(repetition) = solution{1};
+%                 TimePIQMC(repetition) = solution{2};
+%             end
+% 
+%             % Does HeatBath and stores TTS/RTS information
+%             parfor repetition = 1:total_reps
+%                 solution = findGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
+%                 RepsHB(repetition) = solution{1};
+%                 TimeHB(repetition) = solution{2};
+%             end
+%             
+%             parfor repetition = 1:total_reps
+%                 solution = findGroundState(file.name, 'ParallelTempering', solve_reps, 0, epsilon, 0);
+%                 RepsPT(repetition) = solution{1};
+%                 TimePT(repetition) = solution{2};
+%             end
 
             % Finds average TTS/RTS for each solver and adds to average arrays
             % above
