@@ -3,7 +3,7 @@ addpath(genpath('../../'))
 % Experiment number
 %  1: 2-local, 100 steps, 3s  timeout, 40 LAO beta
 %  2: 3-local, 50  steps, 10s timeout, 20 LAO beta
-experiment_number = 1;
+experiment_number = 2;
 
 % Locality
 locality = [2,3];
