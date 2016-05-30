@@ -16,13 +16,15 @@
 
 solution = concAverages()
 
-avRepsHB = solution{5}
+avRepsHB = solution{6}
 avRepsPIQMC = solution{3}
-avRepsSA = solution{1}
+avRepsSA = solution{2}
+
+scatter(avRepsSA(:), avRepsHB(:))
 
 dat = [avRepsHB, avRepsSA];
 figure
-n = hist3(dat)
+n = hist3(dat, [50 50])
 
 n1 = n';
 n1(size(n,1) + 1, size(n,2) + 1) = 0;
