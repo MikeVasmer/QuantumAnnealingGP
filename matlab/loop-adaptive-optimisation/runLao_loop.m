@@ -14,7 +14,7 @@ num_steps = [100,50];
 % Hardness parameters
 epsilon = round(2*sqrt(num_spins));
 beta_h = 10^4;
-timeOut = [3, 10];
+timeOut = [3, 20];
 num_runs = 5;
 % Transition temperature for optimisation stage
 beta_transition = [40,20];
