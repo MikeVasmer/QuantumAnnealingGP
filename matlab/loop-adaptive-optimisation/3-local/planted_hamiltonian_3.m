@@ -4,7 +4,7 @@ function [J_global, gs_energy] = planted_hamiltonian_3( solution, loops )
     % minimise the loop energies
 
     % Add PIMC/ to path for Conf_energy function
-    addpath('../../PIMC/');
+    addpath('../PIMC/');
 
     % Number of spins
     num_spins = length(solution);
