@@ -6,7 +6,7 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
     
 %         Do a pre-anneal to a sensible temperature
 
-    SA_sol = simulatedAnnealing(HParams, spin_start, 7e23, trotter_slices*Temperature, 1, 100, 'linear', n/5);
+    SA_sol = simulatedAnnealing(HParams, spin_start, 7e23, trotter_slices*Temperature, 1, 500, 'linear', n/5);
 
     spin_start = SA_sol{2};
     
