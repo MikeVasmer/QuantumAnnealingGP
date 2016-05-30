@@ -20,11 +20,11 @@ function [ output ] = findGroundState( paramsFile, solverType, repNumber, ground
     Spin_config = Ham_1_info(1);
     Spin_config = Spin_config{1};
     
-    dims = size(Hparams{2});
+%     dims = size(Hparams{2});
     
-    if length(dims(1)) > 2
-        Hparams = fliplr(Hparams)
-    end
+%     if length(dims(1)) > 2
+%         Hparams = fliplr(Hparams)
+%     end
     
         
     
