@@ -1,22 +1,10 @@
-% getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\10Qubits', 50, 10, 0.95)
 
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\20Qubits', 50, 10, 0.95)
 
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\30Qubits', 50, 10, 0.95)
+getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\NN\28May', 100, 15, 0.95)
+getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN', 100, 15, 0.95)
+% getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\30Qubits', 50, 10, 0.95)
 
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\40Qubits', 100, 10, 0.95)
 
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\125Qubits', 100, 10, 0.95)
-
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\10Qubits', 50, 10, 0.95)
-
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\20Qubits', 50, 10, 0.95)
-
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\30Qubits', 100, 10, 0.95)
-
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\40Qubits', 100, 10, 0.95)
-
-getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\50Qubits', 100, 10, 0.95)
 
 % 
 % figure
