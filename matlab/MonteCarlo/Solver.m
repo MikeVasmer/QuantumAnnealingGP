@@ -12,15 +12,15 @@ Gamma_M = 1;
 
 % Heat Bath
 beta_HB = 10000;
-timesteps_HB = 1000;
+timesteps_HB = 5000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 7e27;
+initialTemp_SA = 1e6;
 spinStepSize_SA = 1;
-iterations_SA = 1000;
-scheduleType_SA = 'exponential';
-flipsPerTemp_SA = length(spinConfig)/5;
+iterations_SA = 500;
+scheduleType_SA = 'linear';
+flipsPerTemp_SA = length(spinConfig)/4;
 finalTemp_SA = 0;
 
 % ParallelTempering

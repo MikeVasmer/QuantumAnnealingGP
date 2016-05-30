@@ -30,7 +30,7 @@ function [ output_args ] = percGetSolverTimes( directoryName, solve_reps, epsilo
     directories = cell(length(subfolders),1);
     
     
-    files = dir('*.mat')
+%     files = dir('*.mat')
     
     
     
@@ -84,7 +84,7 @@ function [ output_args ] = percGetSolverTimes( directoryName, solve_reps, epsilo
             
             percSA(count) = percFindGroundState(file.name, 'SimulatedAnnealing', solve_reps, 0, epsilon, 0);
             
-            percPIQMC(count) = percFindGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 1);
+            percPIQMC(count) = percFindGroundState(file.name, 'PIQMC', solve_reps, 0, epsilon, 0);
             
             percHB(count) = percFindGroundState(file.name, 'HeatBath', solve_reps, 0, epsilon, 0);
             

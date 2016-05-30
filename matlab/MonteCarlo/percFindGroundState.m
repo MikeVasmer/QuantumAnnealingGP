@@ -33,15 +33,15 @@ function [ output ] = percFindGroundState( paramsFile, solverType, repNumber, gr
     
     disorder = round(n_qubits/2);
     
-    spinConfig = generate_spins(n_qubits, disorder);
+    startSpinConfig = generate_spins(n_qubits, disorder);
     
-    repCount = 0;
+    spinConfig = startSpinConfig;
     
     totCorrect = 0;
     
-    tStart = tic;
+   
     
-    solution = 0;
+   
     
     switch solverType;
         case 'Metropolis'
@@ -113,13 +113,7 @@ function [ output ] = percFindGroundState( paramsFile, solverType, repNumber, gr
             disp('Enter valid Monte Carlo Algorithm')
     end
     
-    repCountO = repCount;
     
-    time = toc(tStart);
-    if repCount == 0
-        disp('Ground State Not Found');
-        repCountO = repNumber;
-    end
     
     perCorrect = totCorrect/repNumber;
     
