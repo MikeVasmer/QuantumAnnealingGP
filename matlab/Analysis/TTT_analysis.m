@@ -29,7 +29,7 @@ k = 1;
 
 for i = length(subfolders):-1:1
     %Build correct subfolder name
-    folder_name = strcat(directory_name, strcat('\',subfolders(i).name));
+    folder_name = strcat(directory_name, strcat('/',subfolders(i).name));
     directories{i} = folder_name;
     mat_files = dir(folder_name);
     %Remove hidden . and .. folders
@@ -98,7 +98,7 @@ for i = length(subfolders):-1:1
     s1.MarkerEdgeColor = 'b';
     s1.MarkerFaceColor = 'b';
     %Save figure
-    savefig(i, strcat(strcat(folder_name,'\'),...
+    savefig(i, strcat(strcat(folder_name,'/'),...
         sprintf('T2T_Plot_%d_qubits_%d_loops.fig', n_qubits, LAO_loops)));
     close(i);
 end
@@ -114,6 +114,6 @@ s2.LineWidth = 0.6;
 s2.MarkerEdgeColor = 'r';
 s2.MarkerFaceColor = 'r';
 %Save figure
-savefig(k, strcat(strcat(directory_name,'\'),...
+savefig(k, strcat(strcat(directory_name,'/'),...
         sprintf('T2T_Plot_%d_qubits.fig', n_qubits)));
 close(k);
