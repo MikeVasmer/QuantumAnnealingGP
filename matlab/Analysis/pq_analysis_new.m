@@ -30,9 +30,9 @@ hardness_List_All = zeros(1000000, 1);
 step_List_All = zeros(1000000, 1);
 k = 1;
 %Pq params for all files
-show_distributions = 0;
-metropolis_timeSteps = 5000;
-num_runs_Pq = 1000;
+show_distributions = 1;
+metropolis_timeSteps = 2500;
+num_runs_Pq = 500;
 
 for i = num_subfolders:-1:1
     %Build correct subfolder name
@@ -98,14 +98,18 @@ for i = num_subfolders:-1:1
        hardness_List_All(k) = hardness_List(j);
        step_List_All(k) = step_List(j);
        %Pq hardness
-       temp_hardness = plotQHistogram('Metropolis', hParams_List{j},...
+       temp_histo = plotQHistogram('Metropolis', hParams_List{j},...
            num_runs_Pq, n_qubits, disorder_Pq, show_distributions,...
                metropolis_timeSteps);
-       hardness_75_List(j) = temp_hardness{1};
-       hardness_50_List(j) = temp_hardness{2};
+       temp_vals = temp_histo.Values;
+       hardness_75_List(j) = sum(temp_vals(26:176));
+       hardness_50_List(j) = sum(temp_vals(51:151));
        hardness_75_List_All(k) = hardness_75_List(j);
        hardness_50_List_All(k) = hardness_50_List(j);
-       
+       file_name = strcat(folder_name, strcat('\',mat_files(j).name));
+       savefig(strcat(file_name(1:end-4), '_Pq.fig'));
+       %disp(file_name(1:end-4));
+       close all;
        fprintf('Processed file %d of %d in subfolder %d of %d\n',...
            j, num_files, (num_subfolders - i + 1), num_subfolders);
        k = k + 1;

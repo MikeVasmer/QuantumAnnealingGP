@@ -1,4 +1,4 @@
-function [hardness] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder, show, monty_timeSteps)
+function [hist] = plotQHistogram(algorithm, Hparams, num_runs, n_qubits, disorder, show, monty_timeSteps)
 
 %% DEFAULT PARAMETERS
 
@@ -84,20 +84,19 @@ end
 figure();
 edges = linspace(-1, 1, 202);
 histo = histogram(qs, edges, 'Normalization', 'probability');
-values = histo.Values;
+%values = histo.Values;
 %disp(sum(values));
 title(sprintf('P(q) dist, %d qubits, %d runs, %s',...
     n_qubits, num_runs, algorithm));
 xlabel('q');
 ylabel('P(q)');
 
-%Calculate Hardness
-%x = linspace(-1, 1, 201);
-%hardness75 = trapz(x(26:126), values(26:126));
-%hardness50 = trapz(x(51:151), values(51:151));
-hardness75 = sum(values(26:176));
-hardness50 = sum(values(51:151));
-hardness = {hardness75, hardness50};
+hist = histo;
+
+% %Calculate Hardness
+% hardness75 = sum(values(26:176));
+% hardness50 = sum(values(51:151));
+% hardness = {hardness75, hardness50};
 
 if ~show
     close all 
