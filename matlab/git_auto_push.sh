@@ -6,11 +6,17 @@ echo "Initialising auto Git"
 while true; do
 
 	# Git pull (and hope for no conflicts!)
-	echo "Git pull..."
+	echo "git pull"
 	git pull
 
+	# Git add all
+	echo "git add -A"
+	git add -A
+	# Git commit
+	echo "git commit -m 'auto-commit'"
+	git commit -m "auto-commit"
 	# Git push (and hope for no conflicts!)
-	echo "Git push..."
+	echo "git push"
 	git push
 
 	# Period (in seconds) for git push
