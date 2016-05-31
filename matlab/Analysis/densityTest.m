@@ -14,15 +14,17 @@
 % scatter(avRepsHB, avRepsSA)
 
 
-solution = concAverages()
+% solution = concAverages()
+% 
+% avRepsHB = solution{6}
+% avRepsPIQMC = solution{3}
+% avRepsSA = solution{2}
 
-avRepsHB = solution{5}
-avRepsPIQMC = solution{3}
-avRepsSA = solution{1}
+scatter(avRepsPIQMC(:), avRepsHB(:))
 
-dat = [avRepsHB, avRepsSA];
+dat = [avRepsPIQMC(1:55), avRepsSA(1:55)];
 figure
-n = hist3(dat)
+n = hist3(dat, [20 20])
 
 n1 = n';
 n1(size(n,1) + 1, size(n,2) + 1) = 0;

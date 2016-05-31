@@ -12,15 +12,15 @@ Gamma_M = 1;
 
 % Heat Bath
 beta_HB = 10000;
-timesteps_HB = 1000;
+timesteps_HB = 5000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 7e20;
+initialTemp_SA = 1e6;
 spinStepSize_SA = 1;
-iterations_SA = 5000;
-scheduleType_SA = 'exponential';
-flipsPerTemp_SA = length(spinConfig)/5;
+iterations_SA = 500;
+scheduleType_SA = 'linear';
+flipsPerTemp_SA = length(spinConfig)/4;
 finalTemp_SA = 0;
 
 % ParallelTempering
@@ -32,10 +32,10 @@ Gamma_PT = 1;
 num_flips_PT = 1;
 
 % Path Integral Quantum Monte Carlo
-monte_steps = 1000;
+monte_steps = 100;
 trotter_slices = 20;
 G_start = 1.5;
-Temperature = 0.001;
+Temperature = 0.1;
 step_flips = 1;
 
 %% SOLVE

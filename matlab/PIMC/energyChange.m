@@ -13,9 +13,9 @@ function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_sli
         for spin_index = 1:length(indices_to_flip);
             for neib_1 = 1:n;
                 if neib_1 ~= indices_to_flip(spin_index)
-                    J_val = Jzz(indices_to_flip(spin_index), neib_1);
-                    spin_1 = new_spin_config(slice,indices_to_flip(spin_index));
-                    spin_2 = new_spin_config(slice,neib_1);
+%                     J_val = Jzz(indices_to_flip(spin_index), neib_1);
+%                     spin_1 = new_spin_config(slice,indices_to_flip(spin_index));
+%                     spin_2 = new_spin_config(slice,neib_1);
                     ediff = ediff + 2.0*Jzz(indices_to_flip(spin_index), neib_1)*new_spin_config(slice,indices_to_flip(spin_index))*new_spin_config(slice,neib_1);
                 end
             end
@@ -24,10 +24,10 @@ function [ deltaH ] = energyChange(new_spin_config, indices_to_flip, trotter_sli
     elseif Jzz == 0 | isempty(Jzz)
         for spin_index = 1:length(indices_to_flip);
             for neib_1 = 1:n;
+                if neib_1 ~= indices_to_flip(spin_index)
                 for neib_2 = (neib_1+1):n;
-                    if neib_1 ~= indices_to_flip(spin_index)
                         ediff = ediff + 2.0*Jzzz(indices_to_flip(spin_index), neib_1, neib_2)*new_spin_config(slice,indices_to_flip(spin_index))*new_spin_config(slice,neib_1)*new_spin_config(slice,neib_2);
-                    end
+                end
                 end
             end
         end
