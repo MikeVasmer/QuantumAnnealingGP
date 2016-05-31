@@ -1,3 +1,5 @@
+%One time script to combine scatter plots generated with TTT_analysis
+
 close all
 clearvars
 
@@ -17,7 +19,7 @@ for i=1:4
     xvals_3l = [xvals_3l, get(data, 'Xdata')];
     yvals_3l = [yvals_3l, get(data, 'Ydata')];
 end
-disp(max(xvals_3l));
+%disp(max(xvals_3l));
 
 figure(5);
 s2 = scatter(xvals_3l, yvals_3l);
