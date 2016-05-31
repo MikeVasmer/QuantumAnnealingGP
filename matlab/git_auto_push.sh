@@ -1,5 +1,5 @@
 echo "Bash Version ${BASH_VERSION}..."
-period="3"
+period="1m"
 echo $period
 
 echo "Initialising auto Git"
