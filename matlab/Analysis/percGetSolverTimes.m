@@ -36,7 +36,7 @@ function [ output_args ] = percGetSolverTimes( directoryName, solve_reps, epsilo
     
     for i = length(subfolders):-1:1
         % Gets current folder name
-        folder_name = strcat(directory_name, strcat('\',subfolders(i).name));
+        folder_name = strcat(directory_name, strcat(filesep,subfolders(i).name));
         directories{i} = folder_name;
         mat_files = dir(folder_name);
         %Remove hidden . and .. folders
@@ -117,13 +117,13 @@ function [ output_args ] = percGetSolverTimes( directoryName, solve_reps, epsilo
             % Creates a solved file corresponding to the data file, contains
             % information about every repeat of the solving attempt
             
-            fileNameString_av = strcat(folder_name,'\','percentages.mat');   
+            fileNameString_av = strcat(folder_name,filesep,'percentages.mat');   
             save(fileNameString_av, 'percSA', 'percPIQMC', 'percHB');
         end
 
         % Finally create a file containing average RTS/TTS for each solver and
         % data file 
-        fileNameString = strcat(folder_name,'\','percentages.mat');
+        fileNameString = strcat(folder_name,filesep,'percentages.mat');
 
         save(fileNameString, 'percSA', 'percPIQMC', 'percHB');
     end

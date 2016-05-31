@@ -29,13 +29,13 @@ function [ output_args ] = getSolverTimes( directoryName, solve_reps, total_reps
     directories = cell(length(subfolders),1);
     
     
-    files = dir('*.mat')
+    files = dir('*.mat');
     
     
     
     for i = length(subfolders):-1:1
         % Gets current folder name
-        folder_name = strcat(directory_name, strcat('\',subfolders(i).name));
+        folder_name = strcat(directory_name, strcat(filesep,subfolders(i).name));
         directories{i} = folder_name;
         mat_files = dir(folder_name);
         %Remove hidden . and .. folders
@@ -135,15 +135,15 @@ function [ output_args ] = getSolverTimes( directoryName, solve_reps, total_reps
 
             % Creates a solved file corresponding to the data file, contains
             % information about every repeat of the solving attempt
-            fileNameString = strcat(folder_name,'\','solved', file.name);
+            fileNameString = strcat(folder_name,filesep,'solved', file.name);
             save(fileNameString, 'RepsSA', 'TimeSA', 'RepsPIQMC', 'TimePIQMC', 'RepsHB', 'TimeHB', 'RepsPT', 'TimePT');
-            fileNameString_av = strcat(folder_name,'\','averages.mat');   
+            fileNameString_av = strcat(folder_name,filesep,'averages.mat');   
             save(fileNameString_av, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB', 'avRepsPT', 'avTimePT');
         end
 
         % Finally create a file containing average RTS/TTS for each solver and
         % data file 
-        fileNameString = strcat(folder_name,'\','averages.mat');
+        fileNameString = strcat(folder_name,filesep,'averages.mat');
 
         save(fileNameString, 'avRepsSA', 'avTimeSA', 'avRepsPIQMC', 'avTimePIQMC', 'avRepsHB', 'avTimeHB');
     end
