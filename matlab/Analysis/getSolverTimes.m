@@ -50,6 +50,8 @@ function [ output_args ] = getSolverTimes( directoryName, solve_reps, total_reps
                 mat_files(j) = [];
             elseif ~isempty(strfind(mat_files(j).name, 'fig'))
                 mat_files(j) = [];
+            elseif ~isempty(strfind(mat_files(j).name, 'percentages'))
+                mat_files(j) = [];
             end
         end
         
