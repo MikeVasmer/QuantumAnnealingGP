@@ -5,7 +5,6 @@
 % getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\30Qubits', 50, 10, 0.95)
 
 
-percGetSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN\81Qubits\David', 40, 0.9)
+percGetSolverTimes('C:\Users\amorgan\Documents\MATLAB\quantum-annealing\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN\81Qubits\Alex', 40, 0.9)
 
 
-percGetSolverTimes('C:\Users\ddervovic\Documents\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN\81Qubits\Dan', 40, 0.9)

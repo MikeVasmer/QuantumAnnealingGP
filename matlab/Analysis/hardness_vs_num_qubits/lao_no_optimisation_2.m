@@ -1,7 +1,7 @@
 function [solution, J_global, gs_energy] = lao_no_optimisation_2(num_spins, num_loops, adj, hardness_params)
 %% PLANTS A RANDOM SOLUTION WITH GROUND STATE 
     % Add path for Hardness function
-    addpath('../../MonteCarlo/HardnessMeasures')
+    addpath(genpath('../../'));
       
     % ** Algorithm **
     % Generate (random) solution
@@ -14,7 +14,6 @@ function [solution, J_global, gs_energy] = lao_no_optimisation_2(num_spins, num_
     loops = zeros(num_loops, num_spins+1);
     
     % Fill loop array with M loops
-    disp('Generating initial loops...');
     loop_timer = tic;
     for i = 1:num_loops
         % Generate random walk loop
@@ -64,12 +63,12 @@ function [solution, J_global, gs_energy] = lao_no_optimisation_2(num_spins, num_
     run_info = containers.Map(keys, values);
 
     % Filename malarky
-    currentTime = clock;
-    timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
-    fileNameString = ['files', filesep, timeString, '_numqubits_', ...
-        num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
-        num2str(old_hardness{1}), '.mat']; 
-
-    save(fileNameString, 'run_info');  
+%     currentTime = clock;
+%     timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
+%     fileNameString = ['files', filesep, timeString, '_numqubits_', ...
+%         num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
+%         num2str(old_hardness{1}), '.mat']; 
+% 
+%     save(fileNameString, 'run_info');  
     
 end
