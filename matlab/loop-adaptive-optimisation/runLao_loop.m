@@ -8,18 +8,21 @@ experiment_number = 1;
 % Locality
 locality = [2,3];
 % LAO parameters
-num_spins = 10:5:100;
+num_spins = 80;
 num_loops = 2*num_spins;
-num_steps = [100,50];
+num_steps = [30,50];
 % Hardness parameters
 epsilon = round(2*sqrt(num_spins));
-beta_h = 10^4;
-timeOut = [3, 20];
+beta_h = 10^5;
+timeOut = [1, 20];
 num_runs = 5;
 % Transition temperature for optimisation stage
 beta_transition = [40,20];
 % Number of times to repeat LAO
-num_LAO_loops = 100;
+num_LAO_loops = 1000;
+
+% Max number of problems
+max_problems = 300;
 
 % Loop for each element in num_spins
 for i = 1:length(num_spins)
@@ -55,5 +58,11 @@ for i = 1:length(num_spins)
 
         % Run LAO algorithm
         lao(paramsMap);
+        
+        % break out if number of files is greater than x
+        D = dir(['files\2Local\Chimera\80-qubits', '\*.mat']);
+        if length(D(not([D.isdir]))) >= max_problems
+            break;
+        end
     end
 end

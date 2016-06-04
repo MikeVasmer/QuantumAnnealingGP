@@ -1,7 +1,4 @@
 function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps, adj, hardness_params, beta_transition)
-
-    % Add path for Hardness function
-    addpath('../../MonteCarlo/HardnessMeasures') 
     
     % ** Algorithm **
     % Generate (random) solution
@@ -47,7 +44,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     [J_global, gs_energy] = planted_hamiltonian_2(solution, loops);
     
     % Start Optimisation stage
-    disp('Starting optimisation step...');
+    disp('Calculating initial hardness...');
     % Calculate hardness of original Ising problem
     %   Hardness function parameters
     epsilon  = hardness_params{1};
@@ -78,6 +75,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     % Used in time to termination calculation
     delta_steps = [];
     time_since_progress_array = [];
+    disp('Starting optimisation step...');
     while continue_looping
         % Increment step count
         step = step + 1;
@@ -246,7 +244,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
             % Filename malarky
             currentTime = clock;
             timeString = regexprep(num2str(currentTime(:)'),'(?:\s)+','_');
-            fileNameString = ['files', filesep, timeString, '_numqubits_', ...
+            fileNameString = ['files/2Local/Chimera/80-qubits', filesep, timeString, '_numqubits_', ...
                 num2str(num_spins), '_numloops_', num2str(num_loops), '_TTS_', ...
                 num2str(old_hardness{1}), '.mat']; 
 

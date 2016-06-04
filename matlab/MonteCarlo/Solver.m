@@ -16,7 +16,7 @@ timesteps_HB = 5000;
 Gamma_HB = 1;
 
 %Simulated Annealing
-initialTemp_SA = 1e6;
+initialTemp_SA = 1e10;
 spinStepSize_SA = 1;
 iterations_SA = 500;
 scheduleType_SA = 'linear';
