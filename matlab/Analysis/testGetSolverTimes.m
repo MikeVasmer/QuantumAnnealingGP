@@ -3,7 +3,7 @@
 % getSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\2Local\30Qubits', 50, 10, 0.95)
 
 
-percGetSolverTimes('C:\Users\dwise\UCL\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN\81Qubits\David', 1, 0.9)
+getSolverTimes('C:\Users\ddervovic\Documents\QuantumAnnealingGP\matlab\Analysis\hardness_vs_num_qubits\files\2localLAO', 100, 5, 0.99)
 
 
 % percGetSolverTimes('C:\Users\ddervovic\Documents\QuantumAnnealingGP\matlab\loop-adaptive-optimisation\files\3Local\NN\81Qubits\Dan', 40, 0.9)
