@@ -1,15 +1,16 @@
 % Experiment: Time scaling for increasing number of qubits
 
 % Add main directory to path
-addpath('../');
+addpath(genpath('../../'));
 
-repeats = 1;
-max_qubits = 12;
-times = zeros(1,max_qubits);
-for i = 2:max_qubits
+repeats = 5;
+max_qubits = 15;
+%times = zeros(1,max_qubits);
+for i = 3:max_qubits
     tic;
     for j = 1:repeats
-       exp_eigenspectrum(i);
+        disp(sprintf(strcat('Number of Qubits:\t', num2str(i),'\tof\t', num2str(max_qubits), '\tIteration\t', num2str(j), '\tof\t', num2str(repeats))));
+        exp_LAO_eigenspectrum(i);
     end
     times(i) = toc/repeats;
 end
@@ -19,7 +20,8 @@ fig3 = figure(3);
 fig3.Position = [10, 500, 600, 450];
 x = [1:1:length(times)]';
 f = fit(x,times','exp1');
-plot(f,x,times', 'x')
+%plot(f,x,times', 'x')
+semilogy(x, temp_times, 'x')
 title('Time scaling')
 xlabel('Number of qubits, n');
 ylabel('Time, s');
