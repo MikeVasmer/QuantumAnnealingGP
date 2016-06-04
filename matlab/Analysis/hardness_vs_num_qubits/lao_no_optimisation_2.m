@@ -1,7 +1,5 @@
 function [solution, J_global, gs_energy] = lao_no_optimisation_2(num_spins, num_loops, adj, hardness_params)
 %% PLANTS A RANDOM SOLUTION WITH GROUND STATE 
-    % Add path for Hardness function
-    addpath(genpath('../../'));
       
     % ** Algorithm **
     % Generate (random) solution

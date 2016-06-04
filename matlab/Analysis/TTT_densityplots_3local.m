@@ -1,7 +1,8 @@
 close all
 clearvars
-pth_3l = '/home/mikevasmer/Dropbox/MRes/GroupProject/QuantumAnnealingGP/matlab/loop-adaptive-optimisation/files/3Local/NN/81Qubits/T2T_Plot_81_qubits_3local_AllData.fig';
-folder_3l = pth_3l(1:end-37);
+%Navigate to loop-adaptive-optimisation/files/3Local/NN/81Qubits
+folder_3l = uigetdir;
+pth_3l = [folder_3l, filesep, 'T2T_Plot_81_qubits_3local_AllData.fig'];
 nbins = 65;
 resolution = 6;
 
@@ -9,7 +10,7 @@ resolution = 6;
 fig_2l = openfig(pth_3l);
 title(sprintf('Hardness plot for %d qubits, 3-local interactions',81));
 ylabel('Time2Target (seconds)');
-pth_3l = strcat(folder_3l, 'T2T_Plot_81_qubits_3local.fig');
+pth_3l = [folder_3l, filesep, 'T2T_Plot_81_qubits_3local.fig'];
 savefig(pth_3l);
 axesObjs_2l = get(fig_2l, 'children');
 dataObjs_2l = get(axesObjs_2l, 'children');
@@ -37,7 +38,7 @@ plot(linspace(3,xmax,xmax/resolution), average_TTT);
 title(sprintf('Average hardness plot for %d qubits, 3-local interactions',81));
 xlabel('Iteration');
 ylabel('Time2Target (seconds)');
-pth_3l = strcat(folder_3l, 'T2T_AveragePlot_81_qubits_3local.fig');
+pth_3l = [folder_3l, filesep, 'T2T_AveragePlot_81_qubits_3local.fig'];
 savefig(2,pth_3l);
 
 %Density plot
@@ -56,5 +57,5 @@ colorbar
 title(sprintf('Hardness density plot for %d qubits, 3-local interactions',81));
 xlabel('Iteration');
 ylabel('Time2Target (seconds)');
-pth_3l = strcat(folder_3l, 'T2T_DensityPlot_81_qubits_3local.fig');
+pth_3l = [folder_3l, filesep, 'T2T_DensityPlot_81_qubits_3local.fig'];
 savefig(3,pth_3l);
