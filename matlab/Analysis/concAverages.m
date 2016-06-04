@@ -1,4 +1,4 @@
-function [ solution ] = concAverages( )
+function [ solution ] = concAverages(perc_or_av)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -31,32 +31,47 @@ function [ solution ] = concAverages( )
     totRepsPT = [];
     totTimePT = [];
     
+    totPercSA = [];
+    totPercPIQMC = [];
+    totPercHB = []; 
+    
     
     for i = length(subfolders):-1:1
         % Gets current folder name
-        folder_name = strcat(directory_name, strcat('/',subfolders(i).name));
+        folder_name = strcat(directory_name, strcat(filesep,subfolders(i).name));
         directories{i} = folder_name;
         mat_files = dir(folder_name)
         for j = length(mat_files):-1:1;
             nameis = mat_files(j).name;
-            if ~isempty(strfind(mat_files(j).name, 'average'));
-                av_file = mat_files(j).name
-                load(av_file);
-                totRepsSA = cat(1, totRepsSA, avRepsSA);
-                totTimeSA = cat(1, totTimeSA, avTimeSA);
-                totRepsPIQMC = cat(1, totRepsPIQMC, avRepsPIQMC);
-                totTimePIQMC = cat(1, totTimePIQMC, avTimePIQMC);
-                totRepsHB = cat(1, totRepsHB, avRepsHB);
-                totTimeHB = cat(1, totTimeHB, avTimeHB);
-%               totRepsPT = cat(1, totRepsPT, avRepsPT);
-%               totTimePT = cat(1, totTimePT, avTimePT);
+            switch perc_or_av
+                case 'average'
+                    if ~isempty(strfind(mat_files(j).name, 'average'));
+                        av_file = mat_files(j).name
+                        load(av_file);
+                        totRepsSA = cat(1, totRepsSA, avRepsSA);
+                        totTimeSA = cat(1, totTimeSA, avTimeSA);
+                        totRepsPIQMC = cat(1, totRepsPIQMC, avRepsPIQMC);
+                        totTimePIQMC = cat(1, totTimePIQMC, avTimePIQMC);
+                        totRepsHB = cat(1, totRepsHB, avRepsHB);
+                        totTimeHB = cat(1, totTimeHB, avTimeHB);
+        %               totRepsPT = cat(1, totRepsPT, avRepsPT);
+        %               totTimePT = cat(1, totTimePT, avTimePT);
+                    end
+                case 'percentage'
+                    if ~isempty(strfind(mat_files(j).name, 'percentages'));
+                        perc_file = mat_files(j).name
+                        load(perc_file);
+                        totPercSA = cat(1, totPercSA, percSA);
+                        totPercPIQMC = cat(1, totPercPIQMC, percPIQMC);
+                        totPercHB =  cat(1, totPercHB, percHB);
+                    end
             end
         end
         
     end
 
     
-    solution = {totRepsSA, totTimeSA, totRepsPIQMC, totTimePIQMC, totRepsHB, totTimeHB, totRepsPT, totTimePT};
+    solution = {totRepsSA, totTimeSA, totRepsPIQMC, totTimePIQMC, totRepsHB, totTimeHB, totRepsPT, totTimePT, totPercSA, totPercPIQMC, totPercHB};
 
 end
 
