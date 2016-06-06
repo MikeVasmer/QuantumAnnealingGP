@@ -2,9 +2,9 @@ close all
 clearvars
 %Navigate to loop-adaptive-optimisation/files/2Local/NN/28May/
 folder_2l = uigetdir;
-pth_2l = [folder_2l, filesep, 'T2T_Plot_81_qubits.fig'];
+pth_2l = [folder_2l, filesep, 'T2T_Plot_80_qubits.fig'];
 nbins = 65;
-resolution = 5;
+resolution = 4;
 
 %Open figure produced by TTT analysis and get data
 fig_2l = openfig(pth_2l);
