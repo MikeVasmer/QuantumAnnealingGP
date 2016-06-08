@@ -20,33 +20,41 @@
 % avRepsPIQMC = solution{3}
 % avRepsSA = solution{2}
 
-percSArand = zeros(length(percSA),1);
-percPIQMCrand = zeros(length(percPIQMC),1);
-percHBrand = zeros(length(percHB),1);
-percSA(end) = 1;
-percPIQMC(end) = 0.5
-
-for i = 1:length(percSA);
-    x = 1.025 - rand*0.03;
-    y = 1.025 - rand*((1/percSA(i))*0.02);
-    percSArand(i) = percSA(i)*(y^2);
-    percPIQMCrand(i) = percPIQMC(i)*(x^2);
+% percSArand = zeros(length(percSA),1);
+% percPIQMCrand = zeros(length(percPIQMC),1);
+% percHBrand = zeros(length(percHB),1);
+% percSA(end) = 1;
+% percPIQMC(end) = 0.5
+% 
+% for i = 1:length(percSA);
+%     x = 1.025 - rand*0.03;
+%     y = 1.025 - rand*((1/percSA(i))*0.02);
+%     percSArand(i) = percSA(i)*(y^2);
+%     percPIQMCrand(i) = percPIQMC(i)*(x^2);
+%     
+%     percHBrand(i) = percHB(i)*y;
+% %     percSArand(i) = percSArand(i)/(max(percSArand));
+% %     percPIQMCrand(i) = percPIQMCrand(i)/(max(percPIQMCrand));
+% end
     
-    percHBrand(i) = percHB(i)*y;
-%     percSArand(i) = percSArand(i)/(max(percSArand));
-%     percPIQMCrand(i) = percPIQMCrand(i)/(max(percPIQMCrand));
-end
-    
-percSA23 = cat(1, percSA(1:300), percSA3);
-percPIQMC23 = cat(1, percPIQMC(1:300), percPIQMC3);
+% percSA23 = cat(1, percSA2(1:300), percSA3);
+% percPIQMC23 = cat(1, percPIQMC2(1:300), percPIQMC3);
 
-scatter(percPIQMC23(:), percSA23(:))
+% percSACh = cat(1, percSAChA, percSAChM)
+
+% percSA3 = sols{9};
+% percPIQMC3 = sols{10};
+% percPIQMC3(end + 1) = 0;
+% percSA3(end + 1) = 1;
+
+scatter(percPIQMCCh(:), percSACh(:))
 lims = [0 1 0 1];
 
-percPIQMC23(end+1) = 0.2;
-percSA23(end+1) = 1;
+% percPIQMC2Planar(end+1) = 0;
+% percSA2Planar(end+1) = 0;
 axis(lims);
-dat = [percPIQMC23(:), percSA23(:)];
+dat = [percPIQMCCh(:), percSACh(:)];
+axis square
 figure;
 x = 0:100;
 y = x
@@ -70,5 +78,7 @@ set(h, 'EdgeColor', 'none');
 colormap(flipud(colormap(jet))) % heat map
 % colormap(jet)
 title('PIQMC vs SA');
+xlabel('PIQMC Success Rate')
+ylabel('SA Success Rate')
 grid on
 view(2);
