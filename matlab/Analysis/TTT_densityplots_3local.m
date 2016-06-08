@@ -42,13 +42,15 @@ pth_3l = [folder_3l, filesep, 'T2T_AveragePlot_81_qubits_3local.fig'];
 savefig(2,pth_3l);
 
 %Density plot
+xvals_2l = [xvals_2l,0];
+yvals_2l = [yvals_2l,0];
 hist3data_2l = hist3([xvals_2l',yvals_2l'],[nbins,nbins]);
 hist3data_2l_t = hist3data_2l';
 hist3data_2l_t(size(hist3data_2l,1) + 1, size(hist3data_2l,2) + 1) = 0;
 xbounds_2l = linspace(min(xvals_2l),max(xvals_2l),size(hist3data_2l,1)+1);
 ybounds_2l = linspace(min(yvals_2l),max(yvals_2l),size(hist3data_2l,1)+1);
 figure(3);
-colormap(flipud(colormap('jet')));
+colormap(flipud(colormap('hot')));
 %colormap('jet');
 %colormap('parula');
 plot_2l = pcolor(xbounds_2l, ybounds_2l, hist3data_2l_t);

@@ -1,0 +1,16 @@
+*.asv
+*.m~
+*.txt
+*.DS_Store
+.DS_Store
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*-blx.bib
+*.tex.bak
+*.synctex.gz
