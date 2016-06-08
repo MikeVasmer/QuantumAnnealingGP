@@ -59,8 +59,10 @@ function [ solution ] = concAverages(perc_or_av)
                     end
                 case 'percentage'
                     if ~isempty(strfind(mat_files(j).name, 'percentages'));
-                        perc_file = mat_files(j).name
-                        load(perc_file);
+                        perc_file = mat_files(j).name;
+                        perc_file = [folder_name, filesep, perc_file];
+                        load(perc_file, 'percSA', 'percPIQMC', 'percHB');
+                        
                         totPercSA = cat(1, totPercSA, percSA);
                         totPercPIQMC = cat(1, totPercPIQMC, percPIQMC);
                         totPercHB =  cat(1, totPercHB, percHB);
