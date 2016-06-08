@@ -3,9 +3,6 @@ function [J_global, gs_energy] = planted_hamiltonian_3( solution, loops )
     % Calculate global couplings, J_global, from local couplings J that
     % minimise the loop energies
 
-    % Add PIMC/ to path for Conf_energy function
-    addpath('../PIMC/');
-
     % Number of spins
     num_spins = length(solution);
     % Number of loops

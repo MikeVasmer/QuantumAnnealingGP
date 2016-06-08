@@ -1,0 +1,22 @@
+\documentclass{standalone}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+%\usepackage{mathpazo}
+\usepackage{physics}
+  \pgfplotsset{compat=newest}
+  %% the following commands are sometimes needed
+  \usetikzlibrary{plotmarks}
+\usepackage{grffile}
+\usepackage{amsmath}
+\usepackage{anyfontsize}
+\begin{document}
+\newlength\figureheight
+\newlength\figurewidth
+\setlength\figurewidth{\columnwidth}
+\setlength\figureheight{0.4\figurewidth}
+\pgfplotsset{every tick label/.append style={font=\LARGE}}
+\pgfplotsset{every axis label/.append style={font=\LARGE}}
+\fontsize{23}{28}\selectfont
+\input{densityplot.tex}
+
+\end{document}
