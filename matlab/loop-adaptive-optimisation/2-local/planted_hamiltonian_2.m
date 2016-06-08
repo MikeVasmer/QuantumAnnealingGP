@@ -1,8 +1,5 @@
 function [J_global, gs_energy] = planted_hamiltonian_2( solution, loops )
 
-    % Add PIMC/ to path for Conf_energy function
-    %addpath('../../PIMC/');
-
     % Number of spins
     num_spins = length(solution);
     % Number of loops
