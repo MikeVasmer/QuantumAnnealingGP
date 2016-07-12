@@ -11,7 +11,7 @@ for i = 1:num_qubits
     % Find pairs of qubits which, along with i, constitute a valid plaquette.
     pair1 = [i-1, i-n];
     pair2 = [i-n, i-n+1];
-    pair3 = [i-1+n, i+1];
+    pair3 = [i-1+n, i+n];
     pair4 = [i+1, i+n];
     pair5 = [i+n-1, i+n];
     pair6 = [i+n-1, i-1];

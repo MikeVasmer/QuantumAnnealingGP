@@ -12,7 +12,13 @@ function [ out ] = random_walk_loop_3( adj )
         
         % Pick random starting tri-coupling (tri)
         node_perm = randperm(num_nodes);
-        loop_start = sort(node_perm(1:3));
+        adj_x = node_perm(1);
+        [adj_y,adj_z] = find(squeeze(adj(adj_x,:,:)));
+        rand_ind = randi(length(adj_y));
+        adj_y = adj_y(rand_ind);
+        adj_z = adj_z(rand_ind);
+        
+        loop_start = sort([adj_x,adj_y,adj_z]);
         % Initialise loop sequence starting at loop_start
         loop_seq = {loop_start};
         % Initialise previous tri-coupling to 0's array
@@ -22,15 +28,18 @@ function [ out ] = random_walk_loop_3( adj )
         while(~loop_found)            
             % Find adjacent tri-couplings (2D array)
             current_tri = loop_seq{end};
-            %   Random Dimension
-            chosen_dim = randi(3);
-            selected_slice = adj(:,:,current_tri(chosen_dim));
-            adj_tris = find(selected_slice);
+            %   Pick two random dimensions of current tri
+            chosen_dims = randperm(3);
+            %   Select random column with two common nodes
+            selected_col = adj(:,current_tri(chosen_dims(1)),current_tri(chosen_dims(2)));
+            %   Find all 1's in selected column
+            adj_tris = find(selected_col);
             % Remove previous tri-coupling from adjacent tri-couplings
             temp_adj_tris = [];
             for i = 1:length(adj_tris(:,1))
                 % Index to co-ord
-                potential_tri = [ current_tri(chosen_dim), floor((adj_tris(i)-1)/num_nodes)+1, mod((adj_tris(i)-1),num_nodes)+1 ];
+                potential_tri = [ current_tri(chosen_dims(1)), current_tri(chosen_dims(2)), adj_tris(i) ];
+                % Is this equal to the previous node (modulo some permutations)
                 if ~isequal( sort(potential_tri), sort(prev_tri) ) && ~isequal( sort(potential_tri), sort(current_tri) )
                     temp_adj_tris = [temp_adj_tris; potential_tri];
                 end
