@@ -1,4 +1,4 @@
-function [] = lao(paramsMap)
+function [solution, J_global, gs_energy] = lao(paramsMap)
     % Clear previous timeoutFlag
     %clear global timeoutFlag
 

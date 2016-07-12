@@ -17,5 +17,9 @@ function [J_local] = local_hamiltonian_3( solution, loop )
             -solution(triplet(1)) * solution(triplet(2)) * solution(triplet(3));
     end
     
+    % Flip one random coupling
+    coupling_indicies = find(J_local);
+    random_coupling = coupling_indicies(randi(length(coupling_indicies)));
+    J_local(random_coupling) = -J_local(random_coupling);
+    
 end
-

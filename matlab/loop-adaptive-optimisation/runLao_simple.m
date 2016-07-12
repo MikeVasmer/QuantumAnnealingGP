@@ -3,7 +3,7 @@ addpath(genpath('../'))
 % Locality
 locality = 3;
 % LAO parameters
-num_spins = 64;
+num_spins = 9;
 num_loops = 2*num_spins;
 num_steps = 100;
 % Hardness parameters
@@ -42,4 +42,4 @@ values = {...
 paramsMap = containers.Map(keys, values);
 
 % Run LAO algorithm
-lao(paramsMap);
+[solution, J_global, gs_energy] = lao(paramsMap)

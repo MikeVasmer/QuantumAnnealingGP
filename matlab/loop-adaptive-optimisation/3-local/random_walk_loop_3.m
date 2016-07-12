@@ -18,6 +18,7 @@ function [ out ] = random_walk_loop_3( adj )
         adj_y = adj_y(rand_ind);
         adj_z = adj_z(rand_ind);
         
+        % Set the starting tri of the loop
         loop_start = sort([adj_x,adj_y,adj_z]);
         % Initialise loop sequence starting at loop_start
         loop_seq = {loop_start};
@@ -72,7 +73,7 @@ function [ out ] = random_walk_loop_3( adj )
                 end
             end
         end 
-    end
+    end    
     
     % Return loop sequence
     out = loop_seq;
