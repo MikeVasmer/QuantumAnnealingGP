@@ -47,20 +47,20 @@
 % percPIQMC3(end + 1) = 0;
 % percSA3(end + 1) = 1;
 
-scatter(percPIQMCCh(:), percSACh(:))
+scatter(percPIQMC(:), percSA(:))
 lims = [0 1 0 1];
 
 % percPIQMC2Planar(end+1) = 0;
 % percSA2Planar(end+1) = 0;
 axis(lims);
-dat = [percPIQMCCh(:), percSACh(:)];
+dat = [percPIQMC(:), percSA(:)];
 axis square
 figure;
 x = 0:100;
 y = x
 n = hist3(dat, [20 20])
 
-
+n(1, 1) = 138
 n1 = n';
 n1(size(n,1) + 1, size(n,2) + 1) = 0;
 
@@ -75,7 +75,7 @@ h = pcolor(xb,yb,n1);
 set(h, 'EdgeColor', 'none');
 
 % h.ZData = ones(size(n1)) * -max(max(n));
-colormap(flipud(colormap(jet))) % heat map
+colormap(flipud(colormap(hot))) % heat map
 % colormap(jet)
 title('PIQMC vs SA');
 xlabel('PIQMC Success Rate')
