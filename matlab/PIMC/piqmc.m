@@ -90,6 +90,8 @@ function [ solution ] = piqmc(spin_start, HParams, monte_steps, trotter_slices, 
 
     % Get the conf with min energy
     energies = zeros([trotter_slices,1]);
+    test = spin_config(1,:);
+    x = Conf_energy(spin_config(1,:), HParams);
     for i = 1:trotter_slices;
         energies(i) = Conf_energy(spin_config(i,:),HParams);
     end
