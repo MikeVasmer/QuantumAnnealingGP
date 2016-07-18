@@ -41,8 +41,8 @@ function [ ] = track_single_DW( H_b, H_p, steps, excited_level, eigvec_indices )
     xlabel('anneal parameter, s')
     ylabel('domain wall position')
     zlabel('probability')
-    az = -45;
-    el = 30;
+    az = -75;
+    el = 20;
     view(az, el);
 
 end
