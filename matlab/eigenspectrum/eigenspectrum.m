@@ -1,4 +1,4 @@
-function [out] = eigenspectrum( H_b, H_p, steps )
+function [vec, val] = eigenspectrum( H_b, H_p, steps )
     
     % Check dimensions of H_b and H_p are the same
     if size(H_b) ~= size(H_p)
@@ -17,13 +17,17 @@ function [out] = eigenspectrum( H_b, H_p, steps )
     H = reshape(H, [2^n,2^n,length(s)]);
 
     % Init empty matrix
-    eigenvalues = zeros(2^n,length(s));
+    eigenvectors = zeros(2^n,2^n,length(s));
+    eigenvalues  = zeros(2^n,length(s));
     for i = 1:length(s)
         % Calculate eigenvalues at particular timesteps
-        eigenvalues(:,i) = eig(H(:,:,i));
+        [vec,val] = eig(H(:,:,i));
+        eigenvalues(:,i) = diag(val);
+        eigenvectors(:,:,i) = vec;
     end
     
     % Return eigenvalues
-    out = eigenvalues;
+    vec = eigenvectors;
+    val = eigenvalues;
 
 end

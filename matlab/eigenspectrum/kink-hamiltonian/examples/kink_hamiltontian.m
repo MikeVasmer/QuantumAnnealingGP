@@ -4,7 +4,7 @@
 addpath('../');
 
 % Chain parameters
-num_qubits = 6;
+num_qubits = 5;
 field_str = 5.0;
 
 % Array of h coef for local fields
@@ -25,7 +25,7 @@ Jzzz = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off
 
 % Calculate and plot eigenspectrum between two Hamilontians
-eigenvalues = ...
+[eigenvectors,eigenvalues] = ...
 eigenspectrum(  transverse_hamiltonian(num_qubits),...                   % Starting (transverse) Hamiltonian
                 ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
                 100);                                            % Steps
@@ -33,4 +33,4 @@ eigenspectrum(  transverse_hamiltonian(num_qubits),...                   % Start
 % Plot eigenspectrum ('2' means both plots)
 plot_eigenspectrum(eigenvalues, 2);
 % Calculate and display minimum gap
-disp(minimum_gap(eigenvalues));
+% disp(minimum_gap(eigenvalues));

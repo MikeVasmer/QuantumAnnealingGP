@@ -12,7 +12,7 @@ Jzzz = 0; % Couplings turned off
 Jxxx = 0; % Couplings turned off
 
 % Calculate and plot eigenspectrum between two Hamilontians
-eigenvalues = ...
+[eigenvectors,eigenvalues] = ...
 eigenspectrum(  transverse_hamiltonian(4),...                   % Starting (transverse) Hamiltonian
                 ising_hamiltonian(h, Jzz, Jxx, Jzzz, Jxxx), ... % Finishing (Ising) Hamiltonian
                 21);                                            % Steps
