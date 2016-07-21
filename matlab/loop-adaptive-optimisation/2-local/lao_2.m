@@ -54,7 +54,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
     %   Set up H params
     hParams = {0, J_global, 0, 0, 0};
     %   Calculate hardness
-    old_hardness = Hardness(hParams, gs_energy, epsilon, beta_h, timeOut, num_runs);
+    old_hardness = Hardness(hParams, gs_energy, epsilon, beta_h, timeOut, num_runs, 'Perc', num_spins);
     
     % Track hardness evolution
     hardness_evolution = [old_hardness{1}];
@@ -99,7 +99,7 @@ function [solution, J_global, gs_energy] = lao_2(num_spins, num_loops, num_steps
         
         % Calculate new Ising problem hardness
         new_hParams = {0, new_J_global, 0, 0, 0};
-        new_hardness = Hardness(new_hParams, new_gs_energy, epsilon, beta_h, timeOut, num_runs);
+        new_hardness = Hardness(new_hParams, new_gs_energy, epsilon, beta_h, timeOut, num_runs, 'Perc', num_spins);
         
         % Decision tree
         %   If TTS, then time decides
