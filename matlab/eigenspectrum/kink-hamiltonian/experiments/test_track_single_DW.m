@@ -1,5 +1,5 @@
 % Chain parameters
-num_qubits = 8;
+num_qubits = 12;
 field_str = 6.0;
 
 % Array of h coef for local fields

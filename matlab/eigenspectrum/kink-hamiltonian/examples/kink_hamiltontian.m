@@ -4,7 +4,7 @@
 addpath('../');
 
 % Chain parameters
-num_qubits = 5;
+num_qubits = 10;
 field_str = 5.0;
 
 % Array of h coef for local fields
